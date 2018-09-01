@@ -1,3 +1,2 @@
-def sumar(a,b):
-    suma = a + b
-    print(suma);
+def sumar(a,b): 
+    print(a + b)
