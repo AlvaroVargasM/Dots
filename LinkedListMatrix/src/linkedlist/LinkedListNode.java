@@ -1,20 +1,20 @@
 package linkedlist;
 
 public class LinkedListNode {
-    private int columnNumber;
+    private int data;
     private LinkedListNode nextNode;
     
-    public LinkedListNode(int columnNumber){
-        this.columnNumber = columnNumber;
+    public LinkedListNode(int data){
+        this.data = data;
         this.nextNode = null;
     }
 
-    public int getColumnNumber() {
-        return columnNumber;
+    public int getData() {
+        return data;
     }
 
-    public void setColumnNumber(int columnNumber) {
-        this.columnNumber = columnNumber;
+    public void setData(int data) {
+        this.data = data;
     }
 
     public LinkedListNode getNextNode() {
@@ -26,7 +26,7 @@ public class LinkedListNode {
     }
     
     public String toString(){
-        String strColumnNumber = Integer.toString(columnNumber);
+        String strColumnNumber = Integer.toString(data);
         return strColumnNumber;
     }
 }
