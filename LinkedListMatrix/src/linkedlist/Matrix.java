@@ -36,8 +36,7 @@ public class Matrix {
         String str = "Matrix:\n";
         for(LinkedList list = firstList; list != null; list = list.getNextList()){
             str += Integer.toString(list.getData()) + ": " + list.toString() + "\n";
-        }
-        return str;
+        } return str;
     }
     
 }

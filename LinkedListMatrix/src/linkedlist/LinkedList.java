@@ -35,6 +35,10 @@ public class LinkedList{
     public LinkedListNode getFirstNode(){
         return firstNode;
     }
+    
+    public void setFirstNode(LinkedListNode firstNode) {
+        this.firstNode = firstNode;
+    }
 
     public int getData() {
         return data;
@@ -43,11 +47,7 @@ public class LinkedList{
     public void setData(int data) {
         this.data = data;
     }
-
-    public void setFirstNode(LinkedListNode firstNode) {
-        this.firstNode = firstNode;
-    }
-
+    
     public boolean isEmpty() {
         return firstNode == null;
     }
