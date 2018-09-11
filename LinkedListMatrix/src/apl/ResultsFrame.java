@@ -1,3 +1,5 @@
+package apl;
+
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -29,10 +31,10 @@ public class ResultsFrame extends JFrame{
     private JLabel TurnLabel;
     private JLabel TurnNumber;
     
-    public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		ResultsFrame marco1 = new ResultsFrame();
-    }
+//    public static void main(String[] args) {
+//		// TODO Auto-generated method stub
+//		ResultsFrame marco1 = new ResultsFrame();
+//    }
     
     
     public ResultsFrame(){

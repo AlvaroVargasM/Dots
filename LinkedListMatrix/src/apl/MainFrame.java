@@ -1,4 +1,4 @@
-package MainDisplay;
+package apl;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -21,10 +21,10 @@ import javax.swing.*;
  */
 public class MainFrame {
     
-    /*public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		MainFrame marco1 = new MainFrame();
-    }*/
+    public static void main(String[] args) {
+	// TODO Auto-generated method stub
+        MainFrame marco1 = new MainFrame();
+    }
     
     private JFrame dotsFrame;
     

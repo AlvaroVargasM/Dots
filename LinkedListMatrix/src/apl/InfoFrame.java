@@ -1,4 +1,4 @@
-package MainDisplay;
+package apl;
 
 
 import java.awt.Color;
