@@ -26,7 +26,7 @@ public class LinkedListNode {
     }
     
     public String toString(){
-        String strColumnNumber = Integer.toString(data);
-        return strColumnNumber;
+        String str = Integer.toString(data);
+        return str;
     }
 }

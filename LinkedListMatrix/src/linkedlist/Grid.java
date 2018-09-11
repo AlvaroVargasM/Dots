@@ -1,12 +1,10 @@
 package linkedlist;
 
-public class Matrix {
+public class Grid {
     private LinkedList firstList;
-    private boolean empty;
 
-    public Matrix(){
+    public Grid(){
         firstList = null;
-        empty = true;
     }
     
     public void insertList(LinkedList newList){
@@ -20,7 +18,7 @@ public class Matrix {
         }
     }
     
-    public LinkedList getFirstRow() {
+    public LinkedList getFirstList() {
         return firstList;
     }
 

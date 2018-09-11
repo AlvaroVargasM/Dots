@@ -1,21 +1,21 @@
 package apl;
 
 import linkedlist.LinkedList;
-import linkedlist.Matrix;
+import linkedlist.Grid;
 
 public class Test {
     
     public static void main(String[] args){
         
-        Matrix matrix = new Matrix();
+        Grid grid = new Grid();
         int pos = 0;
         for (int i = 0; i < 5; i++){
             LinkedList list = new LinkedList(i);
             for(int j = 0; j < 5; j++){
                 list.insertNode(pos++);
             }
-            matrix.insertList(list);
+            grid.insertList(list);
         }
-        System.out.println(matrix.toString());        
+        System.out.println(grid.toString());        
     }
 }
