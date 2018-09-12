@@ -10,6 +10,7 @@ import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.Shape;
 import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.geom.Ellipse2D;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -32,7 +33,13 @@ public class GameFrame extends JPanel{
     private JLabel TurnLabel;
     private JLabel TurnNumber;
     
+    private Integer firstPosition;
+    private Integer secondPosition;
+            
     public GameFrame(){
+        firstPosition = null;
+        secondPosition = null;
+        
         setPreferredSize(new Dimension(800, 600));  
         setBackground(new Color(248, 248, 248));
         setLayout(new GridLayout(5,5));
@@ -42,19 +49,10 @@ public class GameFrame extends JPanel{
     }
 
     private void initializeLabels(){
-        
-        addButton();addButton();addButton();addButton();addButton();addButton();addButton();addButton();addButton();addButton();
-        addButton();addButton();addButton();addButton();addButton();addButton();addButton();addButton();addButton();addButton();
-        addButton();addButton();addButton();addButton();addButton();
-        /*JButton boton1 = new JButton("Picha");
-        add(boton1);
-        /*for(int i = 1; i > 3; i++){
-            System.out.println("mae");
-            /*String nombre = "boton"+i;
-            add(new JButton(nombre));*/
+        for(int pos = 0; pos < 25; pos++)addButton(pos);
     }
     
-    private void addButton(){
+    private void addButton(int pos){
         JButton button = new JButton(new ImageIcon("dot1.png"));
         button.setBorder(null);
         button.setBorderPainted(false);
@@ -62,19 +60,29 @@ public class GameFrame extends JPanel{
         button.setFocusPainted(false);
         
         button.addMouseListener(new MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
+            public void mouseEntered(MouseEvent evt) {
                 button.setIcon(new ImageIcon("dot2.png"));
             }
             
-            public void mouseExited(java.awt.event.MouseEvent evt) {
+            public void mouseExited(MouseEvent evt) {
                 button.setIcon(new ImageIcon("dot1.png"));
+            }
+            
+            public void mouseClicked(MouseEvent evt){
+                if(firstPosition == null) firstPosition = pos;
+                else{ 
+                    secondPosition = pos;
+                    System.out.println("(" + firstPosition + ", " + secondPosition + ")");
+                    firstPosition = null;
+                    secondPosition = null;
+                }
             }
         });
         
         //button.setBorder(new RoundedBorder(500));
         //button.setOpaque(false);
         
-        add(button);
+        this.add(button);
     }
     
     /*private static class RoundedBorder implements Border {

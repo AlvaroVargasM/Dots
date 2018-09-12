@@ -1,4 +1,4 @@
-package linkedlist;
+package board;
 
 public class LinkedListNode {
     private int data;
