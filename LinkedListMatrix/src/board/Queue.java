@@ -2,9 +2,11 @@ package board;
 
 public class Queue{
     private QueueNode firstNode;
+    private int size;
     
     public Queue(){
         firstNode = null;
+        size = 0;
     }
 
     public void enqueue(Player player){
@@ -16,13 +18,18 @@ public class Queue{
                 lastNode = lastNode.getNextNode();
             }
             lastNode.setNextNode(newNode);
-        }
+        }size++;
     }
     
     public QueueNode dequeue(){
         QueueNode node = firstNode;
         this.setFirstNode(firstNode.getNextNode());
+        size--;
         return node;
+    }
+    
+    public QueueNode peek(){
+        return firstNode;
     }
     
     public boolean isEmpty() {
@@ -36,6 +43,4 @@ public class Queue{
     public void setFirstNode(QueueNode firstNode) {
         this.firstNode = firstNode;
     }
-    
-    
 }
