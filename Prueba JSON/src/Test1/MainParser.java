@@ -1,4 +1,4 @@
-package prueba1;
+package Test1;
 
 public class MainParser {
     private String email;

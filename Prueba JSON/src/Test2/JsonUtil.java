@@ -1,15 +1,19 @@
-package prueba2.json;
+package Test2;
 
+//Imports for exception
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
+//Import mapper for reading and writing
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class JsonUtil {
     private static ObjectMapper mapper;
     static{
         mapper = new ObjectMapper();
     }
+    
+    //Method for Java to JSON
     public static String convertJavaToJson(Object object){
         String jsonResult = "";
         try{
@@ -26,6 +30,8 @@ public class JsonUtil {
 	}
 	return jsonResult;	
     }  
+    
+    //Method for JSON to Java
     public static <T> T convertJsonToJava (String jsonString, Class <T> cls){
         T result = null;
         try {
