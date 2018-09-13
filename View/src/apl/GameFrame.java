@@ -1,28 +1,28 @@
 package apl;
 
 
-import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
 
 import java.awt.GridLayout;
-
-import java.awt.Point;
-import java.awt.Rectangle;
-
+import java.awt.Insets;
+import java.awt.Shape;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-
-import java.awt.geom.Line2D;
-import java.util.LinkedList;
+import java.awt.geom.Ellipse2D;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.border.Border;
 
 
+/**
+ *
+ * @author luism
+ */
 public class GameFrame extends JPanel{
     
     private JLabel Header;
@@ -33,122 +33,116 @@ public class GameFrame extends JPanel{
     private JLabel TurnLabel;
     private JLabel TurnNumber;
     
-    private final LinkedList<Line2D.Double> lineList;
-    
-    private JButton firstLinkButton;
-    private JButton secondLinkButton;
-    private Point startPoint;
-    private Point endPoint;
-    private Color lineColor;
-    
-    private static final Color dotsBlue = new Color(21, 72, 144);
-    private static final Color dotsOrange = new Color(255, 102, 0);
-    
-    
-    
-    /*private Integer firstPosition;
-    private Integer secondPosition;*/
+    private Integer firstPosition;
+    private Integer secondPosition;
             
     public GameFrame(){
-        /*firstPosition = null;
-        secondPosition = null;*/
+        firstPosition = null;
+        secondPosition = null;
         
         setPreferredSize(new Dimension(800, 600));  
         setBackground(new Color(248, 248, 248));
         setLayout(new GridLayout(5,5));
         setVisible(true);
         
-        this.lineList = new LinkedList<Line2D.Double>();
-        
-        //esto cambiara segun el numero de jugador
-        this.lineColor = this.dotsBlue;
-          
-        createGrid();
-        
+        initializeLabels();
     }
 
-    private void createGrid(){
+    private void initializeLabels(){
         for(int pos = 0; pos < 25; pos++)addButton(pos);
     }
     
     private void addButton(int pos){
         JButton button = new JButton(new ImageIcon("dot1.png"));
-        button.setName(String.valueOf(pos));
-
+        button.setBorder(null);
         button.setBorderPainted(false);
         button.setContentAreaFilled(false);
         button.setFocusPainted(false);
         
         button.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseEntered(MouseEvent e) {
+            public void mouseEntered(MouseEvent evt) {
                 button.setIcon(new ImageIcon("dot2.png"));
             }
-            @Override
-            public void mouseExited(MouseEvent e) {
+            
+            public void mouseExited(MouseEvent evt) {
                 button.setIcon(new ImageIcon("dot1.png"));
             }
-
-            @Override
-            public void mouseClicked(MouseEvent e){
-
-                if(firstLinkButton == null){
-                    firstLinkButton = button;
-                }else{
-                    secondLinkButton = button;
-                    linkDots();   
-                }
-                /*if(firstPosition == null) firstPosition = pos;
+            
+            public void mouseClicked(MouseEvent evt){
+                if(firstPosition == null) firstPosition = pos;
                 else{ 
                     secondPosition = pos;
                     System.out.println("(" + firstPosition + ", " + secondPosition + ")");
                     firstPosition = null;
                     secondPosition = null;
-                }*/
+                }
             }
         });
+        
+        //button.setBorder(new RoundedBorder(500));
+        //button.setOpaque(false);
+        
         this.add(button);
     }
     
-    //Usando la propiedad de nombre obtenemos un id unico para cada boton
-    private int getButtonId(JButton button){
-        return Integer.parseInt(button.getName());
+    /*private static class RoundedBorder implements Border {
+    private int radius;
+    RoundedBorder(int radius) {
+        this.radius = radius;
     }
-    
-    protected Point getCenter(Rectangle bounds) {
-        return new Point( bounds.x + (bounds.width / 2), bounds.y + (bounds.height / 2));
-
+    public Insets getBorderInsets(Component c) {
+        return new Insets(this.radius+1, this.radius+1, this.radius+2, this.radius);
     }
-    
-    protected void linkDots() {
-
-        this.startPoint = getCenter(firstLinkButton.getBounds());
-        this.endPoint = getCenter(secondLinkButton.getBounds());
-        
-        Line2D.Double line = new Line2D.Double(startPoint, endPoint);
-        lineList.add(line);
-        
-        //llama a correr el codigo dentro de paintComponent
-        repaint();
-        
-        //Reiniciamos las variables de LinkButton
-        firstLinkButton = null;
-        secondLinkButton = null;
-
+    public boolean isBorderOpaque() {
+        return true;
     }
+    public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
+        g.drawRoundRect(x, y, width-1, height-1, radius, radius);
+    }
+}
     
-    @Override
-        protected void paintComponent(Graphics g) {
-            super.paintComponent(g);
+    /*public class RoundButton extends JButton {
+ 
+        public RoundButton(String label) {
+            super(label);
+            setBackground(Color.black);
+            setFocusable(false);
             
-            Graphics2D g2D = (Graphics2D) g.create();
+            /*
+            These statements enlarge the button so that it 
+            becomes a circle rather than an oval.
             
-            g2D.setColor(this.lineColor);
-            g2D.setStroke(new BasicStroke(6));
             
-            for(Line2D.Double line: lineList){
-                g2D.draw(line);
-            }
+            Dimension size = getPreferredSize();
+            size.width = size.height = Math.max(size.width, size.height);
+            setPreferredSize(size);
+            /*
+             This call causes the JButton not to paint the background.
+             This allows us to paint a round background.
+            
+            setContentAreaFilled(false);
         }
-        
+        protected void paintComponent(Graphics g) {
+            if (getModel().isArmed()) {
+              g.setColor(Color.gray);
+            } else {
+              g.setColor(getBackground());
+            }
+            g.fillOval(0, 0, getSize().width - 1, getSize().height - 1);
+            super.paintComponent(g);
+        }
+        protected void paintBorder(Graphics g) {
+            g.setColor(Color.darkGray);
+            g.drawOval(0, 0, getSize().width - 1, getSize().height - 1);
+        }
+        // Hit detection.
+        Shape shape;
+        public boolean contains(int x, int y) {
+            // If the button has changed size,  make a new shape object.
+            if (shape == null || !shape.getBounds().equals(getBounds())) {
+             shape = new Ellipse2D.Float(0, 0, getWidth()/2, getHeight()/2);
+            }
+            return shape.contains(x, y);
+        }
+    }*/
 }
