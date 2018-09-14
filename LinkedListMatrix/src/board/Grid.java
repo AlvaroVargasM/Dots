@@ -22,39 +22,39 @@ public class Grid {
         }
     }
     
-    public Dot getDot(int position){
+    public LinkedListNode getDot(int position){
         LinkedList row = firstRow;
         int rowPosition = position/rowSize;
         int i = 0;
         while(i++ < rowPosition){
             row = row.getNextRow();
         }
-        Dot dot = row.getDot(position);
+        LinkedListNode dot = row.getDot(position);
         return dot;
     }
     
     public boolean makeConnection(int initialDotPosition, int finalDotPosition){
-        Dot initialDot = this.getDot(initialDotPosition);
-        Dot finalDot = this.getDot(finalDotPosition);
+        LinkedListNode initialDot = this.getDot(initialDotPosition);
+        LinkedListNode finalDot = this.getDot(finalDotPosition);
         LinkedList f = new LinkedList(0);
         boolean figure = searchForFigure(initialDot, initialDot, finalDot, f);
-        initialDot.getConnectionsList().insertDot(finalDotPosition);
-        finalDot.getConnectionsList().insertDot(initialDotPosition);
+        initialDot.getConnectionsList().insertDot(finalDotPosition, null);
+        finalDot.getConnectionsList().insertDot(initialDotPosition, null);
         this.resetVisitedBooleans();
         return figure;
     }
     
-    public boolean searchForFigure(Dot currentDot, Dot initialDot, Dot finalDot, LinkedList f){
+    public boolean searchForFigure(LinkedListNode currentDot, LinkedListNode initialDot, LinkedListNode finalDot, LinkedList f){
         if(currentDot != null && !currentDot.isVisited()){
             currentDot.setVisited(true);
-            f.insertDot(currentDot.getPosition());
+            f.insertDot(currentDot.getPosition(), null);
             LinkedList dotConnections = currentDot.getConnectionsList();
-            for(Dot dot = dotConnections.getFirstDot(); dot != null;
+            for(LinkedListNode dot = dotConnections.getFirstDot(); dot != null;
                 dot = dot.getNextDot()){
-                Dot connection = this.getDot(dot.getPosition());
+                LinkedListNode connection = this.getDot(dot.getPosition());
                 if(connection == finalDot)
                     if(currentDot != initialDot){
-                        f.insertDot(connection.getPosition());
+                        f.insertDot(connection.getPosition(), null);
                         System.out.println(f.toString());
                         return true;
                     }
@@ -66,7 +66,7 @@ public class Grid {
     
     public void resetVisitedBooleans(){
         for(LinkedList row = firstRow; row != null; row = row.getNextRow()){
-            for(Dot dot = row.getFirstDot(); dot != null; dot = dot.getNextDot()){
+            for(LinkedListNode dot = row.getFirstDot(); dot != null; dot = dot.getNextDot()){
                 dot.setVisited(false);
             }
         }

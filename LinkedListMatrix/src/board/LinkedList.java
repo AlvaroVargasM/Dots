@@ -1,42 +1,44 @@
 package board;
 
-public class LinkedList{
+public class LinkedList<GenericType>{
     
-    private Dot firstDot;
+    private LinkedListNode firstDot;
     private LinkedList nextRow;
     private int position;
+    private int size;
     
     public LinkedList(int position){
         firstDot = null;
         nextRow = null;
         this.position = position;
+        this.size = 0;
     }
 
-    public void insertDot(int position){
-        Dot newDot = new Dot(position);
+    public void insertDot(int position, GenericType data){
+        LinkedListNode newDot = new LinkedListNode(position, data);
         if(isEmpty()) setFirstDot(newDot);
         else{
-            Dot lastDot = firstDot;
+            LinkedListNode lastDot = firstDot;
             while(lastDot.getNextDot() != null){
                 lastDot = lastDot.getNextDot();
             }
             lastDot.setNextDot(newDot);
-        }
+        }size++;
     }
     
-    public Dot getDot(int position){
-        for(Dot node = firstDot; node != null; node = node.getNextDot()){
+    public LinkedListNode getDot(int position){
+        for(LinkedListNode node = firstDot; node != null; node = node.getNextDot()){
             if(position == node.getPosition()){
                 return node;
             }
         }return null;
     }
     
-    public Dot getFirstDot(){
+    public LinkedListNode getFirstDot(){
         return firstDot;
     }
     
-    public void setFirstDot(Dot firstDot) {
+    public void setFirstDot(LinkedListNode firstDot) {
         this.firstDot = firstDot;
     }
 
@@ -59,10 +61,18 @@ public class LinkedList{
     public void setNextRow(LinkedList nextRow) {
         this.nextRow = nextRow;
     }
+
+    public int getSize() {
+        return size;
+    }
+
+    public void setSize(int size) {
+        this.size = size;
+    }
     
     public String toString(){
         String str = "[ ";
-        for(Dot node = firstDot; node != null; node = node.getNextDot()){
+        for(LinkedListNode node = firstDot; node != null; node = node.getNextDot()){
             str += node.toString() + " -> ";
         }
         str += "null ]";

@@ -12,7 +12,7 @@ public class Test {
         for (int i = 0; i < grid.getRowSize(); i++){
             LinkedList list = new LinkedList(i);
             for(int j = 0; j < grid.getColumnSize(); j++){
-                list.insertDot(pos++);
+                list.insertDot(pos++, null);
             }
             grid.insertList(list);
         }
