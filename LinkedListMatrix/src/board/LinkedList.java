@@ -2,67 +2,67 @@ package board;
 
 public class LinkedList{
     
-    private LinkedListNode firstNode;
-    private LinkedList nextList;
-    private int data;
+    private Dot firstDot;
+    private LinkedList nextRow;
+    private int position;
     
-    public LinkedList(int data){
-        firstNode = null;
-        nextList = null;
-        this.data = data;
+    public LinkedList(int position){
+        firstDot = null;
+        nextRow = null;
+        this.position = position;
     }
 
-    public void insertNode(int data){
-        LinkedListNode newNode = new LinkedListNode(data);
-        if(isEmpty()) setFirstNode(newNode);
+    public void insertDot(int position){
+        Dot newDot = new Dot(position);
+        if(isEmpty()) setFirstDot(newDot);
         else{
-            LinkedListNode lastNode = firstNode;
-            while(lastNode.getNextNode() != null){
-                lastNode = lastNode.getNextNode();
+            Dot lastDot = firstDot;
+            while(lastDot.getNextDot() != null){
+                lastDot = lastDot.getNextDot();
             }
-            lastNode.setNextNode(newNode);
+            lastDot.setNextDot(newDot);
         }
     }
     
-    public LinkedListNode getNode(int data){
-        for(LinkedListNode node = firstNode; node != null; node = node.getNextNode()){
-            if(data == node.getData()){
+    public Dot getDot(int position){
+        for(Dot node = firstDot; node != null; node = node.getNextDot()){
+            if(position == node.getPosition()){
                 return node;
             }
         }return null;
     }
     
-    public LinkedListNode getFirstNode(){
-        return firstNode;
+    public Dot getFirstDot(){
+        return firstDot;
     }
     
-    public void setFirstNode(LinkedListNode firstNode) {
-        this.firstNode = firstNode;
+    public void setFirstDot(Dot firstDot) {
+        this.firstDot = firstDot;
     }
 
-    public int getData() {
-        return data;
+    public int getPosition() {
+        return position;
     }
 
-    public void setData(int data) {
-        this.data = data;
+    public void setPosition(int position) {
+        this.position = position;
     }
     
     public boolean isEmpty() {
-        return firstNode == null;
+        return firstDot == null;
     }
     
-    public LinkedList getNextList() {
-        return nextList;
+    public LinkedList getNextRow() {
+        return nextRow;
     }
 
-    public void setNextList(LinkedList nextList) {
-        this.nextList = nextList;
+    public void setNextRow(LinkedList nextRow) {
+        this.nextRow = nextRow;
     }
     
     public String toString(){
         String str = "[ ";
-        for(LinkedListNode node = firstNode; node != null; node = node.getNextNode()){
+        for(Dot node = firstDot; node != null; node = node.getNextDot()){
             str += node.toString() + " -> ";
         }
         str += "null ]";
