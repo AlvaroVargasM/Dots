@@ -111,7 +111,7 @@ class LaminaMarcoCliente extends JPanel implements Runnable{
 				clientSocket.close();
 				
 			} catch (IOException e) {
-				
+				System.out.println(e.getMessage());
 			} 
 		}	
 	}	

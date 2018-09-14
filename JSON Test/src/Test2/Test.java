@@ -10,11 +10,10 @@ public class Test {
         String jsonEmployee = JsonUtil.convertJavaToJson(emp1);
         System.out.println(jsonEmployee);
         
-        System.out.println("=============");
+        System.out.println("= = = = = = = = = = = = =");
         
         //Transfrom an object with JSON to a class
         Employee emp2 = JsonUtil.convertJsonToJava(jsonEmployee, Employee.class);
         System.out.println(emp2.getEmpNo()+" "+emp2.getName()+" "+emp2.getSalary());
-        
     }   
 }
