@@ -10,31 +10,32 @@ import JSON.*;
 public class BufferedSocketClient {
     
     public static void main(String[] args) throws Exception {
+        // Creates an object of a class
         Potatoe myPotatoe = new Potatoe();
-        myPotatoe.setPrice(300);
+        myPotatoe.setPrice(150);
         myPotatoe.setWeight(1);
         myPotatoe.setType("Bintje");
         
+        // Converts the object into a JSON String
         String sendPotatoe = JSONUtil.convertJavaToJson(myPotatoe);
 
-        Socket socket1 = new Socket(InetAddress.getLocalHost(), 1777);
+        // Opens a socket
+        Socket clientSocket = new Socket(InetAddress.getLocalHost(), 1777);
 
-        BufferedReader br = new BufferedReader(new InputStreamReader(socket1.getInputStream()));
+        BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 
-        PrintWriter pw = new PrintWriter(socket1.getOutputStream(), true);
-
-        pw.println(sendPotatoe);
+        PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
+        out.println(sendPotatoe);
     
-        while ((sendPotatoe = br.readLine()) != null) {
+        while ((sendPotatoe = in.readLine()) != null) {
             System.out.println(sendPotatoe);
-            pw.println("bye");
+            out.println("bye");
 
             if (sendPotatoe.equals("bye"))
                 break;
         }
-        
-        br.close();
-        pw.close();
-        socket1.close();
+        in.close();
+        out.close();
+        clientSocket.close();
     } 
 }
