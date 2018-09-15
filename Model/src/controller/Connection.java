@@ -1,7 +1,9 @@
 
-package apl;
+package controller;
 
-public class Connection {
+import java.io.Serializable;
+
+public class Connection implements Serializable{
     public int initialDotPosition;
     public int finalDotPosition;
 

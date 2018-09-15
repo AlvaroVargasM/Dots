@@ -13,6 +13,14 @@ import java.net.Socket;
 public class ClientControler {
     public static void main (String[] args) throws Exception{
         // Creates an object of a class
+<<<<<<< HEAD
+=======
+        Potatoe myPotatoe = new Potatoe();
+        myPotatoe.setPrice(400);
+        myPotatoe.setType("Amarilla");
+        myPotatoe.setWeight(1);
+       
+>>>>>>> dbe1fb509d6449598130dae959c07b88efb7d3fe
         ClientControler myControler = new ClientControler();
         myControler.clientRecive();
     }
@@ -67,7 +75,7 @@ public class ClientControler {
             } 
             else {
                 Potatoe recievedObject = JSONUtil.convertJsonToJava(recievedString, Potatoe.class);
-                recievedString = "Server returns " + recievedObject.getPrice()+ " " + recievedObject.getWeight();
+                recievedString = "Server returns " + recievedObject.getType()+ " " + recievedObject.getPrice();
                 out.println(recievedString);
             }
         }

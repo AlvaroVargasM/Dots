@@ -1,8 +1,6 @@
-package Controlers;
+package controller;
 
-import JSON.Potatoe;
-import JSON.JSONUtil;
-import JSON.Potatoe;
+import jsonLogic.JSONUtil;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
@@ -10,25 +8,19 @@ import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-public class ServerControler {
-    
+
+public class ClientControler {
     public static void main (String[] args) throws Exception{
-        
-        Potatoe myPotatoe = new Potatoe();
-        myPotatoe.setPrice(150);
-        myPotatoe.setWeight(1);
-        myPotatoe.setType("Bintje");
-        
-        ServerControler myControler = new ServerControler();
-<<<<<<< HEAD
-        myControler.ServerSend(myPotatoe);
-        
-=======
-        myControler.serverReceive();
->>>>>>> dbe1fb509d6449598130dae959c07b88efb7d3fe
+        // Creates an object of a class
+        Connection connection = new Connection(0, 5);
+//        connection.setInitialDotPosition(0);
+//        connection.setFinalDotPosition(1);
+       
+        ClientControler myControler = new ClientControler();
+        myControler.clientSend(connection);
     }
-    
-     public void ServerSend(Object object) throws Exception{
+   
+    public void clientSend(Object object) throws Exception{
   
         // Converts the object into a JSON String
         String sendObject = JSONUtil.convertJavaToJson(object);
@@ -53,7 +45,8 @@ public class ServerControler {
         clientSocket.close();
     } 
     
-    public void serverReceive() throws Exception{
+    public void serverRecive() throws Exception{
+        
         int cTosPortNumber = 1777;
         String recievedString;
 
@@ -70,19 +63,19 @@ public class ServerControler {
         while ((recievedString = in.readLine()) != null) {
             System.out.println("The message: " + recievedString);
 
-            if (recievedString.equals("bye")) {
-                out.println("bye");
-                break;
-            } 
-            else {
-                Potatoe recievedObject = JSONUtil.convertJsonToJava(recievedString, Potatoe.class);
-                recievedString = "Server returns " + recievedObject.getType()+ " " + recievedObject.getPrice();
-                out.println(recievedString);
-            }
+//            if (recievedString.equals("bye")) {
+//                out.println("bye");
+//                break;
+//            } 
+//            else {
+//                Potatoe recievedObject = JSONUtil.convertJsonToJava(recievedString, Potatoe.class);
+//                recievedString = "Server returns " + recievedObject.getPrice()+ " " + recievedObject.getWeight();
+//                out.println(recievedString);
+//            }
         }
     out.close();
     in.close();
 
     fromClientSocket.close();
-    }
+    }   
 }
