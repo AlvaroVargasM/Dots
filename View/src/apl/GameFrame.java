@@ -16,6 +16,7 @@ import java.awt.event.MouseEvent;
 import java.awt.geom.GeneralPath;
 
 import java.awt.geom.Line2D;
+import java.awt.geom.Point2D;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -60,22 +61,22 @@ public class GameFrame extends JPanel{
     private final HashMap<Integer, Point> dotsLocations;
     
     /**
-     *.
+     *The first JButton that is clicked before making a line.
      */
     private JButton firstLinkDot;
     
     /**
-     *Interactible display of the dots grid.
+     *Color asigned to the player.
      */
     private Color playerColor;
     
     /**
-     *Interactible display of the dots grid.
+     *Final variable that holds a blue color.
      */
     private static final Color dotsBlue = new Color(21, 72, 144);
     
     /**
-     *Interactible display of the dots grid.
+     *Final variable that holds a orange color.
      */
     private static final Color dotsOrange = new Color(255, 102, 0);   
     
@@ -100,7 +101,7 @@ public class GameFrame extends JPanel{
           
         createGrid();
         
-        generateFigure(new LinkedList<Integer>(Arrays.asList(2,4,10)));
+        generateFigure(new LinkedList<Integer>(Arrays.asList(1,2,6)));
     }
     
     /**
@@ -151,15 +152,49 @@ public class GameFrame extends JPanel{
     }
     
     /**
-     Create the linked line and adds its to a list of lines.
+     * Create the linked line and adds its to a list of lines.
      * @param startPoint Dot's starting point.
      * @param endPoint Dot's finishing point.
      */
-    protected void linkDots(Point startPoint, Point endPoint) {
-        Line2D.Double line = new Line2D.Double(startPoint, endPoint);
-        lineList.add(line);
+    private void linkDots(Point startPoint, Point endPoint) {
+        Line2D.Double newLine = new Line2D.Double(startPoint, endPoint);
+        
+        if(overlaps(newLine)){
+            JOptionPane.showMessageDialog(GameFrame.this, "Invalid, line overlaps other."); 
+        }else{
+            lineList.add(newLine);
+        }
         repaint();
         firstLinkDot = null;
+    }
+    
+    /**
+     * Detecs if a given line overlaps the existing painted lines.
+     * @param newline A new line that the player has drawn.
+     */
+    private boolean overlaps(Line2D.Double newline){
+        boolean intersect = false;
+        for(Line2D.Double paintedLine: this.lineList){
+            
+           if(newline.intersectsLine(paintedLine)){
+               Point2D start1 = paintedLine.getP1();
+               Point2D end1 = paintedLine.getP2(); 
+               Point2D start2 = newline.getP1();
+               Point2D end2 = newline.getP2(); 
+               
+               if(start1.equals(start2) || start1.equals(end2) || end1.equals(start2) || end1.equals(end2)){
+                  intersect = false; 
+               }else{
+                   intersect = true;
+                   break;
+               }
+           }
+        }
+        if(intersect){
+            return true;
+        }else{
+            return false;
+        }
     }
     
     /**
@@ -167,21 +202,21 @@ public class GameFrame extends JPanel{
      * @param position The position of the dot within the 5x5 grid.
      */
     private void addDot(int position){
-        JButton button = new JButton(new ImageIcon("dot1.png"));
+        JButton dot = new JButton(new ImageIcon("dot1.png"));
 
-        button.setName(String.valueOf(position));
-        button.setBorderPainted(false);
-        button.setContentAreaFilled(false);
-        button.setFocusPainted(false);
+        dot.setName(String.valueOf(position));
+        dot.setBorderPainted(false);
+        dot.setContentAreaFilled(false);
+        //dot.setFocusPainted(false);
         
-        button.addMouseListener(new MouseAdapter() {
+        dot.addMouseListener(new MouseAdapter() {
             /**
              * Overrived method of MouseListener, it activates when the mouse enters the dot's area.
              * @param e Generic mouse event of Mouse Listener.
              */
             @Override
             public void mouseEntered(MouseEvent e) {
-                button.setIcon(new ImageIcon("dot2.png"));
+                dot.setIcon(new ImageIcon("dot2.png"));
             }
             /**
              * Overrived method of MouseListener, it activates when the mouse exits the dot's area.
@@ -189,28 +224,29 @@ public class GameFrame extends JPanel{
              */
             @Override
             public void mouseExited(MouseEvent e) {
-                button.setIcon(new ImageIcon("dot1.png"));
+                dot.setIcon(new ImageIcon("dot1.png"));
             }
+  
             /**
              * Overrived method of MouseListener, it activates when the dot is clicked. 
              * @param e Generic mouse event of Mouse Listener.
              */
             @Override
-            public void mouseClicked(MouseEvent e){
+            public void mousePressed(MouseEvent e){
                 if(firstLinkDot == null){
-                    firstLinkDot = button;
+                    firstLinkDot = dot;
                 }else{
-                    if(isValid(getDotPosition(firstLinkDot),getDotPosition(button))){
-                        linkDots(dotsLocations.get(getDotPosition(firstLinkDot)),dotsLocations.get(getDotPosition(button))); 
+                    if(isValid(getDotPosition(firstLinkDot),getDotPosition(dot))){
+                        linkDots(dotsLocations.get(getDotPosition(firstLinkDot)),dotsLocations.get(getDotPosition(dot))); 
                     }else{
                      firstLinkDot = null;
-                     JOptionPane.showMessageDialog(GameFrame.this, "Invalid link.");   
+                     JOptionPane.showMessageDialog(GameFrame.this, "Invalid link, out of range.");   
                     }
                 }
             }
         });
-        this.add(button);
-        this.DotsList.add(button);
+        this.add(dot);
+        this.DotsList.add(dot);
     }
     
     /**
@@ -287,24 +323,23 @@ public class GameFrame extends JPanel{
     }
     /**
      * Returns a linked list with the painted lines.
-     * @return 
+     * @return {@link GameFrame#lineList}
      */
     public static LinkedList<Line2D.Double> getLineList() {
         return lineList;
     }
     /**
      * Returns a linked list with the painted lines.
-     * @return 
+     * @return {@link GameFrame#DotsList}
      */
     public static LinkedList<JButton> getDotsList() {
         return DotsList;
     }
     /**
      * Returns a linked list with the painted figures.
-     * @return 
+     * @return {@link GameFrame#linkedFiguresList}
      */
     public static LinkedList<GeneralPath> getLinkedFiguresList() {
         return linkedFiguresList;
-    }    
-        
+    }       
 }
