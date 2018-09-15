@@ -4,42 +4,58 @@ import java.awt.BorderLayout;
 import javax.swing.*;
 
 /**
- *
- * @author luism
+ * Frame that contains both the game frame and information frame. 
  */
-public class MainFrame {
+public class MainFrame extends JFrame{
     
-    /**
-     *
-     * @param args
-     */
     public static void main(String[] args) {
-	// TODO Auto-generated method stub
         MainFrame marco1 = new MainFrame();
     }
     
-    private JFrame dotsFrame;
+    /**
+     * Unique game frame containing the dots grid per player.
+     */
+    private GameFrame gameframe;
+    /**
+     * Unique information frame containing the game session's stats. 
+     */
+    private InfoFrame infoframe;
     
     /**
-     *
+     *Constructor of the MainFrame class, recieves no parameters.
      */
     public MainFrame(){
-        //panel grande de fondo
-        dotsFrame = new JFrame();
-        dotsFrame.setTitle("Dots"); //ponemos titulo a la ventana
-        dotsFrame.setSize(1000, 500); //asignamos alto y ancho de la ventana
-        dotsFrame.setLocationRelativeTo(null);//la centramos con esta línea
-        dotsFrame.setResizable(true);//impedimos que se cambie su tamaño
-        dotsFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);//establecemos que se cierre la ventana al darle click a la equis roja 
-        dotsFrame.setVisible(true);//hacemos la ventana visible
         
-	InfoFrame infoFrame = new InfoFrame();
-	dotsFrame.getContentPane().add(infoFrame, BorderLayout.WEST);
+        this.setTitle("Dots"); 
+        this.setSize(1000, 500); 
+        this.setLocationRelativeTo(null);
+        this.setResizable(false);
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setVisible(true);
         
-        GameFrame gameFrame = new GameFrame();
-	dotsFrame.getContentPane().add(gameFrame, BorderLayout.EAST);
+	infoframe = new InfoFrame();
+	this.getContentPane().add(infoframe, BorderLayout.WEST);
         
-        dotsFrame.pack();
+        gameframe = new GameFrame();
+	this.getContentPane().add(gameframe, BorderLayout.EAST);
+        
+        this.pack();
+    }
+    
+    /**
+     * Returns the player's dots frame.
+     * @return gameframe {@link MainFrame#gameframe}
+     */ 
+    public GameFrame getGameframe() {
+        return gameframe;
+    }
+    
+    /**
+     * Returns the player's information frame.
+     * @return infoframe {@link MainFrame#infoframe}
+     */ 
+    public InfoFrame getInfoframe() {
+        return infoframe;
     }
         
 }
