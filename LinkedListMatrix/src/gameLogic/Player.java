@@ -1,4 +1,4 @@
-package board;
+package gameLogic;
 
 /**
  * Class that stores all the data needed for the players of the game. 

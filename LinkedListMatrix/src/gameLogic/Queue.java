@@ -1,4 +1,4 @@
-package board;
+package gameLogic;
 
 /**
  * Queue main purpose is to point to the firstNode of the queue and dequeue the 

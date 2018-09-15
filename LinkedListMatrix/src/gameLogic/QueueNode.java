@@ -1,4 +1,4 @@
-package board;
+package gameLogic;
 
 /**
  * Node for Queue class. Its main purpose is to store the data needed for 

@@ -1,4 +1,4 @@
-package board;
+package gameLogic;
 
 /**
  * Grid points to a first LinkedList, meaning that Grid is a LinkedList, were 
