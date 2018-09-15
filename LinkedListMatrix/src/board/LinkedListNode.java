@@ -1,8 +1,10 @@
 package board;
 
 /**
- * Node for LinkedList class. Its main purpose is to store the data needed for the
- * LinkedList and point to the next Node in the list.
+ * Node for LinkedList class. Its main purpose is to store the data needed for 
+ * the LinkedList and point to the next Node in the list.
+ * Each node also contains a LinkedList with all the positions of the dots that 
+ * this node is connected to.
  * @author Erick Barrantes
  * @param <GenericType>
  */
@@ -16,7 +18,7 @@ public class LinkedListNode<GenericType> {
     /**
      * LinkedListNode constructor. Receives an integer that indicates its position
      * in the list. Also, it can store a data with any kind of type (GenericType).
-     * Assigns all the values to the attributes.
+     * Assigns all the initial values to the attributes.
      * @param position
      * @param data
      */
@@ -29,15 +31,15 @@ public class LinkedListNode<GenericType> {
     }
 
     /**
-     *
-     * @return
+     * Getter for position attribute.
+     * @return position: Integer.
      */
     public int getPosition() {
         return position;
     }
 
     /**
-     *
+     * Setter for position attribute.
      * @param position
      */
     public void setPosition(int position) {
@@ -45,15 +47,15 @@ public class LinkedListNode<GenericType> {
     }
 
     /**
-     *
-     * @return
+     * Getter for nextNode attribute.
+     * @return nextNode: LinkedListNode
      */
     public LinkedListNode getNextNode() {
         return nextNode;
     }
 
     /**
-     *
+     * Setter for nextNode attribute.
      * @param nextNode
      */
     public void setNextNode(LinkedListNode nextNode) {
@@ -61,15 +63,15 @@ public class LinkedListNode<GenericType> {
     }
 
     /**
-     *
-     * @return
+     * Getter for connectionsList attribute.
+     * @return connectionsList: LinkedList
      */
     public LinkedList getConnectionsList() {
         return connectionsList;
     }
 
     /**
-     *
+     * Setter for connectionsList attribute.
      * @param connectionsList
      */
     public void setConnectionsList(LinkedList connectionsList) {
@@ -77,15 +79,15 @@ public class LinkedListNode<GenericType> {
     }
 
     /**
-     *
-     * @return
+     * Getter for data attribute (GenericType).
+     * @return data: GenericType
      */
     public GenericType getData() {
         return data;
     }
 
     /**
-     *
+     * Setter data attribute.
      * @param data
      */
     public void setData(GenericType data) {

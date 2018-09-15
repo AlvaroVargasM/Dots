@@ -41,14 +41,10 @@ public class Grid {
      * @return
      */
     public LinkedListNode getNode(int position){
-        LinkedList row = firstRow;
-        int rowPosition = position/rowSize;
-        int i = 0;
-        while(i++ < rowPosition){
-            row = row.getNextRow();
-        }
-        LinkedListNode dot = row.getNode(position);
-        return dot;
+        for(LinkedList row = firstRow; row != null; row = row.getNextRow()){
+            LinkedListNode node = row.getNode(position);
+            if(node != null) return node;
+        }return null;
     }
     
     /**
@@ -61,7 +57,7 @@ public class Grid {
         LinkedListNode initialDot = this.getNode(initialDotPosition);
         LinkedListNode finalDot = this.getNode(finalDotPosition);
         LinkedList figure = new LinkedList(0);
-        figure = searchForFigure(initialDot, initialDot, finalDot, figure);
+        figure = searchForFigure(initialDot, finalDot, figure);
         initialDot.getConnectionsList().insertNode(finalDotPosition, null);
         finalDot.getConnectionsList().insertNode(initialDotPosition, null);
         this.resetVisitedBooleans();
@@ -76,7 +72,7 @@ public class Grid {
      * @param figure
      * @return
      */
-    public LinkedList searchForFigure(LinkedListNode currentDot, LinkedListNode initialDot, LinkedListNode finalDot, LinkedList figure){
+    public LinkedList searchForFigure(LinkedListNode currentDot, LinkedListNode finalDot, LinkedList figure){
         if(currentDot != null && !currentDot.isVisited()){
             currentDot.setVisited(true);
             figure.insertNode(currentDot.getPosition(), null);
@@ -84,12 +80,11 @@ public class Grid {
             for(LinkedListNode dot = dotConnections.getFirstNode(); dot != null;
                 dot = dot.getNextNode()){
                 LinkedListNode connection = this.getNode(dot.getPosition());
-                if(connection == finalDot)
-                    if(currentDot != initialDot){
-                        figure.insertNode(connection.getPosition(), null);
-                        return figure;
-                    }
-                LinkedList figure2 = searchForFigure(connection, initialDot, finalDot, figure);
+                if(connection == finalDot){
+                    figure.insertNode(connection.getPosition(), null);
+                    return figure;
+                }
+                LinkedList figure2 = searchForFigure(connection, finalDot, figure);
                 if(figure2 != null)return figure;
             }figure.deleteLastNode();
         }
