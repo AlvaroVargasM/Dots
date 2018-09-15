@@ -13,17 +13,12 @@ import java.net.Socket;
 public class ClientControler {
     public static void main (String[] args) throws Exception{
         // Creates an object of a class
-        Potatoe myPotatoe = new Potatoe();
-        myPotatoe.setPrice(150);
-        myPotatoe.setWeight(1);
-        myPotatoe.setType("Bintje");
-       
         ClientControler myControler = new ClientControler();
-        myControler.clientSend(myPotatoe);
+        myControler.clientRecive();
     }
    
-    public void clientSend(Object object) throws Exception{
-  
+    public void clientSend(Object object, Class classReference) throws Exception {
+        
         // Converts the object into a JSON String
         String sendObject = JSONUtil.convertJavaToJson(object);
 
@@ -34,7 +29,8 @@ public class ClientControler {
         BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
         PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
         out.println(sendObject);
-    
+        out.println();
+        
         while ((sendObject = in.readLine()) != null) {
             System.out.println(sendObject);
             out.println("bye");
@@ -47,7 +43,7 @@ public class ClientControler {
         clientSocket.close();
     } 
     
-    public void serverRecive() throws Exception{
+    public void clientRecive() throws Exception{
         
         int cTosPortNumber = 1777;
         String recievedString;

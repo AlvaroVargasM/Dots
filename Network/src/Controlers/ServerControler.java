@@ -12,8 +12,15 @@ import java.net.Socket;
 public class ServerControler {
     
     public static void main (String[] args) throws Exception{
+        
+        Potatoe myPotatoe = new Potatoe();
+        myPotatoe.setPrice(150);
+        myPotatoe.setWeight(1);
+        myPotatoe.setType("Bintje");
+        
         ServerControler myControler = new ServerControler();
-        myControler.serverRecive();
+        myControler.ServerSend(myPotatoe);
+        
     }
     
      public void ServerSend(Object object) throws Exception{
