@@ -1,16 +1,29 @@
 package board;
 
+/**
+ *
+ * @author Erick Barrantes
+ */
 public class Grid {
     private LinkedList firstRow;
     private int rowSize;
     private int columnSize;
 
+    /**
+     *
+     * @param rowSize
+     * @param columnSize
+     */
     public Grid(int rowSize, int columnSize){
         firstRow = null;
         this.rowSize = rowSize;
         this.columnSize = columnSize;
     }
     
+    /**
+     *
+     * @param newRow
+     */
     public void insertList(LinkedList newRow){
         if(isEmpty()) setFirstRow(newRow);
         else{
@@ -22,80 +35,130 @@ public class Grid {
         }
     }
     
-    public LinkedListNode getDot(int position){
+    /**
+     *
+     * @param position
+     * @return
+     */
+    public LinkedListNode getNode(int position){
         LinkedList row = firstRow;
         int rowPosition = position/rowSize;
         int i = 0;
         while(i++ < rowPosition){
             row = row.getNextRow();
         }
-        LinkedListNode dot = row.getDot(position);
+        LinkedListNode dot = row.getNode(position);
         return dot;
     }
     
-    public boolean makeConnection(int initialDotPosition, int finalDotPosition){
-        LinkedListNode initialDot = this.getDot(initialDotPosition);
-        LinkedListNode finalDot = this.getDot(finalDotPosition);
-        LinkedList f = new LinkedList(0);
-        boolean figure = searchForFigure(initialDot, initialDot, finalDot, f);
-        initialDot.getConnectionsList().insertDot(finalDotPosition, null);
-        finalDot.getConnectionsList().insertDot(initialDotPosition, null);
+    /**
+     *
+     * @param initialDotPosition
+     * @param finalDotPosition
+     * @return
+     */
+    public LinkedList createConnection(int initialDotPosition, int finalDotPosition){
+        LinkedListNode initialDot = this.getNode(initialDotPosition);
+        LinkedListNode finalDot = this.getNode(finalDotPosition);
+        LinkedList figure = new LinkedList(0);
+        figure = searchForFigure(initialDot, initialDot, finalDot, figure);
+        initialDot.getConnectionsList().insertNode(finalDotPosition, null);
+        finalDot.getConnectionsList().insertNode(initialDotPosition, null);
         this.resetVisitedBooleans();
         return figure;
     }
     
-    public boolean searchForFigure(LinkedListNode currentDot, LinkedListNode initialDot, LinkedListNode finalDot, LinkedList f){
+    /**
+     *
+     * @param currentDot
+     * @param initialDot
+     * @param finalDot
+     * @param figure
+     * @return
+     */
+    public LinkedList searchForFigure(LinkedListNode currentDot, LinkedListNode initialDot, LinkedListNode finalDot, LinkedList figure){
         if(currentDot != null && !currentDot.isVisited()){
             currentDot.setVisited(true);
-            f.insertDot(currentDot.getPosition(), null);
+            figure.insertNode(currentDot.getPosition(), null);
             LinkedList dotConnections = currentDot.getConnectionsList();
-            for(LinkedListNode dot = dotConnections.getFirstDot(); dot != null;
-                dot = dot.getNextDot()){
-                LinkedListNode connection = this.getDot(dot.getPosition());
+            for(LinkedListNode dot = dotConnections.getFirstNode(); dot != null;
+                dot = dot.getNextNode()){
+                LinkedListNode connection = this.getNode(dot.getPosition());
                 if(connection == finalDot)
                     if(currentDot != initialDot){
-                        f.insertDot(connection.getPosition(), null);
-                        System.out.println(f.toString());
-                        return true;
+                        figure.insertNode(connection.getPosition(), null);
+                        return figure;
                     }
-                boolean figure = searchForFigure(connection, initialDot, finalDot, f);
-                if(figure)return figure;
-            }
-        }return false;
+                LinkedList figure2 = searchForFigure(connection, initialDot, finalDot, figure);
+                if(figure2 != null)return figure;
+            }figure.deleteLastNode();
+        }
+        return null;
     }
     
+    /**
+     *
+     */
     public void resetVisitedBooleans(){
         for(LinkedList row = firstRow; row != null; row = row.getNextRow()){
-            for(LinkedListNode dot = row.getFirstDot(); dot != null; dot = dot.getNextDot()){
+            for(LinkedListNode dot = row.getFirstNode(); dot != null; dot = dot.getNextNode()){
                 dot.setVisited(false);
             }
         }
     }
     
+    /**
+     *
+     * @return
+     */
     public LinkedList getFirstRow() {
         return firstRow;
     }
 
+    /**
+     *
+     * @param firstRow
+     */
     public void setFirstRow(LinkedList firstRow) {
         this.firstRow = firstRow;
     }
 
+    /**
+     *
+     * @return
+     */
     public int getRowSize() {
         return rowSize;
     }
 
+    /**
+     *
+     * @param rowSize
+     */
     public void setRowSize(int rowSize) {
         this.rowSize = rowSize;
     }
 
+    /**
+     *
+     * @return
+     */
     public int getColumnSize() {
         return columnSize;
     }
 
+    /**
+     *
+     * @param columnSize
+     */
     public void setColumnSize(int columnSize) {
         this.columnSize = columnSize;
     }
 
+    /**
+     *
+     * @return
+     */
     public boolean isEmpty() {
         return firstRow == null;
     }
