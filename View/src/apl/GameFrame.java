@@ -1,4 +1,4 @@
-package apl;
+package Path;
 
 
 import java.awt.BasicStroke;
@@ -10,16 +10,19 @@ import java.awt.Graphics2D;
 import java.awt.GridLayout;
 
 import java.awt.Point;
-import java.awt.Rectangle;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.geom.GeneralPath;
 
 import java.awt.geom.Line2D;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.LinkedList;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 
@@ -34,24 +37,21 @@ public class GameFrame extends JPanel{
     private JLabel TurnNumber;
     
     private final LinkedList<Line2D.Double> lineList;
+    private final LinkedList<JButton> buttonList;
+    private final LinkedList<GeneralPath> linkedFiguresList;
+    
+    private final HashMap<Integer, Point> dotsLocations;
     
     private JButton firstLinkButton;
-    private JButton secondLinkButton;
-    private Point startPoint;
-    private Point endPoint;
-    private Color lineColor;
+
+    private Color playerColor;
     
     private static final Color dotsBlue = new Color(21, 72, 144);
-    private static final Color dotsOrange = new Color(255, 102, 0);
+    private static final Color dotsOrange = new Color(255, 102, 0);   
     
     
-    
-    /*private Integer firstPosition;
-    private Integer secondPosition;*/
-            
     public GameFrame(){
-        /*firstPosition = null;
-        secondPosition = null;*/
+
         
         setPreferredSize(new Dimension(800, 600));  
         setBackground(new Color(248, 248, 248));
@@ -59,22 +59,49 @@ public class GameFrame extends JPanel{
         setVisible(true);
         
         this.lineList = new LinkedList<Line2D.Double>();
+        this.buttonList = new LinkedList<JButton>();
+        this.linkedFiguresList = new LinkedList<GeneralPath>();
         
-        //esto cambiara segun el numero de jugador
-        this.lineColor = this.dotsBlue;
+        dotsLocations = new HashMap<Integer, Point>();
+        fillLocationsHashMap();
+              
+        this.playerColor = this.dotsOrange;
           
         createGrid();
         
+        generateFigure(new LinkedList<Integer>(Arrays.asList(2,4,10)));
+    }
+    
+    private boolean isValid(int dot1, int dot2){
+        if( dot2 == dot1+1 || dot2 == dot1-1 || dot2 == dot1+4 || dot2 == dot1-4 || dot2 == dot1+5 || dot2 == dot1-5 || dot2 == dot1+6 || dot2 == dot1-6){
+            return true;
+        }else{
+            return false;
+        }
     }
 
     private void createGrid(){
-        for(int pos = 0; pos < 25; pos++)addButton(pos);
+        for(int pos = 1; pos < 26; pos++)addButton(pos);
+    }
+    
+    private void fillLocationsHashMap(){
+        int x = 80;
+        int y = 60;
+        for(int n=1; n < 26; n++){           
+            dotsLocations.put(n, new Point(x,y));
+            if(n % 5 == 0){
+                x = 80;
+                y += 120; 
+            }else{
+                x +=160;
+            }
+        }
     }
     
     private void addButton(int pos){
         JButton button = new JButton(new ImageIcon("dot1.png"));
-        button.setName(String.valueOf(pos));
 
+        button.setName(String.valueOf(pos));
         button.setBorderPainted(false);
         button.setContentAreaFilled(false);
         button.setFocusPainted(false);
@@ -91,64 +118,67 @@ public class GameFrame extends JPanel{
 
             @Override
             public void mouseClicked(MouseEvent e){
-
                 if(firstLinkButton == null){
                     firstLinkButton = button;
                 }else{
-                    secondLinkButton = button;
-                    linkDots();   
+                    if(isValid(getButtonId(firstLinkButton),getButtonId(button))){
+                        linkDots(dotsLocations.get(getButtonId(firstLinkButton)),dotsLocations.get(getButtonId(button))); 
+                    }else{
+                     firstLinkButton = null;
+                     JOptionPane.showMessageDialog(GameFrame.this, "Invalid link.");   
+                    }
                 }
-                /*if(firstPosition == null) firstPosition = pos;
-                else{ 
-                    secondPosition = pos;
-                    System.out.println("(" + firstPosition + ", " + secondPosition + ")");
-                    firstPosition = null;
-                    secondPosition = null;
-                }*/
             }
         });
         this.add(button);
+        this.buttonList.add(button);
     }
     
-    //Usando la propiedad de nombre obtenemos un id unico para cada boton
     private int getButtonId(JButton button){
         return Integer.parseInt(button.getName());
     }
     
-    protected Point getCenter(Rectangle bounds) {
-        return new Point( bounds.x + (bounds.width / 2), bounds.y + (bounds.height / 2));
-
+    protected void generateFigure(LinkedList<Integer> list) {
+        
+        GeneralPath newPath = new GeneralPath();
+        
+        boolean first = true;
+        for(Integer n: list){           
+            if(first){
+                newPath.moveTo(dotsLocations.get(n).x,dotsLocations.get(n).y);
+                first = false;
+            }else{
+                newPath.lineTo(dotsLocations.get(n).x,dotsLocations.get(n).y);
+            }
+        }
+        newPath.closePath();
+        linkedFiguresList.add(newPath);
+        repaint();
     }
     
-    protected void linkDots() {
-
-        this.startPoint = getCenter(firstLinkButton.getBounds());
-        this.endPoint = getCenter(secondLinkButton.getBounds());
+    protected void linkDots(Point startPoint, Point endPoint) {
         
         Line2D.Double line = new Line2D.Double(startPoint, endPoint);
         lineList.add(line);
-        
-        //llama a correr el codigo dentro de paintComponent
         repaint();
-        
-        //Reiniciamos las variables de LinkButton
         firstLinkButton = null;
-        secondLinkButton = null;
-
     }
     
     @Override
         protected void paintComponent(Graphics g) {
             super.paintComponent(g);
-            
             Graphics2D g2D = (Graphics2D) g.create();
             
-            g2D.setColor(this.lineColor);
-            g2D.setStroke(new BasicStroke(6));
+            for(GeneralPath path: linkedFiguresList){ 
+                g2D.setPaint(playerColor);
+                g2D.fill(path);
+                g2D.draw(path);
+            }
             
             for(Line2D.Double line: lineList){
+                g2D.setColor(playerColor);
+                g2D.setStroke(new BasicStroke(6));
                 g2D.draw(line);
-            }
-        }
-        
+            } 
+        } 
 }
