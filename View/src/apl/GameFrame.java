@@ -1,4 +1,4 @@
-package Path;
+package apl;
 
 
 import java.awt.BasicStroke;
@@ -21,7 +21,6 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
@@ -30,25 +29,54 @@ import javax.swing.JPanel;
  */
 public class GameFrame extends JPanel{
     
-    private JLabel Header;
-    private JLabel p1Name;
-    private JLabel p2Name;
-    private JLabel p1Score;
-    private JLabel p2Score;
-    private JLabel TurnLabel;
-    private JLabel TurnNumber;
+    /**
+     *Indicates if the user is player 1 or player 2.
+     */
+    private int playerNumber;
     
-    private final LinkedList<Line2D.Double> lineList;
-    private final LinkedList<JButton> buttonList;
-    private final LinkedList<GeneralPath> linkedFiguresList;
+    /**
+     *Indicates if the user is on turn.
+     */
+    private boolean onTurn;
     
+    /**
+     *Contains all the grid's dots.
+     */
+    private static LinkedList<JButton> DotsList;
+    
+    /**
+     *Contains all the grid's painted lines.
+     */
+    private static LinkedList<Line2D.Double> lineList;
+    
+    /**
+     *Contains all the grid's painted linked figures.
+     */
+    private static LinkedList<GeneralPath> linkedFiguresList;
+    
+    /**
+     *Collection that contains a dot number as key and his location as value.
+     */
     private final HashMap<Integer, Point> dotsLocations;
     
-    private JButton firstLinkButton;
-
+    /**
+     *.
+     */
+    private JButton firstLinkDot;
+    
+    /**
+     *Interactible display of the dots grid.
+     */
     private Color playerColor;
     
+    /**
+     *Interactible display of the dots grid.
+     */
     private static final Color dotsBlue = new Color(21, 72, 144);
+    
+    /**
+     *Interactible display of the dots grid.
+     */
     private static final Color dotsOrange = new Color(255, 102, 0);   
     
     /**
@@ -56,14 +84,13 @@ public class GameFrame extends JPanel{
      */
     public GameFrame(){
 
-        
         setPreferredSize(new Dimension(800, 600));  
         setBackground(new Color(248, 248, 248));
         setLayout(new GridLayout(5,5));
         setVisible(true);
         
         this.lineList = new LinkedList<Line2D.Double>();
-        this.buttonList = new LinkedList<JButton>();
+        this.DotsList = new LinkedList<JButton>();
         this.linkedFiguresList = new LinkedList<GeneralPath>();
         
         dotsLocations = new HashMap<Integer, Point>();
@@ -74,20 +101,6 @@ public class GameFrame extends JPanel{
         createGrid();
         
         generateFigure(new LinkedList<Integer>(Arrays.asList(2,4,10)));
-    }
-    
-    /**
-     *Function that returns a boolean indicating if the connection between two dots meets the game's rules.
-     * @param dot1 Dot from which the line begins.
-     * @param dot1 Ending dot of the line.
-     * @return A boolean indicating the validity the link between the dots.
-     */
-    private boolean isValid(int dot1, int dot2){
-        if( dot2 == dot1+1 || dot2 == dot1-1 || dot2 == dot1+4 || dot2 == dot1-4 || dot2 == dot1+5 || dot2 == dot1-5 || dot2 == dot1+6 || dot2 == dot1-6){
-            return true;
-        }else{
-            return false;
-        }
     }
     
     /**
@@ -113,6 +126,42 @@ public class GameFrame extends JPanel{
             }
         }
     }
+      
+    /**
+     *Function that returns a boolean indicating if the connection between two dots meets the game's rules.
+     * @param dot1 Dot from which the line begins.
+     * @param dot1 Ending dot of the line.
+     * @return A boolean indicating the validity the link between the dots.
+     */
+    private boolean isValid(int dot1, int dot2){
+        if( dot2 == dot1+1 || dot2 == dot1-1 || dot2 == dot1+4 || dot2 == dot1-4 || dot2 == dot1+5 || dot2 == dot1-5 || dot2 == dot1+6 || dot2 == dot1-6){
+            return true;
+        }else{
+            return false;
+        }
+    }
+    
+    /**
+     * Returns the position of a given JButton in the panel.
+     * @param button Button whose location is wanted.
+     * @return The dot's location number.
+     */
+    private int getDotPosition(JButton button){
+        return Integer.parseInt(button.getName());
+    }
+    
+    /**
+     Create the linked line and adds its to a list of lines.
+     * @param startPoint Dot's starting point.
+     * @param endPoint Dot's finishing point.
+     */
+    protected void linkDots(Point startPoint, Point endPoint) {
+        Line2D.Double line = new Line2D.Double(startPoint, endPoint);
+        lineList.add(line);
+        repaint();
+        firstLinkDot = null;
+    }
+    
     /**
      *Add the dot to GameFrame.
      * @param position The position of the dot within the 5x5 grid.
@@ -126,39 +175,42 @@ public class GameFrame extends JPanel{
         button.setFocusPainted(false);
         
         button.addMouseListener(new MouseAdapter() {
+            /**
+             * Overrived method of MouseListener, it activates when the mouse enters the dot's area.
+             * @param e Generic mouse event of Mouse Listener.
+             */
             @Override
             public void mouseEntered(MouseEvent e) {
                 button.setIcon(new ImageIcon("dot2.png"));
             }
+            /**
+             * Overrived method of MouseListener, it activates when the mouse exits the dot's area.
+             * @param e Generic mouse event of Mouse Listener.
+             */
             @Override
             public void mouseExited(MouseEvent e) {
                 button.setIcon(new ImageIcon("dot1.png"));
             }
-
+            /**
+             * Overrived method of MouseListener, it activates when the dot is clicked. 
+             * @param e Generic mouse event of Mouse Listener.
+             */
             @Override
             public void mouseClicked(MouseEvent e){
-                if(firstLinkButton == null){
-                    firstLinkButton = button;
+                if(firstLinkDot == null){
+                    firstLinkDot = button;
                 }else{
-                    if(isValid(getDotPosition(firstLinkButton),getDotPosition(button))){
-                        linkDots(dotsLocations.get(getDotPosition(firstLinkButton)),dotsLocations.get(getDotPosition(button))); 
+                    if(isValid(getDotPosition(firstLinkDot),getDotPosition(button))){
+                        linkDots(dotsLocations.get(getDotPosition(firstLinkDot)),dotsLocations.get(getDotPosition(button))); 
                     }else{
-                     firstLinkButton = null;
+                     firstLinkDot = null;
                      JOptionPane.showMessageDialog(GameFrame.this, "Invalid link.");   
                     }
                 }
             }
         });
         this.add(button);
-        this.buttonList.add(button);
-    }
-    /**
-     * Returns the position of a given JButton in the panel.
-     * @param button Button whose location is wanted.
-     * @return The dot's location number.
-     */
-    private int getDotPosition(JButton button){
-        return Integer.parseInt(button.getName());
+        this.DotsList.add(button);
     }
     
     /**
@@ -184,21 +236,8 @@ public class GameFrame extends JPanel{
     }
     
     /**
-     Create the linked line and adds its to a list of lines.
-     * @param startPoint Dot's starting point.
-     * @param endPoint Dot's finishing point.
-     */
-    protected void linkDots(Point startPoint, Point endPoint) {
-        
-        Line2D.Double line = new Line2D.Double(startPoint, endPoint);
-        lineList.add(line);
-        repaint();
-        firstLinkButton = null;
-    }
-    
-    /**
-     *Override method to paintComponents.
-     * @param g
+     * Overrided method to paintComponents.
+     * @param g Generic instance of Graphics to paint the components
      */
     @Override
         protected void paintComponent(Graphics g) {
@@ -217,4 +256,55 @@ public class GameFrame extends JPanel{
                 g2D.draw(line);
             } 
         } 
+        
+    /**
+     * Returns the player's number.
+     * @return playerNumber {@link GameFrame#playerNumber}
+     */
+    public int getPlayerNumber() {
+        return playerNumber;
+    }
+    /**
+     * Sets the player's number.
+     * @param playerNumber {@link GameFrame#playerNumber}
+     */
+    public void setPlayerNumber(int playerNumber) {
+        this.playerNumber = playerNumber;
+    }
+    /**
+     * Returns the player turn's boolean state.
+     * @return onTurn {@link GameFrame#onTurn}
+     */
+    public boolean getOnTurn() {
+        return onTurn;
+    }
+    /**
+     * Sets the player turn's boolean state.
+     * @param onTurn {@link GameFrame#onTurn}
+     */
+    public void setOnTurn(boolean onTurn) {
+        this.onTurn = onTurn;
+    }
+    /**
+     * Returns a linked list with the painted lines.
+     * @return 
+     */
+    public static LinkedList<Line2D.Double> getLineList() {
+        return lineList;
+    }
+    /**
+     * Returns a linked list with the painted lines.
+     * @return 
+     */
+    public static LinkedList<JButton> getDotsList() {
+        return DotsList;
+    }
+    /**
+     * Returns a linked list with the painted figures.
+     * @return 
+     */
+    public static LinkedList<GeneralPath> getLinkedFiguresList() {
+        return linkedFiguresList;
+    }    
+        
 }
