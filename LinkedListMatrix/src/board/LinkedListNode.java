@@ -19,13 +19,13 @@ public class LinkedListNode<GenericType> {
      * LinkedListNode constructor. Receives an integer that indicates its position
      * in the list. Also, it can store a data with any kind of type (GenericType).
      * Assigns all the initial values to the attributes.
-     * @param position
-     * @param data
+     * @param position position of new node.
+     * @param data generic data
      */
     public LinkedListNode(int position, GenericType data){
         this.position = position;
         this.nextNode = null;
-        this.connectionsList = new LinkedList(0);
+        this.connectionsList = new LinkedList();
         this.visited = false;
         this.data = data;
     }
@@ -40,7 +40,7 @@ public class LinkedListNode<GenericType> {
 
     /**
      * Setter for position attribute.
-     * @param position
+     * @param position new value for position attribute.
      */
     public void setPosition(int position) {
         this.position = position;
@@ -87,7 +87,7 @@ public class LinkedListNode<GenericType> {
     }
 
     /**
-     * Setter data attribute.
+     * Setter for data attribute.
      * @param data
      */
     public void setData(GenericType data) {
@@ -95,15 +95,15 @@ public class LinkedListNode<GenericType> {
     }
     
     /**
-     *
-     * @return
+     * Getter for visited attribute.
+     * @return visited: boolean
      */
     public boolean isVisited() {
         return visited;
     }
 
     /**
-     *
+     * Setter for visited attribute.
      * @param visited
      */
     public void setVisited(boolean visited) {

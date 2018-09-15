@@ -1,7 +1,12 @@
 package board;
 
 /**
- *
+ * LinkedList main purpose is to point to the firstNode of the list. It allows to
+ * insert a new LinkedListNode to this list and store any amount of data in a 
+ * lineal structure. It also has some methods to delete the last node of the list
+ * or find an specific node in a position.
+ * This LinkedList also points to a next LinkedList, meaning that it could also
+ * be a node of a LinkedList with LinkedLists as nodes.
  * @author Erick Barrantes
  * @param <GenericType>
  */
@@ -9,22 +14,19 @@ public class LinkedList<GenericType>{
     
     private LinkedListNode firstNode;
     private LinkedList nextRow;
-    private int position;
     private int size;
     
     /**
-     *
-     * @param position
+     * LinkedList constructor. Assigns the initial values to the attributes.
      */
-    public LinkedList(int position){
+    public LinkedList(){
         firstNode = null;
         nextRow = null;
-        this.position = position;
         this.size = 0;
     }
 
     /**
-     *
+     * Receives the data necessary to create a node and insert it in the list.
      * @param position
      * @param data
      */
@@ -41,9 +43,9 @@ public class LinkedList<GenericType>{
     }
     
     /**
-     *
+     * Searches and returns the node in the specified position.
      * @param position
-     * @return
+     * @return: node in position: LinkedListNode
      */
     public LinkedListNode getNode(int position){
         for(LinkedListNode node = firstNode; node != null; node = node.getNextNode()){
@@ -54,7 +56,7 @@ public class LinkedList<GenericType>{
     }
     
     /**
-     *
+     * Deletes the last inserted node of the list.
      */
     public void deleteLastNode(){
         if(firstNode != null && firstNode.getNextNode() != null){
@@ -65,55 +67,39 @@ public class LinkedList<GenericType>{
     }
     
     /**
-     *
-     * @return
+     * Getter for FirstNode attribute.
+     * @return firstNode: LinkedListNode
      */
     public LinkedListNode getFirstNode(){
         return firstNode;
     }
     
     /**
-     *
+     * Setter for firstNode attribute.
      * @param firstNode
      */
     public void setFirstNode(LinkedListNode firstNode) {
         this.firstNode = firstNode;
     }
-
-    /**
-     *
-     * @return
-     */
-    public int getPosition() {
-        return position;
-    }
-
-    /**
-     *
-     * @param position
-     */
-    public void setPosition(int position) {
-        this.position = position;
-    }
     
     /**
-     *
-     * @return
+     * Indicates if the list its empty (true) or not (false)
+     * @return boolean
      */
     public boolean isEmpty() {
         return firstNode == null;
     }
     
     /**
-     *
-     * @return
+     * Getter for nextRow attribute.
+     * @return nextRow: LinkedList
      */
     public LinkedList getNextRow() {
         return nextRow;
     }
 
     /**
-     *
+     * Setter for nextRow attribute.
      * @param nextRow
      */
     public void setNextRow(LinkedList nextRow) {
@@ -121,15 +107,15 @@ public class LinkedList<GenericType>{
     }
 
     /**
-     *
-     * @return
+     * Getter for size attribute.
+     * @return size: int
      */
     public int getSize() {
         return size;
     }
 
     /**
-     *
+     * Setter for size attribute.
      * @param size
      */
     public void setSize(int size) {

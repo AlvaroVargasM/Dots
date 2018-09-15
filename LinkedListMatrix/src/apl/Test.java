@@ -4,13 +4,12 @@ import board.LinkedList;
 import board.Grid;
 
 public class Test {
-    
     public static void main(String[] args){
         
         Grid grid = new Grid(6, 6);
         int pos = 1;
         for (int i = 0; i < grid.getRowSize(); i++){
-            LinkedList list = new LinkedList(i);
+            LinkedList list = new LinkedList();
             for(int j = 0; j < grid.getColumnSize(); j++){
                 list.insertNode(pos++, null);
             }

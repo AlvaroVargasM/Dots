@@ -1,7 +1,14 @@
 package board;
 
 /**
- *
+ * Grid points to a first LinkedList, meaning that Grid is a LinkedList, were 
+ * each node is another LinkedList. In other words, it's a matrix were each row
+ * is a LinkedList that contains LinkedListNodes.
+ * This class allows to insert new rows or LinkedList to the structure and get 
+ * an specific node in a position.
+ * Besides, this structure allows to create connection with nodes in the same
+ * row or even in different rows, and validate if a figure is made with this 
+ * connections.
  * @author Erick Barrantes
  */
 public class Grid {
@@ -10,7 +17,8 @@ public class Grid {
     private int columnSize;
 
     /**
-     *
+     * Grid constructor. Receives the size of the grid or matrix and assigns 
+     * the initial values to the attributes.
      * @param rowSize
      * @param columnSize
      */
@@ -21,7 +29,7 @@ public class Grid {
     }
     
     /**
-     *
+     * Receives a LinkedList and inserts it to this structure.
      * @param newRow
      */
     public void insertList(LinkedList newRow){
@@ -36,7 +44,7 @@ public class Grid {
     }
     
     /**
-     *
+     * Searches and returns the node in the specified position.
      * @param position
      * @return
      */
@@ -48,51 +56,62 @@ public class Grid {
     }
     
     /**
-     *
+     * This function receives to integers indicating the positions of the nodes
+     * that want to be connected. Before connecting this lines, this values are
+     * sent to searchForFigure function to validate if this connection creates 
+     * a figure or not.
      * @param initialDotPosition
      * @param finalDotPosition
-     * @return
+     * @return figure: LinkedList. Null if there was no figure created. On the
+     * contrary, returns a LinkedList with all the positions that shape the 
+     * figure.
      */
     public LinkedList createConnection(int initialDotPosition, int finalDotPosition){
-        LinkedListNode initialDot = this.getNode(initialDotPosition);
-        LinkedListNode finalDot = this.getNode(finalDotPosition);
-        LinkedList figure = new LinkedList(0);
-        figure = searchForFigure(initialDot, finalDot, figure);
-        initialDot.getConnectionsList().insertNode(finalDotPosition, null);
-        finalDot.getConnectionsList().insertNode(initialDotPosition, null);
+        LinkedListNode initialDot = this.getNode(initialDotPosition); //Obtain initialDot in the grid structure.
+        LinkedListNode finalDot = this.getNode(finalDotPosition);//Obtain finalDot in the grid structure.
+        LinkedList figure = new LinkedList(); //LinkedList that will have dots that shape figure.
+        figure = searchForFigure(initialDot, finalDot, figure); //Validate if figure is created.
+        initialDot.getConnectionsList().insertNode(finalDotPosition, null);//Connect initialDot with finalDot
+        finalDot.getConnectionsList().insertNode(initialDotPosition, null);//Connect finalDot with initialDot
         this.resetVisitedBooleans();
         return figure;
     }
     
     /**
-     *
+     * Receives a new connection and validates if this connection creates a figure.
+     * The currentDot starts as the initial dot of the connection. This function
+     * will obtain the LinkedList of connections of each node and travel through 
+     * the dots connected directly or indirectly to the initial dot. If currentDot
+     * is equal to finalDot in some moment of the recursion, this means that a figure
+     * was created. If this happens, the LinkedList figure will be storing all the
+     * correct dots positions that shape the figure. If a shape its not created,
+     * it will return null
      * @param currentDot
-     * @param initialDot
      * @param finalDot
      * @param figure
-     * @return
+     * @return figure: LinkedList with the dots the shape the figure.
      */
     public LinkedList searchForFigure(LinkedListNode currentDot, LinkedListNode finalDot, LinkedList figure){
         if(currentDot != null && !currentDot.isVisited()){
             currentDot.setVisited(true);
-            figure.insertNode(currentDot.getPosition(), null);
-            LinkedList dotConnections = currentDot.getConnectionsList();
+            figure.insertNode(currentDot.getPosition(), null); //Insert currentNode to LinkedList figure.
+            LinkedList dotConnections = currentDot.getConnectionsList(); //Obtain list of connections
             for(LinkedListNode dot = dotConnections.getFirstNode(); dot != null;
-                dot = dot.getNextNode()){
-                LinkedListNode connection = this.getNode(dot.getPosition());
+                dot = dot.getNextNode()){ //For each node.
+                LinkedListNode connection = this.getNode(dot.getPosition());//Obtain connected dot from grid.
                 if(connection == finalDot){
-                    figure.insertNode(connection.getPosition(), null);
+                    figure.insertNode(connection.getPosition(), null); //Insert finalDot to figure list
                     return figure;
                 }
-                LinkedList figure2 = searchForFigure(connection, finalDot, figure);
-                if(figure2 != null)return figure;
-            }figure.deleteLastNode();
+                LinkedList finalFigure = searchForFigure(connection, finalDot, figure);
+                if(finalFigure != null)return figure;//If figure was made, return list with dots that shape figure
+            }figure.deleteLastNode(); //If finalDot was not found in the list of connections of an specific node, delete this last node.
         }
         return null;
     }
     
     /**
-     *
+     * Resets all visitedBoleans of each node to false.
      */
     public void resetVisitedBooleans(){
         for(LinkedList row = firstRow; row != null; row = row.getNextRow()){
@@ -103,15 +122,15 @@ public class Grid {
     }
     
     /**
-     *
-     * @return
+     * Getter for firstRow attribute
+     * @return firstRow: LinkedList
      */
     public LinkedList getFirstRow() {
         return firstRow;
     }
 
     /**
-     *
+     * Setter for firstRow attribute
      * @param firstRow
      */
     public void setFirstRow(LinkedList firstRow) {
@@ -119,15 +138,15 @@ public class Grid {
     }
 
     /**
-     *
-     * @return
+     * Getter for rowSize attribute
+     * @return rowSize: int
      */
     public int getRowSize() {
         return rowSize;
     }
 
     /**
-     *
+     * Setter for rowSize attribute
      * @param rowSize
      */
     public void setRowSize(int rowSize) {
@@ -135,15 +154,15 @@ public class Grid {
     }
 
     /**
-     *
-     * @return
+     * Getter for columnSize attribute
+     * @return columnSize: int
      */
     public int getColumnSize() {
         return columnSize;
     }
 
     /**
-     *
+     * Setter for columnSize attribute
      * @param columnSize
      */
     public void setColumnSize(int columnSize) {
@@ -151,8 +170,8 @@ public class Grid {
     }
 
     /**
-     *
-     * @return
+     * Indicates if the grid its empty(true) or not(false).
+     * @return boolean
      */
     public boolean isEmpty() {
         return firstRow == null;
@@ -160,8 +179,10 @@ public class Grid {
     
     public String toString(){
         String str = "Matrix:\n";
+        int i = 0;
         for(LinkedList list = firstRow; list != null; list = list.getNextRow()){
-            str += Integer.toString(list.getPosition()) + ": " + list.toString() + "\n";
+            str += i + ": " + list.toString() + "\n";
+            i++;
         } return str;
     } 
 }
