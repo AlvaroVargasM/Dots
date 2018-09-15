@@ -23,6 +23,9 @@ public class InfoFrame extends JPanel{
     private JLabel TurnLabel;
     private JLabel TurnNumber;
     
+    /**
+     *
+     */
     public InfoFrame(){
         setPreferredSize(new Dimension(200, 600));  
         setBackground(new Color(255, 255, 255));

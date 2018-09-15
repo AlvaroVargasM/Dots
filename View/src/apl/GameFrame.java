@@ -25,7 +25,9 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-
+/**
+ *Interactible display of the dots grid.
+ */
 public class GameFrame extends JPanel{
     
     private JLabel Header;
@@ -49,7 +51,9 @@ public class GameFrame extends JPanel{
     private static final Color dotsBlue = new Color(21, 72, 144);
     private static final Color dotsOrange = new Color(255, 102, 0);   
     
-    
+    /**
+     *The constructor of the class GameFrame, recieves no parameters.
+     */
     public GameFrame(){
 
         
@@ -72,6 +76,12 @@ public class GameFrame extends JPanel{
         generateFigure(new LinkedList<Integer>(Arrays.asList(2,4,10)));
     }
     
+    /**
+     *Function that returns a boolean indicating if the connection between two dots meets the game's rules.
+     * @param dot1 Dot from which the line begins.
+     * @param dot1 Ending dot of the line.
+     * @return A boolean indicating the validity the link between the dots.
+     */
     private boolean isValid(int dot1, int dot2){
         if( dot2 == dot1+1 || dot2 == dot1-1 || dot2 == dot1+4 || dot2 == dot1-4 || dot2 == dot1+5 || dot2 == dot1-5 || dot2 == dot1+6 || dot2 == dot1-6){
             return true;
@@ -79,11 +89,17 @@ public class GameFrame extends JPanel{
             return false;
         }
     }
-
+    
+    /**
+     *Creates the grid by adding dots.
+     */
     private void createGrid(){
-        for(int pos = 1; pos < 26; pos++)addButton(pos);
+        for(int pos = 1; pos < 26; pos++)addDot(pos);
     }
     
+    /**
+     *Fills a Hash Map with the number of identification of each button and the coordinates of his center.
+     */
     private void fillLocationsHashMap(){
         int x = 80;
         int y = 60;
@@ -97,11 +113,14 @@ public class GameFrame extends JPanel{
             }
         }
     }
-    
-    private void addButton(int pos){
+    /**
+     *Add the dot to GameFrame.
+     * @param position The position of the dot within the 5x5 grid.
+     */
+    private void addDot(int position){
         JButton button = new JButton(new ImageIcon("dot1.png"));
 
-        button.setName(String.valueOf(pos));
+        button.setName(String.valueOf(position));
         button.setBorderPainted(false);
         button.setContentAreaFilled(false);
         button.setFocusPainted(false);
@@ -121,8 +140,8 @@ public class GameFrame extends JPanel{
                 if(firstLinkButton == null){
                     firstLinkButton = button;
                 }else{
-                    if(isValid(getButtonId(firstLinkButton),getButtonId(button))){
-                        linkDots(dotsLocations.get(getButtonId(firstLinkButton)),dotsLocations.get(getButtonId(button))); 
+                    if(isValid(getDotPosition(firstLinkButton),getDotPosition(button))){
+                        linkDots(dotsLocations.get(getDotPosition(firstLinkButton)),dotsLocations.get(getDotPosition(button))); 
                     }else{
                      firstLinkButton = null;
                      JOptionPane.showMessageDialog(GameFrame.this, "Invalid link.");   
@@ -133,11 +152,19 @@ public class GameFrame extends JPanel{
         this.add(button);
         this.buttonList.add(button);
     }
-    
-    private int getButtonId(JButton button){
+    /**
+     * Returns the position of a given JButton in the panel.
+     * @param button Button whose location is wanted.
+     * @return The dot's location number.
+     */
+    private int getDotPosition(JButton button){
         return Integer.parseInt(button.getName());
     }
     
+    /**
+     * Generate a figure by giving his dot members.
+     * @param list A list containing all the dot's locations who will constitute the Figure
+     */
     protected void generateFigure(LinkedList<Integer> list) {
         
         GeneralPath newPath = new GeneralPath();
@@ -156,6 +183,11 @@ public class GameFrame extends JPanel{
         repaint();
     }
     
+    /**
+     Create the linked line and adds its to a list of lines.
+     * @param startPoint Dot's starting point.
+     * @param endPoint Dot's finishing point.
+     */
     protected void linkDots(Point startPoint, Point endPoint) {
         
         Line2D.Double line = new Line2D.Double(startPoint, endPoint);
@@ -164,6 +196,10 @@ public class GameFrame extends JPanel{
         firstLinkButton = null;
     }
     
+    /**
+     *Override method to paintComponents.
+     * @param g
+     */
     @Override
         protected void paintComponent(Graphics g) {
             super.paintComponent(g);
