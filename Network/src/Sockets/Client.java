@@ -11,6 +11,7 @@ import java.net.Socket;
 import java.nio.charset.StandardCharsets;
 
 public class Client {
+
     public static void main (String[] args){
         ClientSend myClient = new ClientSend();
     }

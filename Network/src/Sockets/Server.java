@@ -7,6 +7,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 public class Server implements Runnable {
+    
     // Constructor
     public void Server(){
        Thread mihilo = new Thread(this);
@@ -43,5 +44,3 @@ public class Server implements Runnable {
         Server myServer = new Server();
     }
 }
-
-

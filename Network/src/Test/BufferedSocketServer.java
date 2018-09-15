@@ -8,6 +8,7 @@ import java.net.Socket;
 import JSON.*;
 
 public class BufferedSocketServer {
+
     public static void main(String[] args) throws Exception{
         int cTosPortNumber = 1777;
         String recievedPotatoe;

@@ -5,16 +5,24 @@ import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import java.io.IOException;
 
-//Import mapper for reading and writing
+//Import mapper for reading and writing JSON
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+/**
+ * This class uses an object mapper to convert JSON to Java and vice versa.
+ * @author valva
+ */
 public class JSONUtil {
     private static ObjectMapper mapper;
     static{
         mapper = new ObjectMapper();
     }
     
-    //Method for Java to JSON
+    /**
+     * This method converts a Java object into a JSON string.
+     * @param object
+     * @return JSON String
+     */
     public static String convertJavaToJson(Object object){
         String jsonResult = "";
         try{
@@ -31,8 +39,14 @@ public class JSONUtil {
 	}
 	return jsonResult;	
     }  
-    
-    //Method for JSON to Java
+
+    /**
+     * This method converts a JSON string into a Java class.
+     * @param <T>
+     * @param jsonString
+     * @param cls
+     * @return a JSON String into a class.
+     */
     public static <T> T convertJsonToJava (String jsonString, Class <T> cls){
         T result = null;
         try {
