@@ -1,7 +1,7 @@
 package apl;
 
-import board.LinkedList;
-import board.Grid;
+import gameLogic.LinkedList;
+import gameLogic.Grid;
 
 public class Test {
     public static void main(String[] args){

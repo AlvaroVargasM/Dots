@@ -1,7 +1,8 @@
-package board;
+package gameLogic;
 
 /**
- *
+ * Node for Queue class. Its main purpose is to store the data needed for 
+ * the Queue and point to the next node in the queue.
  * @author Erick Barrantes
  */
 public class QueueNode {
@@ -9,7 +10,8 @@ public class QueueNode {
     private Player player;
     
     /**
-     *
+     * Constructor for QueueNode class. Receives a Player attribute and assigns 
+     * it to the player attribute.
      * @param player
      */
     public QueueNode(Player player){
@@ -17,15 +19,15 @@ public class QueueNode {
     }
 
     /**
-     *
-     * @return
+     * Getter for nextNode attribute.
+     * @return nextNode: QueueNode
      */
     public QueueNode getNextNode() {
         return nextNode;
     }
 
     /**
-     *
+     * Setter for nextNode attribute
      * @param nextNode
      */
     public void setNextNode(QueueNode nextNode) {
@@ -33,7 +35,7 @@ public class QueueNode {
     }
 
     /**
-     *
+     * Getter for player attribute.
      * @return
      */
     public Player getPlayer() {
@@ -41,11 +43,10 @@ public class QueueNode {
     }
 
     /**
-     *
+     * Setter for player attribute.
      * @param player
      */
     public void setPlayer(Player player) {
         this.player = player;
-    }
-    
+    }   
 }

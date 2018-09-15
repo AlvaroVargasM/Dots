@@ -1,7 +1,9 @@
-package board;
+package gameLogic;
 
 /**
- *
+ * Queue main purpose is to point to the firstNode of the queue and dequeue the 
+ * node that was inserted first. It allows to insert a new QueueNode to this Queue 
+ * and store any amount of data in a lineal structure.
  * @author Erick Barrantes
  */
 public class Queue{
@@ -9,7 +11,7 @@ public class Queue{
     private int size;
     
     /**
-     *
+     * Queue constructor. Assigns initial values to the attributes.
      */
     public Queue(){
         firstNode = null;
@@ -17,7 +19,7 @@ public class Queue{
     }
 
     /**
-     *
+     * Receives a player class to create a new node an insert it in the queue.
      * @param player
      */
     public void enqueue(Player player){
@@ -33,7 +35,7 @@ public class Queue{
     }
     
     /**
-     *
+     * Deletes an returns the first node in the queue.
      * @return
      */
     public QueueNode dequeue(){
@@ -44,7 +46,7 @@ public class Queue{
     }
     
     /**
-     *
+     * Returns the first node in the queue.
      * @return
      */
     public QueueNode peek(){
@@ -52,23 +54,23 @@ public class Queue{
     }
     
     /**
-     *
-     * @return
+     * Indicates if the queue its empty (true) or not (false).
+     * @return boolean
      */
     public boolean isEmpty() {
         return firstNode == null;
     }
 
     /**
-     *
-     * @return
+     * Getter for firstNode attribute.
+     * @return firstNode: QueueNode
      */
     public QueueNode getFirstNode() {
         return firstNode;
     }
 
     /**
-     *
+     * Setter for firstNode attribute.
      * @param firstNode
      */
     public void setFirstNode(QueueNode firstNode) {
@@ -76,15 +78,15 @@ public class Queue{
     }
 
     /**
-     *
-     * @return
+     * Getter for size attribute.
+     * @return size: int
      */
     public int getSize() {
         return size;
     }
 
     /**
-     *
+     * Setter for size attribute.
      * @param size
      */
     public void setSize(int size) {
