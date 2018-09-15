@@ -14,9 +14,9 @@ public class ClientControler {
     public static void main (String[] args) throws Exception{
         // Creates an object of a class
         Potatoe myPotatoe = new Potatoe();
-        myPotatoe.setPrice(150);
+        myPotatoe.setPrice(400);
+        myPotatoe.setType("Amarilla");
         myPotatoe.setWeight(1);
-        myPotatoe.setType("Bintje");
        
         ClientControler myControler = new ClientControler();
         myControler.clientSend(myPotatoe);
@@ -71,7 +71,7 @@ public class ClientControler {
             } 
             else {
                 Potatoe recievedObject = JSONUtil.convertJsonToJava(recievedString, Potatoe.class);
-                recievedString = "Server returns " + recievedObject.getPrice()+ " " + recievedObject.getWeight();
+                recievedString = "Server returns " + recievedObject.getType()+ " " + recievedObject.getPrice();
                 out.println(recievedString);
             }
         }
