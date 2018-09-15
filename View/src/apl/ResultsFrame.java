@@ -36,7 +36,9 @@ public class ResultsFrame extends JFrame{
 //		ResultsFrame marco1 = new ResultsFrame();
 //    }
     
-    
+    /**
+     *
+     */
     public ResultsFrame(){
         setTitle("Results"); //ponemos titulo a la ventana
         setSize(1000, 500); //asignamos alto y ancho de la ventana

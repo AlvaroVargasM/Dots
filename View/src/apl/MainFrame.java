@@ -21,6 +21,10 @@ import javax.swing.*;
  */
 public class MainFrame {
     
+    /**
+     *
+     * @param args
+     */
     public static void main(String[] args) {
 	// TODO Auto-generated method stub
         MainFrame marco1 = new MainFrame();
@@ -28,6 +32,9 @@ public class MainFrame {
     
     private JFrame dotsFrame;
     
+    /**
+     *
+     */
     public MainFrame(){
         //panel grande de fondo
         dotsFrame = new JFrame();
