@@ -82,12 +82,11 @@ public class MenuDisplay extends JFrame{
         });
         
         pack();
-        
-        
-        standBy();
-        
     }
     
+    /**
+     * Displays a pop up message telling the server is full.
+     */
     public void standBy(){
         JOptionPane.showOptionDialog(null, "The server is currently full. When the game session finishes this window will close automatically.","Full Server", JOptionPane.DEFAULT_OPTION,JOptionPane.INFORMATION_MESSAGE, null, new Object[]{}, null); 
     }

@@ -1,73 +1,108 @@
 package apl;
 
-
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Graphics;
 import java.awt.GridLayout;
+import java.awt.Image;
+import java.awt.Toolkit;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /**
  *
- * @author luism
+ * Display that show the final game session's stats.
  */
 public class ResultsFrame extends JFrame{
     
-    private JLabel winnerLabel;
-    private JLabel winner;
-    private JLabel p1Name;
-    private JLabel p2Name;
-    private JLabel p1Score;
-    private JLabel p2Score;
-    private JLabel TurnLabel;
-    private JLabel TurnNumber;
+    /**
+     *Final variable that holds font type number one.
+     */
+    private static final Font font1 = new Font("Tahoma", Font.ITALIC, 28);
+    private static final Font font2 = new Font("Tahoma", Font.BOLD, 33);
     
-//    public static void main(String[] args) {
-//		// TODO Auto-generated method stub
-//		ResultsFrame marco1 = new ResultsFrame();
-//    }
+    /**
+     *Final variable that holds font type number two.
+     */
+    private static final Color blue = new Color(21, 72, 144);
+    /**
+     *Final variable that holds a orange color.
+     */
+    private static final Color orange = new Color(255, 102, 0);
+    
+    public static void main(String[] args) {
+	ResultsFrame marco1 = new ResultsFrame("Patricio","Calamardo","Patricio","11","14","22");
+    }
     
     /**
      *
+     * @param winPlayer Nickname of the game session winner.
+     * @param player1 Player one nickname.
+     * @param player2 Player two nickname.
+     * @param score1 Player one score.
+     * @param score2 Player two score.
+     * @param turns Final total of turns.
      */
-    public ResultsFrame(){
-        setTitle("Results"); //ponemos titulo a la ventana
-        setSize(1000, 500); //asignamos alto y ancho de la ventana
-        setLocationRelativeTo(null);//la centramos con esta línea
-        setResizable(true);//impedimos que se cambie su tamaño
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);//establecemos que se cierre la ventana al darle click a la equis roja 
-        setVisible(true);//hacemos la ventana visible
+    public ResultsFrame(String winPlayer,String player1, String player2, String score1, String score2, String turns){
+        
+        setTitle("Results"); 
+        setSize(1000, 600); 
+        setLocationRelativeTo(null);
+        setResizable(false);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setVisible(true);
         
         setLayout(new BorderLayout());
         
         JLabel title = new JLabel("Results",SwingConstants.CENTER);
-        title.setFont(new Font("Tahoma", Font.BOLD, 33));
+        title.setFont(new Font("Tahoma", Font.BOLD, 75));
+        title.setPreferredSize(new Dimension(1000, 100));
         title.setOpaque(true);
         title.setForeground(new Color(255, 255, 255));
         title.setBackground(new Color(255, 102, 0));
         add(title, BorderLayout.NORTH);
         
-        JPanel stats = new JPanel();
-        stats.setBackground(new Color(255,255,255));
+        JPanel stats = new JPanel(){
+            @Override
+                public void paintComponent(Graphics g){
+                super.paintComponent(g);
+                Image background = Toolkit.getDefaultToolkit().getImage("dotsBackground.jpg");
+                g.drawImage(background, 0, 0, 1000, 600, this);
+                }
+            };
+        stats.setPreferredSize(new Dimension(1000, 500));
+        
         stats.setLayout(new GridLayout(4,2));
         
-        JLabel winnerLabel = new JLabel("Winner:     ",SwingConstants.RIGHT);
-        JLabel winner = new JLabel("Me");
-        JLabel p1Name = new JLabel("Player 1:     ",SwingConstants.RIGHT);
-        JLabel p2Name = new JLabel("Player 2:     ",SwingConstants.RIGHT);
-        JLabel p1Score = new JLabel("28");
-        JLabel p2Score = new JLabel("56");
-        JLabel TurnLabel = new JLabel("Total of turns:     ",SwingConstants.RIGHT);
-        JLabel TurnNumber = new JLabel("10");
+        
+        JLabel winnerLabel = new JLabel("Winner:      ",SwingConstants.RIGHT);
+        winnerLabel.setFont(font1);
+        winnerLabel.setForeground(blue);
+        JLabel winner = new JLabel(winPlayer);
+        winner.setFont(font2);
+        winner.setForeground(orange);
+        JLabel p1Name = new JLabel(player1+":      ",SwingConstants.RIGHT);
+        p1Name.setFont(font1);
+        p1Name.setForeground(blue);
+        JLabel p2Name = new JLabel(player2+":      ",SwingConstants.RIGHT);
+        p2Name.setFont(font1);
+        p2Name.setForeground(blue);
+        JLabel p1Score = new JLabel(score1+" pts");
+        p1Score.setFont(font2);
+        p1Score.setForeground(orange);
+        JLabel p2Score = new JLabel(score2+" pts");
+        p2Score.setFont(font2);
+        p2Score.setForeground(orange);
+        JLabel TurnLabel = new JLabel("Total of turns:      ",SwingConstants.RIGHT);
+        TurnLabel.setFont(font1);
+        TurnLabel.setForeground(blue);
+        JLabel TurnNumber = new JLabel(turns);
+        TurnNumber.setFont(font2);
+        TurnNumber.setForeground(orange);
         
         stats.add(winnerLabel);
         stats.add(winner);
@@ -80,7 +115,7 @@ public class ResultsFrame extends JFrame{
         
         add(stats, BorderLayout.CENTER);
         
-        //pack();
+        pack();
     }
-    
-}
+} 
+
