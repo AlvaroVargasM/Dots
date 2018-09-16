@@ -10,36 +10,54 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
 /**
- *
- * @author luism
+ * Conatins the game session's stats.
  */
 public class InfoFrame extends JPanel{
     
-    private JLabel header;
+    /**
+     * Player 1 name.
+     */
     private JLabel p1Name;
+    
+    /**
+     * Player 2 name.
+     */
     private JLabel p2Name;
+    
+    /**
+     * Player 1 score.
+     */
     private JLabel p1Score;
+    
+    /**
+     * Player 2 score.
+     */
     private JLabel p2Score;
-    private JLabel TurnLabel;
+    
+    /**
+     * Holds the turn's number.
+     */
     private JLabel TurnNumber;
     
     /**
-     *
+     * Constructor of the InfoFrame class, recieves no parameters.
      */
     public InfoFrame(){
         setPreferredSize(new Dimension(200, 600));  
         setBackground(new Color(255, 255, 255));
         setLayout(new GridLayout(7,1));
-        
-        initializeLabels();
+        locateLabels();
     }
-
-    private void initializeLabels(){
+    
+    /**
+     * Locate all the information labels in the frame.
+     */
+    private void locateLabels(){
         
         Font subHeaderFont = new Font("Tahoma", Font.PLAIN, 22);
         Font NumbersFont = new Font("Tahoma", Font.ITALIC, 18);
         
-        header = new JLabel("Scores",SwingConstants.CENTER);
+        JLabel header = new JLabel("Scores",SwingConstants.CENTER);
         header.setFont(new Font("Tahoma", Font.BOLD, 33));
         header.setForeground(new Color(21, 72, 144));
         
@@ -51,9 +69,9 @@ public class InfoFrame extends JPanel{
         p2Name.setFont(subHeaderFont);
         p2Name.setForeground(new Color(51, 119, 255));
            
-        TurnLabel = new JLabel("Turn:",SwingConstants.CENTER);
-        TurnLabel.setFont(subHeaderFont);
-        TurnLabel.setForeground(new Color(21, 72, 144));
+        JLabel turnLabel = new JLabel("Turn:",SwingConstants.CENTER);
+        turnLabel.setFont(subHeaderFont);
+        turnLabel.setForeground(new Color(21, 72, 144));
         
         p1Score = new JLabel("0",SwingConstants.CENTER);
         p1Score.setFont(NumbersFont);
@@ -75,8 +93,88 @@ public class InfoFrame extends JPanel{
         add(p1Score);
         add(p2Name);
         add(p2Score);
-        add(TurnLabel);
+        add(turnLabel);
         add(TurnNumber);
+    }
+    
+    /**
+     * Extracts and returns the text inside p1Name JLabel.
+     * @return Text displaying by {@link InfoFrame#p1Name} in a String.
+     */
+    public String getP1Name() {
+        return p1Name.getText();
+    }
+    
+    /**
+     * Sets the player's name in the JLabel.
+     * @param name New player one name.
+     */
+    public void setP1Name(String name) {
+        this.p1Name.setText(name);
+    }
+    
+    /**
+     * Extracts and returns the text inside p2Name JLabel.
+     * @return Text displaying by {@link InfoFrame#p2Name} in a String.
+     */
+    public String getP2Name() {
+        return p2Name.getText();
+    }
+    
+    /**
+     * Sets the player's name in the JLabel.
+     * @param name New player two name.
+     */
+    public void setP2Name(String name) {
+        this.p2Name.setText(name);
+    }
+ 
+    /**
+     * Extracts and returns the number inside p1Score JLabel.
+     * @return Text displaying by {@link InfoFrame#p1Score} in a int.
+     */
+    public int getP1Score() {
+        return Integer.parseInt(this.p1Score.getText());
+    }
+    
+    /**
+     * Sets the player's score.
+     * @param p1Score Player 1 score.
+     */
+    public void setP1Score(int p1Score) {
+        this.p1Score.setText(Integer.toString(p1Score));
+    }
+    
+    /**
+     * Extracts and returns the number inside p2Score JLabel.
+     * @return Text displaying by {@link InfoFrame#p2Score} in a int.
+     */
+    public int getP2Score() {
+        return Integer.parseInt(p2Score.getText());
+    }
+    
+    /**
+     * Sets the player's score.
+     * @param p2Score Player 2 score.
+     */
+    public void setP2Score(int p2Score) {
+        this.p1Score.setText(Integer.toString(p2Score));
+    }
+    
+    /**
+     * Extracts and returns the number inside TurnNumber JLabel.
+     * @return Text displaying by {@link InfoFrame#TurnNumber} in a int.
+     */
+    public int getTurnNumber() {
+        return Integer.parseInt(this.TurnNumber.getText());
+    }
+    
+    /**
+     * Increase the game session's turn number by one.
+     */
+    public void increaseTurnNumber() {
+        int updatedTurn = Integer.parseInt(this.TurnNumber.getText()) +1;
+        this.p1Score.setText(Integer.toString(updatedTurn));
     }
     
 }

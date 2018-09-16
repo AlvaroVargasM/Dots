@@ -101,7 +101,7 @@ public class GameFrame extends JPanel{
           
         createGrid();
         
-        generateFigure(new LinkedList<Integer>(Arrays.asList(1,2,6)));
+        //generateFigure(new LinkedList<Integer>(Arrays.asList(1,2,6)));
     }
     
     /**
@@ -207,7 +207,7 @@ public class GameFrame extends JPanel{
         dot.setName(String.valueOf(position));
         dot.setBorderPainted(false);
         dot.setContentAreaFilled(false);
-        //dot.setFocusPainted(false);
+        dot.setFocusPainted(false);
         
         dot.addMouseListener(new MouseAdapter() {
             /**
