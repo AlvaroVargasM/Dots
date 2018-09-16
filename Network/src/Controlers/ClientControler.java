@@ -13,22 +13,26 @@ import java.net.Socket;
 public class ClientControler {
     public static void main (String[] args) throws Exception{
         // Creates an object of a class
-<<<<<<< HEAD
-=======
+
         Potatoe myPotatoe = new Potatoe();
         myPotatoe.setPrice(400);
         myPotatoe.setType("Amarilla");
         myPotatoe.setWeight(1);
        
->>>>>>> dbe1fb509d6449598130dae959c07b88efb7d3fe
+        Employee myEmployee = new Employee();
+        myEmployee.setName("Jebus");
+        myEmployee.setSalary(69420);
+        myEmployee.setEmpNo(506);
+        
         ClientControler myControler = new ClientControler();
-        myControler.clientRecive();
+        myControler.clientSend(myPotatoe, myEmployee);
     }
    
-    public void clientSend(Object object, Class classReference) throws Exception {
+    public void clientSend(Object object1, Object object2) throws Exception {
         
         // Converts the object into a JSON String
-        String sendObject = JSONUtil.convertJavaToJson(object);
+        String sendObject1 = JSONUtil.convertJavaToJson(object1);
+        String sendObject2 = JSONUtil.convertJavaToJson(object2);
 
         // Opens a socket
         Socket clientSocket = new Socket(InetAddress.getLocalHost(), 1777);
@@ -36,16 +40,16 @@ public class ClientControler {
         // Creates 
         BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
         PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
-        out.println(sendObject);
-        out.println();
+        out.println(sendObject1);
+        out.println(sendObject2);
         
-        while ((sendObject = in.readLine()) != null) {
-            System.out.println(sendObject);
+        /*while ((sendObject1 = in.readLine()) != null) {
+            System.out.println(sendObject1);
             out.println("bye");
 
-            if (sendObject.equals("bye"))
+            if (sendObject1.equals("bye"))
                 break;
-        }
+        }*/
         in.close();
         out.close();
         clientSocket.close();

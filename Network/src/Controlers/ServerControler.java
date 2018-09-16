@@ -13,19 +13,8 @@ import java.net.Socket;
 public class ServerControler {
     
     public static void main (String[] args) throws Exception{
-        
-        Potatoe myPotatoe = new Potatoe();
-        myPotatoe.setPrice(150);
-        myPotatoe.setWeight(1);
-        myPotatoe.setType("Bintje");
-        
         ServerControler myControler = new ServerControler();
-<<<<<<< HEAD
-        myControler.ServerSend(myPotatoe);
-        
-=======
         myControler.serverReceive();
->>>>>>> dbe1fb509d6449598130dae959c07b88efb7d3fe
     }
     
      public void ServerSend(Object object) throws Exception{
@@ -55,7 +44,8 @@ public class ServerControler {
     
     public void serverReceive() throws Exception{
         int cTosPortNumber = 1777;
-        String recievedString;
+        String recievedString1;
+        String recievedString2;
 
         // Creates a socket an
         ServerSocket servSocket = new ServerSocket(cTosPortNumber);
@@ -67,22 +57,22 @@ public class ServerControler {
 
         BufferedReader in = new BufferedReader(new InputStreamReader(fromClientSocket.getInputStream()));
 
-        while ((recievedString = in.readLine()) != null) {
-            System.out.println("The message: " + recievedString);
+        recievedString1 = in.readLine();
+        recievedString2 = in.readLine();
+            
+        System.out.println("The message: " + recievedString1);
+        System.out.println("The message: " + recievedString2);
+          
+        Potatoe recievedObject1 = JSONUtil.convertJsonToJava(recievedString1, Potatoe.class);               
+        Employee recievedObject2 = JSONUtil.convertJsonToJava(recievedString1, Employee.class);
+        recievedString1 = "Server returns " + recievedObject1.getType()+ " " + recievedObject1.getPrice();
+        recievedString2 = "Server returns " + recievedObject2.getName()+ " " + recievedObject2.getSalary();
+        out.println(recievedString1);
+        out.println(recievedString2);
+            
+        out.close();
+        in.close();
 
-            if (recievedString.equals("bye")) {
-                out.println("bye");
-                break;
-            } 
-            else {
-                Potatoe recievedObject = JSONUtil.convertJsonToJava(recievedString, Potatoe.class);
-                recievedString = "Server returns " + recievedObject.getType()+ " " + recievedObject.getPrice();
-                out.println(recievedString);
-            }
-        }
-    out.close();
-    in.close();
-
-    fromClientSocket.close();
+            fromClientSocket.close();
     }
 }
