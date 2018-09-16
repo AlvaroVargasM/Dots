@@ -1,14 +1,20 @@
 package controller;
 
+import com.sun.security.ntlm.Client;
+import dataPackages.ClassReference;
 import jsonLogic.*;
 import visualFrames.*;
 import jsonLogic.JSONUtil;
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.UnknownHostException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 public class ClientController {
@@ -96,62 +102,68 @@ public class ClientController {
         */
     }
    
-    public void clientSend(Object object) throws Exception{
-  
-        // Converts the object into a JSON String
-        String sendObject = JSONUtil.convertJavaToJson(object);
-
-        // Opens a socket
-        Socket clientSocket = new Socket(InetAddress.getLocalHost(), 1777);
-
-        // Creates 
-        BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-        PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
-        out.println(sendObject);
-    
-        while ((sendObject = in.readLine()) != null) {
-            System.out.println(sendObject);
-            out.println("bye");
-
-            if (sendObject.equals("bye"))
-                break;
+    public void clientSend(Object object, Object classReference){
+        try {
+            Socket clientSocket = new  Socket(InetAddress.getLocalHost(), 9090);
+            
+            String sendObject = JSONUtil.convertJavaToJson(object);
+            String sendClassReference = JSONUtil.convertJavaToJson(classReference);
+            
+            BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+            PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
+            
+            out.println(sendObject);
+            out.println(sendClassReference);
+            
+            in.close();
+            out.close();
+            clientSocket.close();
+        } 
+        catch (UnknownHostException ex) {
+            Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
+        } 
+        catch (IOException ex) {
+            Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
         }
-        in.close();
-        out.close();
-        clientSocket.close();
-    } 
+    }
     
-    public void serverRecive() throws Exception{
-        
-        int cTosPortNumber = 1777;
-        String recievedString;
-
-        // Creates a socket an
-        ServerSocket servSocket = new ServerSocket(cTosPortNumber);
-        System.out.println("Waiting for a connection on " + cTosPortNumber);
-
-        Socket fromClientSocket = servSocket.accept();
-        
-        PrintWriter out = new PrintWriter(fromClientSocket.getOutputStream(), true);
-
-        BufferedReader in = new BufferedReader(new InputStreamReader(fromClientSocket.getInputStream()));
-
-        while ((recievedString = in.readLine()) != null) {
-            System.out.println("The message: " + recievedString);
-
-//            if (recievedString.equals("bye")) {
-//                out.println("bye");
-//                break;
-//            } 
-//            else {
-//                Potatoe recievedObject = JSONUtil.convertJsonToJava(recievedString, Potatoe.class);
-//                recievedString = "Server returns " + recievedObject.getPrice()+ " " + recievedObject.getWeight();
-//                out.println(recievedString);
-//            }
+    @Override
+    public void run() {
+       try {
+            int cTosPortNumber = 9090;
+            
+            System.out.println("Waiting for a connection on " + cTosPortNumber);
+            
+            while (true){
+                ServerSocket clientAsServer = new ServerSocket(cTosPortNumber);
+                Socket fromClientSocket = clientAsServer.accept();
+                
+                PrintWriter out = new PrintWriter(fromClientSocket.getOutputStream(), true);
+                BufferedReader in = new BufferedReader(new InputStreamReader(fromClientSocket.getInputStream()));
+                
+                String recievedObjectAsString = in.readLine();
+                String recievedClassReferenceAsString = in.readLine();
+                
+                out.close();
+                in.close();
+                fromClientSocket.close();
+                
+                while (recievedObjectAsString != null && recievedClassReferenceAsString != null){
+                    ClassReference reference = JSONUtil.convertJsonToJava(recievedClassReferenceAsString, ClassReference.class);
+                    if (reference.getReference().equals("Potatoe")){
+                         Potatoe recievedPotatoe = JSONUtil.convertJsonToJava(recievedObjectAsString, Potatoe.class);
+                         System.out.println(recievedPotatoe.getPrice());
+                         break;
+                    }
+                    if (reference.getReference().equals("Employee")){
+                        Employee recievedEmployee = JSONUtil.convertJsonToJava(recievedObjectAsString, Employee.class);
+                        System.out.println(recievedEmployee);
+                        break;
+                    }
+                }
+            }
+        } catch (IOException ex) {
+            Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
         }
-    out.close();
-    in.close();
-
-    fromClientSocket.close();
-    }   
+    }
 }
