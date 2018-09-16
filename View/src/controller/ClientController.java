@@ -1,6 +1,6 @@
 package controller;
 
-import JSON
+import jsonLogic.*;
 import visualFrames.*;
 import jsonLogic.JSONUtil;
 import java.io.BufferedReader;
@@ -17,6 +17,8 @@ public class ClientController {
      * Indicate if the user is player 1 or player 2.
      */
     private static int playerNumber = 0;
+    
+    
     
     /**
      * Player 1 name.
