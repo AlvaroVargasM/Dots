@@ -1,4 +1,4 @@
-package apl;
+package visualFrames;
       
 import java.awt.BorderLayout;
 import javax.swing.*;
@@ -8,9 +8,9 @@ import javax.swing.*;
  */
 public class MainFrame extends JFrame{
     
-    public static void main(String[] args) {
+    /*public static void main(String[] args) {
         MainFrame marco1 = new MainFrame();
-    }
+    }*/
     
     /**
      * Unique game frame containing the dots grid per player.

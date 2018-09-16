@@ -1,4 +1,4 @@
-package apl;
+package visualFrames;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -15,11 +15,11 @@ import javax.swing.SwingConstants;
 /**
  * Main meu of the application.
  */
-public class MenuDisplay extends JFrame{
+public class MenuFrame extends JFrame{
     
-    public static void main(String[] args) {
-		MenuDisplay marco1 = new MenuDisplay();
-    }
+    /*public static void main(String[] args) {
+		MenuFrame marco1 = new MenuFrame();
+    }*/
     
     /**
      * Nick name of the player.
@@ -27,9 +27,9 @@ public class MenuDisplay extends JFrame{
     String nickName;
     
     /**
-     * Main meu of the application.
+     * Constructor of the class MenuFrame, recieves no parameters.
      */
-    public MenuDisplay (){
+    public MenuFrame (){
         nickName = "";
         
         this.setTitle("Dots"); 
@@ -58,10 +58,10 @@ public class MenuDisplay extends JFrame{
         this.getContentPane().add(startButton, BorderLayout.CENTER);
         startButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e){
-                nickName = JOptionPane.showInputDialog(MenuDisplay.this, "Enter your nick name: ", "Register",3);
+                nickName = JOptionPane.showInputDialog(MenuFrame.this, "Enter your nick name: ", "Register",3);
             
                 while(nickName.equals("")){
-                    nickName = JOptionPane.showInputDialog(MenuDisplay.this, "Nothing was entered, write your nickname:", "Registro",3);
+                    nickName = JOptionPane.showInputDialog(MenuFrame.this, "Nothing was entered, write your nickname:", "Registro",3);
                 }
             }
         });
@@ -93,7 +93,7 @@ public class MenuDisplay extends JFrame{
     
     /**
      * Returns the nickname entered by the player.
-     * @return {@link MenuDisplay#nickName}
+     * @return {@link MenuFrame#nickName}
      */
     public String getNickName() {
         return nickName;

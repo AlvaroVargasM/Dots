@@ -1,5 +1,6 @@
 package controller;
 
+import visualFrames.*;
 import jsonLogic.JSONUtil;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -9,15 +10,75 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 
-public class ClientControler {
+public class ClientController {
+    
+    /**
+     * Indicate if the user is player 1 or player 2.
+     */
+    private static int playerNumber = 0;
+    
+    /**
+     * Player 1 name.
+     */
+    private String p1Name;
+    
+    /**
+     * Player 2 name.
+     */
+    private String p2Name;
+    
+    /**
+     * Player 1 score.
+     */
+    private int p1Score = 0;
+    
+    /**
+     * Player 2 score.
+     */
+    private int p2Score = 0;
+    
+    /**
+     * Holds the turn's number.
+     */
+    private int TurnNumber = 1;
+    
+    /**
+     * User's menu.
+     */
+    private static MenuFrame menu;
+    /**
+     * User's main game grid.
+     */
+    private static MainFrame game;
+    /**
+     * User's results window.
+     */
+    private static ResultsFrame results;
+    
+    private static boolean registered = false;
+    
     public static void main (String[] args) throws Exception{
-        // Creates an object of a class
+        
+        menu = new MenuFrame();
+        while(!registered){
+            if(!(menu.getNickName().equals(""))){
+                System.out.println("papa");
+                
+                if(playerNumber == 0 ){
+                    menu.standBy();
+                }else{
+                    registered = true;
+                }
+            }
+        }
+        /* Creates an object of a class
         Connection connection = new Connection(0, 5);
-//        connection.setInitialDotPosition(0);
-//        connection.setFinalDotPosition(1);
+        connection.setInitialDotPosition(0);
+        connection.setFinalDotPosition(1);
        
-        ClientControler myControler = new ClientControler();
+        ClientController myControler = new ClientController();
         myControler.clientSend(connection);
+        */
     }
    
     public void clientSend(Object object) throws Exception{

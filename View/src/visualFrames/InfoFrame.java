@@ -1,4 +1,4 @@
-package apl;
+package visualFrames;
 
 
 import java.awt.Color;
