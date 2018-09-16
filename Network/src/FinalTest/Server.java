@@ -7,8 +7,10 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.UnknownHostException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -19,6 +21,31 @@ public class Server implements Runnable{
         myServer.run();       
     }
 
+    public void serverSend (Object object, Object classReference){
+         try {
+            Socket serverAsClientSocket = new  Socket(InetAddress.getLocalHost(), 9090);
+            
+            String sendObject = JSONUtil.convertJavaToJson(object);
+            String sendClassReference = JSONUtil.convertJavaToJson(classReference);
+            
+            BufferedReader in = new BufferedReader(new InputStreamReader(serverAsClientSocket.getInputStream()));
+            PrintWriter out = new PrintWriter(serverAsClientSocket.getOutputStream(), true);
+            
+            out.println(sendObject);
+            out.println(sendClassReference);
+            
+            in.close();
+            out.close();
+            serverAsClientSocket.close();
+        } 
+        catch (UnknownHostException ex) {
+            Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
+        } 
+        catch (IOException ex) {
+            Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
     @Override
     public void run() {
         try {
