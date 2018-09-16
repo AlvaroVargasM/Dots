@@ -43,13 +43,6 @@ public class ClientControler {
         out.println(sendObject1);
         out.println(sendObject2);
         
-        /*while ((sendObject1 = in.readLine()) != null) {
-            System.out.println(sendObject1);
-            out.println("bye");
-
-            if (sendObject1.equals("bye"))
-                break;
-        }*/
         in.close();
         out.close();
         clientSocket.close();

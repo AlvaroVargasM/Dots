@@ -65,10 +65,10 @@ public class ServerControler {
           
         Potatoe recievedObject1 = JSONUtil.convertJsonToJava(recievedString1, Potatoe.class);               
         Employee recievedObject2 = JSONUtil.convertJsonToJava(recievedString1, Employee.class);
-        recievedString1 = "Server returns " + recievedObject1.getType()+ " " + recievedObject1.getPrice();
-        recievedString2 = "Server returns " + recievedObject2.getName()+ " " + recievedObject2.getSalary();
-        out.println(recievedString1);
-        out.println(recievedString2);
+        System.out.println(recievedString1 = "Server returns " + recievedObject1.getType() + " " + recievedObject1.getPrice());
+        System.out.println(recievedString2 = "Server returns " + recievedObject2.getSalary() + recievedObject2.getName()+ " ");
+        //System.out.println(recievedString1);
+        //System.out.println(recievedString2);
             
         out.close();
         in.close();
