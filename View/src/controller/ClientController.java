@@ -1,5 +1,6 @@
 package controller;
 
+import JSON
 import visualFrames.*;
 import jsonLogic.JSONUtil;
 import java.io.BufferedReader;
@@ -20,27 +21,27 @@ public class ClientController {
     /**
      * Player 1 name.
      */
-    private String p1Name;
+    private static String p1Name;
     
     /**
      * Player 2 name.
      */
-    private String p2Name;
+    private static String p2Name;
     
     /**
      * Player 1 score.
      */
-    private int p1Score = 0;
+    private static int p1Score = 0;
     
     /**
      * Player 2 score.
      */
-    private int p2Score = 0;
+    private static int p2Score = 0;
     
     /**
      * Holds the turn's number.
      */
-    private int TurnNumber = 1;
+    private static int TurnNumber = 1;
     
     /**
      * User's menu.
@@ -56,21 +57,33 @@ public class ClientController {
     private static ResultsFrame results;
     
     private static boolean registered = false;
+    private static boolean gameActive = false;
     
     public static void main (String[] args) throws Exception{
         
         menu = new MenuFrame();
         while(!registered){
             if(!(menu.getNickName().equals(""))){
-                System.out.println("papa");
+               
+                //send json to recieve playerNumber
                 
                 if(playerNumber == 0 ){
                     menu.standBy();
                 }else{
+                    if(playerNumber==1){
+                        p1Name = menu.getNickName();
+                    }else{
+                        p2Name = menu.getNickName();
+                    }
                     registered = true;
                 }
             }
         }
+        
+        while(gameActive){
+            
+        }
+        
         /* Creates an object of a class
         Connection connection = new Connection(0, 5);
         connection.setInitialDotPosition(0);
