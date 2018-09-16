@@ -27,7 +27,7 @@ public class MainFrame extends JFrame{
     public MainFrame(){
         
         this.setTitle("Dots"); 
-        this.setSize(1000, 500); 
+        this.setSize(1000, 600); 
         this.setLocationRelativeTo(null);
         this.setResizable(false);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

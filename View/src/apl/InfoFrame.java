@@ -15,11 +15,6 @@ import javax.swing.SwingConstants;
 public class InfoFrame extends JPanel{
     
     /**
-     * Main title of the stats.
-     */
-    private JLabel header;
-    
-    /**
      * Player 1 name.
      */
     private JLabel p1Name;
@@ -38,11 +33,6 @@ public class InfoFrame extends JPanel{
      * Player 2 score.
      */
     private JLabel p2Score;
-    
-    /**
-     * Label containing the message "Turn:".
-     */
-    private JLabel turnLabel;
     
     /**
      * Holds the turn's number.
@@ -67,7 +57,7 @@ public class InfoFrame extends JPanel{
         Font subHeaderFont = new Font("Tahoma", Font.PLAIN, 22);
         Font NumbersFont = new Font("Tahoma", Font.ITALIC, 18);
         
-        header = new JLabel("Scores",SwingConstants.CENTER);
+        JLabel header = new JLabel("Scores",SwingConstants.CENTER);
         header.setFont(new Font("Tahoma", Font.BOLD, 33));
         header.setForeground(new Color(21, 72, 144));
         
@@ -79,7 +69,7 @@ public class InfoFrame extends JPanel{
         p2Name.setFont(subHeaderFont);
         p2Name.setForeground(new Color(51, 119, 255));
            
-        turnLabel = new JLabel("Turn:",SwingConstants.CENTER);
+        JLabel turnLabel = new JLabel("Turn:",SwingConstants.CENTER);
         turnLabel.setFont(subHeaderFont);
         turnLabel.setForeground(new Color(21, 72, 144));
         
