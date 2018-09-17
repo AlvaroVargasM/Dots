@@ -20,3 +20,10 @@
 /Model/build/
 /Model/dist/
 /Model/nbproject/private/
+View/src/controller/LinkedListNode.java
+Model/src/controller/Connection.java
+Model/nbproject/project.properties
+Model/src/controller/ServerController.java
+View/src/controller/ClientController.java
+View/src/controller/LinkedList.java
+View/src/controller/Connection.java
