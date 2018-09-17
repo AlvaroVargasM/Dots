@@ -57,6 +57,10 @@ public class ClientController implements Runnable{
      */
     private static GameFrame grid; 
     /**
+     * User's game grid.
+     */
+    private static InfoFrame info; 
+    /**
      * User's main game grid.
      */
     private static MainFrame game;
@@ -83,6 +87,11 @@ public class ClientController implements Runnable{
                 RegisterPack initialPackage = new RegisterPack(InetAddress.getLocalHost().getHostAddress(),menu.getNickName(),0);
                 clientSend(initialPackage,reference);
                 
+                //Sockets recieved simulation
+                playerNumber = 1; 
+                p1Name = menu.getNickName();
+                p2Name = "Pancho";
+                //
                 
                 if(playerNumber == 0 ){
                     menu.standBy();
@@ -96,7 +105,7 @@ public class ClientController implements Runnable{
         
         game = new MainFrame();
         grid = game.getGameFrame();
-        InfoFrame info = game.getInfoFrame();
+        info = game.getInfoFrame();
         Thread recievePackages = new Thread( new ClientController());
         
         while(gameActive){
@@ -130,14 +139,6 @@ public class ClientController implements Runnable{
             
         }
         
-        /* Creates an object of a class
-        Connection connection = new Connection(0, 5);
-        connection.setInitialDotPosition(0);
-        connection.setFinalDotPosition(1);
-       
-        ClientController myControler = new ClientController();
-        myControler.clientSend(connection);
-        */
     }
    
     public static void clientSend(Object object, Object classReference){
