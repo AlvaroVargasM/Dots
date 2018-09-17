@@ -57,10 +57,11 @@ public class Client implements Runnable{
        try {
             int cTosPortNumber = 9090;
             
+            ServerSocket clientAsServer = new ServerSocket(cTosPortNumber);
+            
             System.out.println("Waiting for a connection on " + cTosPortNumber);
             
             while (true){
-                ServerSocket clientAsServer = new ServerSocket(cTosPortNumber);
                 Socket fromClientSocket = clientAsServer.accept();
                 
                 PrintWriter out = new PrintWriter(fromClientSocket.getOutputStream(), true);
@@ -83,6 +84,9 @@ public class Client implements Runnable{
                     if (reference.getReference().equals("Employee")){
                         Employee recievedEmployee = JSONUtil.convertJsonToJava(recievedObjectAsString, Employee.class);
                         System.out.println(recievedEmployee);
+                        break;
+                    }
+                    else{
                         break;
                     }
                 }
