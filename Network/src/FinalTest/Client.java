@@ -17,7 +17,7 @@ import java.util.logging.Logger;
 public class Client implements Runnable{
     public static void main(String[] args) {
         Potatoe myPotatoe = new Potatoe();
-        myPotatoe.setPrice(400);
+        myPotatoe.setPrice(600);
         myPotatoe.setType("Amarilla");
         myPotatoe.setWeight(1);
         

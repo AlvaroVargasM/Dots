@@ -17,8 +17,8 @@ import java.util.logging.Logger;
 public class Server implements Runnable{
 
     public static void main(String[] args) {
-        Server myServer = new Server();
-        myServer.run();       
+        Thread mihilo = new Thread( new Server());	
+        mihilo.start();
     }
 
     public void serverSend (Object object, Object classReference){
@@ -51,10 +51,12 @@ public class Server implements Runnable{
         try {
             int cTosPortNumber = 9090;
             
+            ServerSocket servSocket = new ServerSocket(cTosPortNumber);
+            
             System.out.println("Waiting for a connection on " + cTosPortNumber);
             
             while (true){
-                ServerSocket servSocket = new ServerSocket(cTosPortNumber);
+                //ServerSocket servSocket = new ServerSocket(cTosPortNumber);
                 Socket fromClientSocket = servSocket.accept();
                 
                 PrintWriter out = new PrintWriter(fromClientSocket.getOutputStream(), true);
@@ -77,6 +79,10 @@ public class Server implements Runnable{
                     if (reference.getReference().equals("Employee")){
                         Employee recievedEmployee = JSONUtil.convertJsonToJava(recievedObjectAsString, Employee.class);
                         System.out.println(recievedEmployee);
+                        break;
+                        
+                    }
+                    else{
                         break;
                     }
                 }
