@@ -206,7 +206,7 @@ public class ClientController implements Runnable{
                          break;
                     }
                     if (reference.getReference().equals("toFigurePackage")){
-                        toFigurePackage recievedFigureList = JSONUtil.convertJsonToJava(recievedObjectAsString, toFigurePackage.class);
+                        ToFigurePackage recievedFigureList = JSONUtil.convertJsonToJava(recievedObjectAsString, ToFigurePackage.class);
                         grid.generateFigure(recievedFigureList.getList());
                         break;
                     }

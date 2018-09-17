@@ -1,23 +1,26 @@
-
 package dataPackages;
-
-import java.awt.Point;
 
 public class DotConnectionPackage {
     
-    private Point initialDot;
-    private Point finalDot;
-    
-    public DotConnectionPackage(Point initialDot, Point finalDot){
+    private int initialDot;
+    private int finalDot;
+    private int playerNumber;
+
+    public DotConnectionPackage(int initialDot, int finalDot, int playerNumber) {
         this.initialDot = initialDot;
         this.finalDot = finalDot;
+        this.playerNumber = playerNumber;
+    }
+
+    public int getPlayerNumber() {
+        return playerNumber;
     }
     
-    public Point getInitialDot() {
+    public int getInitialDot() {
         return initialDot;
     }
 
-    public Point getFinalDot() {
+    public int getFinalDot() {
         return finalDot;
     }
 }
