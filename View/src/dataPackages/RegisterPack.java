@@ -11,6 +11,12 @@ public class RegisterPack {
     
     private int playerNumber;
     
+    private String otherPlayerName;
+    
+    public RegisterPack(){
+        
+    }
+    
     public RegisterPack(String playerIp, String playerName,int playerNumber){
         this.playerIp = playerIp;
         this.playerName = playerName;
@@ -39,5 +45,13 @@ public class RegisterPack {
 
     public void setPlayerNumber(int playerNumber) {
         this.playerNumber = playerNumber;
+    }
+    
+    public String getOtherPlayerName() {
+        return otherPlayerName;
+    }
+
+    public void setOtherPlayerName(String otherPlayerName) {
+        this.otherPlayerName = otherPlayerName;
     }
 }

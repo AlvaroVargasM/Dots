@@ -64,6 +64,7 @@ public class GameFrame extends JPanel{
      */
     private JButton firstLinkDot;
     
+    
     /**
      *Color asigned to the player.
      */

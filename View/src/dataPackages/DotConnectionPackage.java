@@ -5,20 +5,20 @@ import java.awt.Point;
 
 public class DotConnectionPackage {
     
-    private Point InitialDot;
-    private Point FinalDot;
+    private Point initialDot;
+    private Point finalDot;
     
-    public DotConnectionPackage(Point InitialDot, Point finalDot){
-        this.InitialDot = InitialDot;
-        this.FinalDot = FinalDot;
+    public DotConnectionPackage(Point initialDot, Point finalDot){
+        this.initialDot = initialDot;
+        this.finalDot = finalDot;
     }
     
     public Point getInitialDot() {
-        return InitialDot;
+        return initialDot;
     }
 
     public Point getFinalDot() {
-        return FinalDot;
+        return finalDot;
     }
 }
 

@@ -17,7 +17,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 
-public class ClientController{
+public class ClientController implements Runnable{
     
     /**
      * Indicate if the user is player 1 or player 2.
@@ -69,9 +69,11 @@ public class ClientController{
     private static boolean gameActive = false;
     private static boolean showResults = false;
     
+    /////
+    private static boolean onTurn;
+    
     
     public static void main (String[] args) throws Exception{
-        
         
         menu = new MenuFrame();
         while(!registered){
@@ -81,14 +83,10 @@ public class ClientController{
                 RegisterPack initialPackage = new RegisterPack(InetAddress.getLocalHost().getHostAddress(),menu.getNickName(),0);
                 clientSend(initialPackage,reference);
                 
+                
                 if(playerNumber == 0 ){
                     menu.standBy();
                 }else{
-                    if(playerNumber==1){
-                        p1Name = menu.getNickName();
-                    }else{
-                        p2Name = menu.getNickName();
-                    }
                     registered = true;
                     gameActive = true;
                     menu.setVisible(false);
@@ -96,36 +94,36 @@ public class ClientController{
             }
         }
         
-        
         game = new MainFrame();
         grid = game.getGameFrame();
         InfoFrame info = game.getInfoFrame();
+        Thread recievePackages = new Thread( new ClientController());
         
         while(gameActive){
+            recievePackages.start();
             
-            while(true){      
-                
-                new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    if(turnNumber % 2 == 0){
-                        info.setP1Name(" "+p1Name);
-                        info.setP2Name(">"+p2Name);
-                    }else{
-                        info.setP1Name(">"+p1Name);
-                        info.setP2Name(" "+p2Name);
-                    }
-                    info.setP1Score(p1Score);
-                    info.setP2Score(p2Score);
-                    info.setTurnNumber(turnNumber);
+            new Thread (new Runnable() {
+            @Override
+            public void run() {
+                if(turnNumber % 2 == 0){
+                    info.setP1Name(" "+p1Name);
+                    info.setP2Name(">"+p2Name);
+                }else{
+                    info.setP1Name(">"+p1Name);
+                    info.setP2Name(" "+p2Name);
                 }
-                }).start();
+                info.setP1Score(p1Score);
+                info.setP2Score(p2Score);
+                info.setTurnNumber(turnNumber);
+            }
+            }).start();
+                
                 
                
                 
                 
                 
-            }  
+              
         }
         
         if(showResults){
@@ -168,8 +166,8 @@ public class ClientController{
     }
     
     
-    //recieve
-    //@Override
+    
+    @Override
     public void run() {
        try {
             int cTosPortNumber = 9090;
@@ -196,6 +194,14 @@ public class ClientController{
                     if (reference.getReference().equals("RegisterPack")){
                          RegisterPack recievedRegister = JSONUtil.convertJsonToJava(recievedObjectAsString, RegisterPack.class);
                          this.playerNumber = recievedRegister.getPlayerNumber();
+                         
+                         if(playerNumber==1){
+                            p1Name = menu.getNickName();
+                            p2Name = recievedRegister.getOtherPlayerName();
+                        }else{
+                            p1Name = recievedRegister.getOtherPlayerName();
+                            p2Name = menu.getNickName();
+                        }
                          break;
                     }
                     if (reference.getReference().equals("toFigurePackage")){
