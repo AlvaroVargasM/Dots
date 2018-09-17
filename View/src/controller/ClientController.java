@@ -81,6 +81,10 @@ public class ClientController implements Runnable{
         
         menu = new MenuFrame();
         while(!registered){
+            try
+                {Thread.sleep(0);}
+            catch (Exception e)
+                {e.printStackTrace();}
             if(!(menu.getNickName().equals(""))){
                 
                 ClassReference reference = new ClassReference("registerPack");
@@ -96,9 +100,9 @@ public class ClientController implements Runnable{
                 if(playerNumber == 0 ){
                     menu.standBy();
                 }else{
-                    registered = true;
                     gameActive = true;
                     menu.setVisible(false);
+                    registered = true;
                 }
             }
         }
@@ -109,7 +113,8 @@ public class ClientController implements Runnable{
         Thread recievePackages = new Thread( new ClientController());
         
         while(gameActive){
-            recievePackages.start();
+            
+            recievePackages.start(); 
             
             new Thread (new Runnable() {
             @Override
@@ -132,7 +137,6 @@ public class ClientController implements Runnable{
                 
                 
                 
-              
         }
         
         if(showResults){
