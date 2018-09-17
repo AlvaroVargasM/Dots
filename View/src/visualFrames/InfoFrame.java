@@ -158,7 +158,7 @@ public class InfoFrame extends JPanel{
      * @param p2Score Player 2 score.
      */
     public void setP2Score(int p2Score) {
-        this.p1Score.setText(Integer.toString(p2Score));
+        this.p2Score.setText(Integer.toString(p2Score));
     }
     
     /**
@@ -170,11 +170,19 @@ public class InfoFrame extends JPanel{
     }
     
     /**
+     * Sets the game session turn.
+     * @ param turn Updated turn.
+     */
+    public void setTurnNumber(int updatedTurn) {
+        this.TurnNumber.setText(Integer.toString(updatedTurn));
+    }
+    
+    /**
      * Increase the game session's turn number by one.
      */
     public void increaseTurnNumber() {
         int updatedTurn = Integer.parseInt(this.TurnNumber.getText()) +1;
-        this.p1Score.setText(Integer.toString(updatedTurn));
+        this.TurnNumber.setText(Integer.toString(updatedTurn));
     }
     
 }

@@ -17,14 +17,15 @@ import javax.swing.SwingConstants;
  */
 public class MenuFrame extends JFrame{
     
-    /*public static void main(String[] args) {
-		MenuFrame marco1 = new MenuFrame();
-    }*/
-    
     /**
      * Nick name of the player.
      */
     String nickName;
+    
+    /**
+     * Server's ip adress.
+     */
+    String serverIp;
     
     /**
      * Constructor of the class MenuFrame, recieves no parameters.
@@ -58,6 +59,11 @@ public class MenuFrame extends JFrame{
         this.getContentPane().add(startButton, BorderLayout.CENTER);
         startButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e){
+                serverIp = JOptionPane.showInputDialog(MenuFrame.this, "Please enter the server's ip adress to connect:", "Register",3);
+                while(serverIp.equals("")){
+                    serverIp = JOptionPane.showInputDialog(MenuFrame.this, "No ip was entered, try again:", "Registro",3);
+                }
+                
                 nickName = JOptionPane.showInputDialog(MenuFrame.this, "Enter your nick name: ", "Register",3);
             
                 while(nickName.equals("")){
@@ -88,7 +94,15 @@ public class MenuFrame extends JFrame{
      * Displays a pop up message telling the server is full.
      */
     public void standBy(){
-        JOptionPane.showOptionDialog(null, "The server is currently full. When the game session finishes this window will close automatically.","Full Server", JOptionPane.DEFAULT_OPTION,JOptionPane.INFORMATION_MESSAGE, null, new Object[]{}, null); 
+        JOptionPane.showOptionDialog(null, "The server is currently full. Please close this window to refresh.","Full Server", JOptionPane.DEFAULT_OPTION,JOptionPane.INFORMATION_MESSAGE, null, new Object[]{}, null); 
+    }
+    
+    /**
+     * Returns the ip adress entered by the player.
+     * @return {@link MenuFrame#serverIp}
+     */
+    public String getServerIp() {
+        return serverIp;
     }
     
     /**

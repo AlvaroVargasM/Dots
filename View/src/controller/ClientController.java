@@ -1,7 +1,7 @@
 package controller;
 
 import com.sun.security.ntlm.Client;
-import dataPackages.ClassReference;
+import dataPackages.*;
 import jsonLogic.*;
 import visualFrames.*;
 import jsonLogic.JSONUtil;
@@ -17,14 +17,12 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 
-public class ClientController {
+public class ClientController{
     
     /**
      * Indicate if the user is player 1 or player 2.
      */
     private static int playerNumber = 0;
-    
-    
     
     /**
      * Player 1 name.
@@ -49,12 +47,15 @@ public class ClientController {
     /**
      * Holds the turn's number.
      */
-    private static int TurnNumber = 1;
-    
+    private static int turnNumber = 1;
     /**
      * User's menu.
      */
     private static MenuFrame menu;
+    /**
+     * User's game grid.
+     */
+    private static GameFrame grid; 
     /**
      * User's main game grid.
      */
@@ -66,14 +67,19 @@ public class ClientController {
     
     private static boolean registered = false;
     private static boolean gameActive = false;
+    private static boolean showResults = false;
+    
     
     public static void main (String[] args) throws Exception{
+        
         
         menu = new MenuFrame();
         while(!registered){
             if(!(menu.getNickName().equals(""))){
-               
-                //send json to recieve playerNumber
+                
+                ClassReference reference = new ClassReference("registerPack");
+                RegisterPack initialPackage = new RegisterPack(InetAddress.getLocalHost().getHostAddress(),menu.getNickName(),0);
+                clientSend(initialPackage,reference);
                 
                 if(playerNumber == 0 ){
                     menu.standBy();
@@ -84,11 +90,45 @@ public class ClientController {
                         p2Name = menu.getNickName();
                     }
                     registered = true;
+                    gameActive = true;
+                    menu.setVisible(false);
                 }
             }
         }
         
+        
+        game = new MainFrame();
+        grid = game.getGameFrame();
+        InfoFrame info = game.getInfoFrame();
+        
         while(gameActive){
+            
+            while(true){      
+                
+                new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    if(turnNumber % 2 == 0){
+                        info.setP1Name(" "+p1Name);
+                        info.setP2Name(">"+p2Name);
+                    }else{
+                        info.setP1Name(">"+p1Name);
+                        info.setP2Name(" "+p2Name);
+                    }
+                    info.setP1Score(p1Score);
+                    info.setP2Score(p2Score);
+                    info.setTurnNumber(turnNumber);
+                }
+                }).start();
+                
+               
+                
+                
+                
+            }  
+        }
+        
+        if(showResults){
             
         }
         
@@ -102,9 +142,9 @@ public class ClientController {
         */
     }
    
-    public void clientSend(Object object, Object classReference){
+    public static void clientSend(Object object, Object classReference){
         try {
-            Socket clientSocket = new  Socket(InetAddress.getLocalHost(), 9090);
+            Socket clientSocket = new  Socket(menu.getServerIp(), 9090);
             
             String sendObject = JSONUtil.convertJavaToJson(object);
             String sendClassReference = JSONUtil.convertJavaToJson(classReference);
@@ -127,7 +167,9 @@ public class ClientController {
         }
     }
     
-    @Override
+    
+    //recieve
+    //@Override
     public void run() {
        try {
             int cTosPortNumber = 9090;
@@ -150,20 +192,21 @@ public class ClientController {
                 
                 while (recievedObjectAsString != null && recievedClassReferenceAsString != null){
                     ClassReference reference = JSONUtil.convertJsonToJava(recievedClassReferenceAsString, ClassReference.class);
-                    if (reference.getReference().equals("Potatoe")){
-                         Potatoe recievedPotatoe = JSONUtil.convertJsonToJava(recievedObjectAsString, Potatoe.class);
-                         System.out.println(recievedPotatoe.getPrice());
+                    
+                    if (reference.getReference().equals("RegisterPack")){
+                         RegisterPack recievedRegister = JSONUtil.convertJsonToJava(recievedObjectAsString, RegisterPack.class);
+                         this.playerNumber = recievedRegister.getPlayerNumber();
                          break;
                     }
-                    if (reference.getReference().equals("Employee")){
-                        Employee recievedEmployee = JSONUtil.convertJsonToJava(recievedObjectAsString, Employee.class);
-                        System.out.println(recievedEmployee);
+                    if (reference.getReference().equals("toFigurePackage")){
+                        toFigurePackage recievedFigureList = JSONUtil.convertJsonToJava(recievedObjectAsString, toFigurePackage.class);
+                        grid.generateFigure(recievedFigureList.getList());
                         break;
                     }
                 }
             }
         } catch (IOException ex) {
-            Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
+            //Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 }
