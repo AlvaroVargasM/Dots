@@ -8,10 +8,6 @@ import javax.swing.*;
  */
 public class MainFrame extends JFrame{
     
-    /*public static void main(String[] args) {
-        MainFrame marco1 = new MainFrame();
-    }*/
-    
     /**
      * Unique game frame containing the dots grid per player.
      */
@@ -46,7 +42,7 @@ public class MainFrame extends JFrame{
      * Returns the player's dots frame.
      * @return gameframe {@link MainFrame#gameframe}
      */ 
-    public GameFrame getGameframe() {
+    public GameFrame getGameFrame() {
         return gameframe;
     }
     
@@ -54,7 +50,7 @@ public class MainFrame extends JFrame{
      * Returns the player's information frame.
      * @return infoframe {@link MainFrame#infoframe}
      */ 
-    public InfoFrame getInfoframe() {
+    public InfoFrame getInfoFrame() {
         return infoframe;
     }
         

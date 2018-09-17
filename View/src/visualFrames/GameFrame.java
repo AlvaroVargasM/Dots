@@ -83,7 +83,6 @@ public class GameFrame extends JPanel{
      *The constructor of the class GameFrame, recieves no parameters.
      */
     public GameFrame(){
-
         setPreferredSize(new Dimension(800, 600));  
         setBackground(new Color(248, 248, 248));
         setLayout(new GridLayout(5,5));
@@ -252,7 +251,7 @@ public class GameFrame extends JPanel{
      * Generate a figure by giving his dot members.
      * @param list A list containing all the dot's locations who will constitute the Figure
      */
-    protected void generateFigure(LinkedList<Integer> list) {
+    public void generateFigure(LinkedList<Integer> list) {
         
         GeneralPath newPath = new GeneralPath();
         
