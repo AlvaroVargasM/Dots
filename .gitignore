@@ -27,3 +27,11 @@ Model/src/controller/ServerController.java
 View/src/controller/ClientController.java
 View/src/controller/LinkedList.java
 View/src/controller/Connection.java
+View/src/dataPackages/DotConnectionPackage.java
+View/src/dataPackages/ToFigurePackage.java
+View/src/controller/ClientController.java
+Model/src/dataPackages/ToFigurePackage.java
+Model/src/dataPackages/RegisterPack.java
+Model/src/dataPackages/DotConnectionPackage.java
+Model/src/dataPackages/ClassReference.java
+Model/src/controller/ServerControler.java

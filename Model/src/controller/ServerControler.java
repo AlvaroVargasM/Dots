@@ -2,6 +2,7 @@ package controller;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import dataPackages.DotConnectionPackage;
 import gameLogic.LinkedList;
 import gameLogic.Grid;
 import jsonLogic.JSONUtil;
@@ -24,12 +25,13 @@ public class ServerControler {
         myControler.serverReceive();
     }
     
-    public void createConnection(Connection connection) throws Exception{
+    public void createConnection(DotConnectionPackage connection) throws Exception{
         System.out.println("ENTROOOOOOOOO");
-        int initalDotPosition = connection.getInitialDotPosition();
-        int finalDotPosition = connection.getFinalDotPosition();
-        System.out.println(connection.getInitialDotPosition() + connection.getFinalDotPosition());
+        int initalDotPosition = connection.getInitialDot();
+        int finalDotPosition = connection.getFinalDot();
+        System.out.println(connection.getInitialDot() + connection.getFinalDot());
         LinkedList figure = grid.createConnection(initalDotPosition, finalDotPosition);
+        
         serverSend(figure);
     }
     
@@ -73,13 +75,13 @@ public class ServerControler {
         BufferedReader in = new BufferedReader(new InputStreamReader(fromClientSocket.getInputStream()));
 
         while ((receivedString = in.readLine()) != null) {
-            Connection recievedObject = JSONUtil.convertJsonToJava(receivedString, Connection.class);
+            DotConnectionPackage recievedObject = JSONUtil.convertJsonToJava(receivedString, DotConnectionPackage.class);
             createConnection(recievedObject);
 //            recievedString = "Server returns " + recievedObject.getPrice()+ " " + recievedObject.getWeight();
 //            out.println(recievedString);
 //            JsonNode jsonNode = objectMapper.readTree(receivedString);
 //            String classType = jsonNode.get("@type").asText();
-//            if(classType == "Connection"){
+//            if(classType ==` "Connection"){
 //                Connection receivedObject = JSONUtil.convertJsonToJava(receivedString, Connection.class);
 //                createConnection(receivedObject);
 //            }
