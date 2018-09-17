@@ -1,11 +1,8 @@
-
-
 package dataPackages;
 
 import java.util.LinkedList;
 
 public class ToFigurePackage  {
-    
     private LinkedList toFigure;
     private int playerNumber;
     private int plusScore;
