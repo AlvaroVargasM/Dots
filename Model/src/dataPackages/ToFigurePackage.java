@@ -1,6 +1,7 @@
 package dataPackages;
 
-import java.util.LinkedList;
+import gameLogic.LinkedList;
+
 
 public class ToFigurePackage  {
     private LinkedList toFigure;
