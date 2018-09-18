@@ -89,7 +89,7 @@ public class GameFrame extends JPanel{
     /**
      *The constructor of the class GameFrame, recieves no parameters.
      */
-    public GameFrame(){
+    public GameFrame(int playerNumber){
         setPreferredSize(new Dimension(800, 600));  
         setBackground(new Color(248, 248, 248));
         setLayout(new GridLayout(5,5));
@@ -101,12 +101,13 @@ public class GameFrame extends JPanel{
         
         dotsLocations = new HashMap<Integer, Point>();
         fillLocationsHashMap();
-              
-        this.playerColor = this.dotsOrange;
-          
-        createGrid();
         
-        //generateFigure(new LinkedList<Integer>(Arrays.asList(1,2,6)));
+        if(playerNumber == 1){
+            this.playerColor = dotsBlue;
+        }else{
+            this.playerColor = dotsOrange;
+        }    
+        createGrid();
     }
     
     /**

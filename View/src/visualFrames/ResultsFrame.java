@@ -34,9 +34,6 @@ public class ResultsFrame extends JFrame{
      */
     private static final Color orange = new Color(255, 102, 0);
     
-    /*public static void main(String[] args) {
-	ResultsFrame marco1 = new ResultsFrame("Patricio","Calamardo","Patricio","11","14","22");
-    }*/
     
     /**
      *

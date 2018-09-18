@@ -69,12 +69,11 @@ public class ClientController implements Runnable{
      */
     private static ResultsFrame results;
     
+    private static DataPack finalPack;
+    
     private static boolean registered = false;
     private static boolean gameActive = false;
-    private static boolean showResults = false;
-    
-    /////
-    private static boolean onTurn;
+   
     
     
     public static void main (String[] args) throws Exception{
@@ -89,8 +88,8 @@ public class ClientController implements Runnable{
                 
                 /*ClassReference reference = new ClassReference("registerPack");
                 RegisterPack initialPackage = new RegisterPack(InetAddress.getLocalHost().getHostAddress(),menu.getNickName(),0);
-                clientSend(initialPackage,reference);
-                */
+                clientSend(initialPackage,reference);*/
+                
                 
                 //Sockets recieved simulation
                 playerNumber = 1; 
@@ -116,7 +115,8 @@ public class ClientController implements Runnable{
         
         while(gameActive){
              
-            Thread.sleep(10);  
+            Thread.sleep(10);
+            info.setTurnNumber(turnNumber);
             if(turnNumber % 2 != 0){
                 info.setP1Name(">"+p1Name);
                 info.setP2Name(" "+p2Name);
@@ -137,16 +137,21 @@ public class ClientController implements Runnable{
             
             Thread.sleep(10);    
             if(grid.getLinked()){
-                
                 /*ClassReference reference = new ClassReference("DotConnectionPack");
                 DotConnectionPack initialPackage = new DotConnectionPack(grid.getFirstLinkDot(),grid.getFirstLinkDot(),playerNumber);
                 clientSend(initialPackage,reference);*/
-                
-                increaseTurnNumber();
-                info.setTurnNumber(turnNumber);
                 grid.resetLinks();        
             }
+            
+            Thread.sleep(10);  
+            if(finalPack != null){
+                game.setVisible(false);
+                gameActive = false;
+            }
         }
+        
+        
+        results = new ResultsFrame(finalPack.getWinner(), p1Name, p2Name, Integer.toString(finalPack.getScore1()), Integer.toString(finalPack.getScore2()), Integer.toString(turnNumber));
         
     }
    
@@ -183,10 +188,7 @@ public class ClientController implements Runnable{
     /**
      * Increase the game session's turn number by one.
      */
-    public static void increaseTurnNumber() {
-        turnNumber += 1;
-    }
-    
+
     @Override
     public void run() {
        try {
@@ -212,25 +214,34 @@ public class ClientController implements Runnable{
                     ClassReference reference = JSONUtil.convertJsonToJava(recievedClassReferenceAsString, ClassReference.class);
                     
                     if (reference.getReference().equals("RegisterPack")){
-                         RegisterPack recievedRegister = JSONUtil.convertJsonToJava(recievedObjectAsString, RegisterPack.class);
-                         this.playerNumber = recievedRegister.getPlayerNumber();
+                         RegisterPack register = JSONUtil.convertJsonToJava(recievedObjectAsString, RegisterPack.class);
+                         this.playerNumber = register.getPlayerNumber();
                          
                          if(playerNumber==1){
                             p1Name = menu.getNickName();
-                            p2Name = recievedRegister.getOtherPlayerName();
+                            p2Name = register.getOtherPlayerName();
                         }else{
-                            p1Name = recievedRegister.getOtherPlayerName();
+                            p1Name = register.getOtherPlayerName();
                             p2Name = menu.getNickName();
                         }
                          break;
                     }
-                    if (reference.getReference().equals("toFigurePackage")){
-                        ToFigurePack recievedFigureList = JSONUtil.convertJsonToJava(recievedObjectAsString, ToFigurePack.class);
-                        grid.generateFigure(recievedFigureList.getList());
-                        if(recievedFigureList.getPlayerNumber() == 1){
-                            this.p1Score += recievedFigureList.getPlusScore();
+                    
+                    if (reference.getReference().equals("toFigurePack")){
+                        ToFigurePack figureList = JSONUtil.convertJsonToJava(recievedObjectAsString, ToFigurePack.class);
+                        grid.generateFigure(figureList.getList());
+                        break;
+                    }
+                    
+                    if (reference.getReference().equals("dataPack")){
+                        DataPack data = JSONUtil.convertJsonToJava(recievedObjectAsString, DataPack.class);
+                        
+                        if(data.getWinner() == null){
+                            turnNumber++;
+                            p1Score = data.getScore1();
+                            p2Score = data.getScore2();
                         }else{
-                            this.p2Score += recievedFigureList.getPlusScore();
+                            finalPack = data;
                         }
                         break;
                     }
