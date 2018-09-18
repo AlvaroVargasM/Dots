@@ -132,11 +132,8 @@ public class ClientController implements Runnable{
             }
             }).start();
                 
-                
-               
-                
-                
-                
+            
+            
         }
         
         if(showResults){
@@ -212,6 +209,11 @@ public class ClientController implements Runnable{
                     if (reference.getReference().equals("toFigurePackage")){
                         ToFigurePackage recievedFigureList = JSONUtil.convertJsonToJava(recievedObjectAsString, ToFigurePackage.class);
                         grid.generateFigure(recievedFigureList.getList());
+                        if(recievedFigureList.getPlayerNumber() == 1){
+                            this.p1Score += recievedFigureList.getPlusScore();
+                        }else{
+                            this.p2Score += recievedFigureList.getPlusScore();
+                        }
                         break;
                     }
                 }

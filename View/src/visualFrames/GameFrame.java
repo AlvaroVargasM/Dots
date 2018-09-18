@@ -18,7 +18,7 @@ import java.awt.geom.GeneralPath;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.util.HashMap;
-import java.util.LinkedList;
+//import java.util.LinkedList;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
@@ -161,6 +161,7 @@ public class GameFrame extends JPanel{
         if(overlaps(newLine)){
             JOptionPane.showMessageDialog(GameFrame.this, "Invalid, line overlaps other."); 
         }else{
+            
             lineList.add(newLine);
         }
         repaint();
@@ -236,6 +237,7 @@ public class GameFrame extends JPanel{
                     firstLinkDot = dot;
                 }else{
                     if(isValid(getDotPosition(firstLinkDot),getDotPosition(dot))){
+                        
                         linkDots(dotsLocations.get(getDotPosition(firstLinkDot)),dotsLocations.get(getDotPosition(dot))); 
                     }else{
                      firstLinkDot = null;

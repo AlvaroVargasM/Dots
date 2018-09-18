@@ -1,4 +1,4 @@
-package controller;
+package visualFrames;
 
 /**
  * LinkedList main purpose is to point to the firstNode of the list. It allows to

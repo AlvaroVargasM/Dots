@@ -1,4 +1,6 @@
-package controller;
+package visualFrames;
+
+import visualFrames.LinkedList;
 
 /**
  * Node for LinkedList class. Its main purpose is to store the data needed for 
