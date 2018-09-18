@@ -18,7 +18,7 @@ import java.awt.geom.GeneralPath;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.util.HashMap;
-//import java.util.LinkedList;
+import java.util.LinkedList;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
@@ -60,10 +60,16 @@ public class GameFrame extends JPanel{
     private final HashMap<Integer, Point> dotsLocations;
     
     /**
-     *The first JButton that is clicked before making a line.
+     *The first dot position that is clicked before making a line.
      */
-    private JButton firstLinkDot;
+    private int firstLinkDot;
     
+    /**
+     *The second dot position that is clicked before making a line.
+     */
+    private int secondLinkDot;
+    
+    private boolean linked = false;
     
     /**
      *Color asigned to the player.
@@ -161,11 +167,12 @@ public class GameFrame extends JPanel{
         if(overlaps(newLine)){
             JOptionPane.showMessageDialog(GameFrame.this, "Invalid, line overlaps other."); 
         }else{
-            
             lineList.add(newLine);
         }
         repaint();
-        firstLinkDot = null;
+        this.linked = true;
+        /*firstLinkDot = 0;
+        secondLinkDot = 0;*/
     }
     
     /**
@@ -233,15 +240,17 @@ public class GameFrame extends JPanel{
              */
             @Override
             public void mousePressed(MouseEvent e){
-                if(firstLinkDot == null){
-                    firstLinkDot = dot;
-                }else{
-                    if(isValid(getDotPosition(firstLinkDot),getDotPosition(dot))){
-                        
-                        linkDots(dotsLocations.get(getDotPosition(firstLinkDot)),dotsLocations.get(getDotPosition(dot))); 
+                if(onTurn){    
+                    if(firstLinkDot == 0){
+                        firstLinkDot = getDotPosition(dot);
                     }else{
-                     firstLinkDot = null;
-                     JOptionPane.showMessageDialog(GameFrame.this, "Invalid link, out of range.");   
+                        if(isValid(firstLinkDot,getDotPosition(dot))){
+                            secondLinkDot = getDotPosition(dot);
+                            linkDots(dotsLocations.get(firstLinkDot),dotsLocations.get(secondLinkDot));
+                        }else{
+                         firstLinkDot = 0;
+                         JOptionPane.showMessageDialog(GameFrame.this, "Invalid link, out of range.");   
+                        }
                     }
                 }
             }
@@ -322,6 +331,25 @@ public class GameFrame extends JPanel{
     public void setOnTurn(boolean onTurn) {
         this.onTurn = onTurn;
     }
+    
+    public boolean getLinked() {
+        return linked;
+    }
+    
+    public int getFirstLinkDot() {
+        return firstLinkDot;
+    }
+
+    public int getSecondLinkDot() {
+        return secondLinkDot;
+    }
+    
+    public void resetLinks(){
+        this.linked = false;
+        this.firstLinkDot = 0;
+        this.secondLinkDot = 0;
+    }
+    
     /**
      * Returns a linked list with the painted lines.
      * @return {@link GameFrame#lineList}

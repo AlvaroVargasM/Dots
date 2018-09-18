@@ -37,7 +37,7 @@ public class InfoFrame extends JPanel{
     /**
      * Holds the turn's number.
      */
-    private JLabel TurnNumber;
+    private JLabel turnNumber;
     
     /**
      * Constructor of the InfoFrame class, recieves no parameters.
@@ -83,10 +83,10 @@ public class InfoFrame extends JPanel{
         p2Score.setForeground(new Color(51, 119, 255));
         p2Score.setVerticalAlignment(JLabel.TOP);
         
-        TurnNumber = new JLabel("0",SwingConstants.CENTER);
-        TurnNumber.setFont(NumbersFont);
-        TurnNumber.setVerticalAlignment(JLabel.TOP);
-        TurnNumber.setForeground(new Color(21, 72, 144));
+        turnNumber = new JLabel("1",SwingConstants.CENTER);
+        turnNumber.setFont(NumbersFont);
+        turnNumber.setVerticalAlignment(JLabel.TOP);
+        turnNumber.setForeground(new Color(21, 72, 144));
         
         add(header);
         add(p1Name);
@@ -94,7 +94,7 @@ public class InfoFrame extends JPanel{
         add(p2Name);
         add(p2Score);
         add(turnLabel);
-        add(TurnNumber);
+        add(turnNumber);
     }
     
     /**
@@ -162,11 +162,11 @@ public class InfoFrame extends JPanel{
     }
     
     /**
-     * Extracts and returns the number inside TurnNumber JLabel.
-     * @return Text displaying by {@link InfoFrame#TurnNumber} in a int.
+     * Extracts and returns the number inside turnNumber JLabel.
+     * @return Text displaying by {@link InfoFrame#turnNumber} in a int.
      */
     public int getTurnNumber() {
-        return Integer.parseInt(this.TurnNumber.getText());
+        return Integer.parseInt(this.turnNumber.getText());
     }
     
     /**
@@ -174,15 +174,15 @@ public class InfoFrame extends JPanel{
      * @ param turn Updated turn.
      */
     public void setTurnNumber(int updatedTurn) {
-        this.TurnNumber.setText(Integer.toString(updatedTurn));
+        this.turnNumber.setText(Integer.toString(updatedTurn));
     }
     
     /**
      * Increase the game session's turn number by one.
      */
     public void increaseTurnNumber() {
-        int updatedTurn = Integer.parseInt(this.TurnNumber.getText()) +1;
-        this.TurnNumber.setText(Integer.toString(updatedTurn));
+        int updatedTurn = Integer.parseInt(this.turnNumber.getText()) +1;
+        this.turnNumber.setText(Integer.toString(updatedTurn));
     }
     
 }

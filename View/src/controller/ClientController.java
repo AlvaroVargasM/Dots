@@ -81,21 +81,22 @@ public class ClientController implements Runnable{
         
         menu = new MenuFrame();
         while(!registered){
-            try
-                {Thread.sleep(0);}
+            try {Thread.sleep(10);}
             catch (Exception e)
                 {e.printStackTrace();}
+            
             if(!(menu.getNickName().equals(""))){
                 
-                ClassReference reference = new ClassReference("registerPack");
+                /*ClassReference reference = new ClassReference("registerPack");
                 RegisterPack initialPackage = new RegisterPack(InetAddress.getLocalHost().getHostAddress(),menu.getNickName(),0);
                 clientSend(initialPackage,reference);
+                */
                 
                 //Sockets recieved simulation
                 playerNumber = 1; 
                 p1Name = menu.getNickName();
                 p2Name = "Pancho";
-                //
+                ///////
                 
                 if(playerNumber == 0 ){
                     menu.standBy();
@@ -110,38 +111,50 @@ public class ClientController implements Runnable{
         game = new MainFrame();
         grid = game.getGameFrame();
         info = game.getInfoFrame();
-        Thread recievePackages = new Thread( new ClientController());
+        Thread recievePackages = new Thread(new ClientController());
+        recievePackages.start(); 
         
         while(gameActive){
-            
-            recievePackages.start(); 
-            
-            new Thread (new Runnable() {
-            @Override
-            public void run() {
-                if(turnNumber % 2 == 0){
-                    info.setP1Name(" "+p1Name);
-                    info.setP2Name(">"+p2Name);
+             
+            Thread.sleep(10);  
+            if(turnNumber % 2 != 0){
+                info.setP1Name(">"+p1Name);
+                info.setP2Name(" "+p2Name);
+                if(playerNumber == 1){
+                    grid.setOnTurn(true);
                 }else{
-                    info.setP1Name(">"+p1Name);
-                    info.setP2Name(" "+p2Name);
+                    grid.setOnTurn(false);
                 }
-                info.setP1Score(p1Score);
-                info.setP2Score(p2Score);
-                info.setTurnNumber(turnNumber);
+            }else{
+                info.setP1Name(" "+p1Name);
+                info.setP2Name(">"+p2Name);
+                if(playerNumber == 2){
+                    grid.setOnTurn(true);
+                }else{
+                    grid.setOnTurn(false);
+                }
             }
-            }).start();
+            
+            Thread.sleep(10);    
+            if(grid.getLinked()){
                 
-            
-            
-        }
-        
-        if(showResults){
-            
+                /*ClassReference reference = new ClassReference("DotConnectionPack");
+                DotConnectionPack initialPackage = new DotConnectionPack(grid.getFirstLinkDot(),grid.getFirstLinkDot(),playerNumber);
+                clientSend(initialPackage,reference);*/
+                
+                increaseTurnNumber();
+                info.setTurnNumber(turnNumber);
+                grid.resetLinks();        
+            }
         }
         
     }
    
+    /**
+     *
+     * @param object
+     * @param classReference
+     */
     public static void clientSend(Object object, Object classReference){
         try {
             Socket clientSocket = new  Socket(menu.getServerIp(), 9090);
@@ -167,7 +180,12 @@ public class ClientController implements Runnable{
         }
     }
     
-    
+    /**
+     * Increase the game session's turn number by one.
+     */
+    public static void increaseTurnNumber() {
+        turnNumber += 1;
+    }
     
     @Override
     public void run() {
@@ -207,7 +225,7 @@ public class ClientController implements Runnable{
                          break;
                     }
                     if (reference.getReference().equals("toFigurePackage")){
-                        ToFigurePackage recievedFigureList = JSONUtil.convertJsonToJava(recievedObjectAsString, ToFigurePackage.class);
+                        ToFigurePack recievedFigureList = JSONUtil.convertJsonToJava(recievedObjectAsString, ToFigurePack.class);
                         grid.generateFigure(recievedFigureList.getList());
                         if(recievedFigureList.getPlayerNumber() == 1){
                             this.p1Score += recievedFigureList.getPlusScore();

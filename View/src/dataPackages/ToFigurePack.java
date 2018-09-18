@@ -2,15 +2,15 @@ package dataPackages;
 
 import java.util.LinkedList;
 
-public class ToFigurePackage  {
+public class ToFigurePack  {
     private LinkedList toFigure;
     private int playerNumber;
     private int plusScore;
     
-    public ToFigurePackage (){
+    public ToFigurePack (){
     }
 
-    public ToFigurePackage(LinkedList toFigure, int playerNumber, int plusScore) {
+    public ToFigurePack(LinkedList toFigure, int playerNumber, int plusScore) {
         this.toFigure = toFigure;
         this.playerNumber = playerNumber;
         this.plusScore = plusScore;
