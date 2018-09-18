@@ -27,6 +27,7 @@ public class LinkedList<GenericType>{
 
     /**
      * Receives the data necessary to create a node and insert it in the list.
+     * Gives the node a number of position.
      * @param position
      * @param data
      */
@@ -40,6 +41,15 @@ public class LinkedList<GenericType>{
             }
             lastDot.setNextNode(newDot);
         }size++;
+    }
+    
+        /**
+     * Receives the data necessary to create a node and insert it in the list.
+     * @param position
+     * @param data
+     */
+    public void add(GenericType data){
+        this.add(0, data);
     }
     
     /**
