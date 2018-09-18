@@ -20,7 +20,6 @@ public class Server implements Runnable{
         Thread mihilo = new Thread( new Server());	
         mihilo.start();
     }
-
     public void serverSend (Object object, Object classReference){
          try {
             Socket serverAsClientSocket = new  Socket(InetAddress.getLocalHost(), 9090);
