@@ -91,11 +91,11 @@ public class ClientController implements Runnable{
                 clientSend(initialPackage,reference);*/
                 
                 
-                //Sockets recieved simulation
+                /*Sockets recieved simulation*/
                 playerNumber = 1; 
                 p1Name = menu.getNickName();
                 p2Name = "Pancho";
-                ///////
+                //
                 
                 if(playerNumber == 0 ){
                     menu.standBy();
@@ -107,7 +107,7 @@ public class ClientController implements Runnable{
             }
         }
         
-        game = new MainFrame();
+        game = new MainFrame(playerNumber);
         grid = game.getGameFrame();
         info = game.getInfoFrame();
         Thread recievePackages = new Thread(new ClientController());

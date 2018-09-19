@@ -20,7 +20,7 @@ public class MainFrame extends JFrame{
     /**
      *Constructor of the MainFrame class, recieves no parameters.
      */
-    public MainFrame(){
+    public MainFrame(int playerNumber){
         
         this.setTitle("Dots"); 
         this.setSize(1000, 600); 
@@ -32,7 +32,7 @@ public class MainFrame extends JFrame{
 	infoframe = new InfoFrame();
 	this.getContentPane().add(infoframe, BorderLayout.WEST);
         
-        gameframe = new GameFrame();
+        gameframe = new GameFrame(playerNumber);
 	this.getContentPane().add(gameframe, BorderLayout.EAST);
         
         this.pack();
