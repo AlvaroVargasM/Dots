@@ -115,7 +115,7 @@ public class Grid {
                 dot = dot.getNextNode()){ //For each node.
                 LinkedListNode connection = this.getNode(dot.getPosition());//Obtain connected dot from grid.
                 if(connection == finalDot){
-                    figure.insertNode(connection.getPosition(), null); //Insert finalDot to figure list
+                    figure.insertNode(connection.getPosition(), connection.getPosition()); //Insert finalDot to figure list
                     return figure;
                 }
                 LinkedList finalFigure = searchForFigure(connection, finalDot, figure);
