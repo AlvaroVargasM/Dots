@@ -17,10 +17,12 @@ public class RegisterPack {
         
     }
     
-    public RegisterPack(String playerIp, String playerName,int playerNumber){
+    public RegisterPack(String playerIp, String playerName,int playerNumber,
+                        String otherPlayerName){
         this.playerIp = playerIp;
         this.playerName = playerName;
         this.playerNumber = playerNumber;
+        this.otherPlayerName = otherPlayerName;
     }
 
     public String getPlayerIp() {
