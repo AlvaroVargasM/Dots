@@ -6,6 +6,8 @@ package gameLogic;
  */
 public class Player {
     private String nickname;
+    private String playerIp;    
+    private int playerNumber;
     private int score;
     
     /**
@@ -13,8 +15,10 @@ public class Player {
      * and gives the initial value of 0 to the score.
      * @param nickname
      */
-    public Player(String nickname){
+    public Player(String nickname, String playerIp, int playerNumber) {
         this.nickname = nickname;
+        this.playerIp = playerIp;
+        this.playerNumber = playerNumber;
         this.score = 0;
     }
 
@@ -49,4 +53,22 @@ public class Player {
     public void setScore(int score) {
         this.score = score;
     }
+
+    public String getPlayerIp() {
+        return playerIp;
+    }
+
+    public void setPlayerIp(String playerIp) {
+        this.playerIp = playerIp;
+    }
+
+    public int getPlayerNumber() {
+        return playerNumber;
+    }
+
+    public void setPlayerNumber(int playerNumber) {
+        this.playerNumber = playerNumber;
+    }
+    
+    
 }
