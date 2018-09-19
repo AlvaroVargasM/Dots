@@ -8,7 +8,10 @@ public class ClassReference implements Serializable{
     public String getReference() {
         return reference;
     }
-
+    
+    public ClassReference() {
+    }
+    
     public ClassReference(String reference) {
         this.reference = reference;
     }

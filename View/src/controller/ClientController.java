@@ -86,16 +86,16 @@ public class ClientController implements Runnable{
             
             if(!(menu.getNickName().equals(""))){
                 
-                /*ClassReference reference = new ClassReference("registerPack");
+                ClassReference reference = new ClassReference("registerPack");
                 RegisterPack initialPackage = new RegisterPack(InetAddress.getLocalHost().getHostAddress(),menu.getNickName(),0);
-                clientSend(initialPackage,reference);*/
+                clientSend(initialPackage,reference);
                 
                 
-                /*Sockets recieved simulation*/
+                /*Sockets recieved simulation
                 playerNumber = 1; 
                 p1Name = menu.getNickName();
                 p2Name = "Pancho";
-                //
+                //*/
                 
                 if(playerNumber == 0 ){
                     menu.standBy();
@@ -137,9 +137,9 @@ public class ClientController implements Runnable{
             
             Thread.sleep(10);    
             if(grid.getLinked()){
-                /*ClassReference reference = new ClassReference("DotConnectionPack");
+                ClassReference reference = new ClassReference("DotConnectionPack");
                 DotConnectionPack initialPackage = new DotConnectionPack(grid.getFirstLinkDot(),grid.getFirstLinkDot(),playerNumber);
-                clientSend(initialPackage,reference);*/
+                clientSend(initialPackage,reference);
                 grid.resetLinks();        
             }
             
@@ -162,7 +162,9 @@ public class ClientController implements Runnable{
      */
     public static void clientSend(Object object, Object classReference){
         try {
-            Socket clientSocket = new  Socket(menu.getServerIp(), 9090);
+            //menu.getServerIp()
+            //192.168.0.121
+            Socket clientSocket = new  Socket("192.168.0.121", 9090);
             
             String sendObject = JSONUtil.convertJavaToJson(object);
             String sendClassReference = JSONUtil.convertJavaToJson(classReference);

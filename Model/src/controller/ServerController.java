@@ -153,10 +153,13 @@ public class ServerController implements Runnable{
                     if (reference.getReference().equals("DotConnectionPack")){
                         DotConnectionPack recievedDotConnection = JSONUtil.convertJsonToJava(recievedObjectAsString, DotConnectionPack.class);                        
                         createConnection(recievedDotConnection);
+                        break;
                     }
                     if(reference.getReference().equals("RegisterPack")){
+                        System.out.println("aaaa");
                         RegisterPack receivedRegisterPack = JSONUtil.convertJsonToJava(recievedObjectAsString, RegisterPack.class);                        
                         registerNewPlayer(receivedRegisterPack);
+                        break;
                     }
                 }
             }
