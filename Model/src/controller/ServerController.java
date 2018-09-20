@@ -95,10 +95,8 @@ public class ServerController implements Runnable{
         String player1Ip = player1.getPlayerIp();
         String player2Name = player2.getNickname();
         String player2Ip = player2.getPlayerIp();
-        RegisterPack registerPackPlayer1 = new RegisterPack(player1Ip, 
-                player1Name, 1, player2Name);
-        RegisterPack registerPackPlayer2 = new RegisterPack(player2Ip, 
-                player2Name, 2, player1Name);
+        RegisterPack registerPackPlayer1 = new RegisterPack(player1Ip, player1Name, 1, player2Name);
+        RegisterPack registerPackPlayer2 = new RegisterPack(player2Ip, player2Name, 2, player1Name);
         ClassReference classReference = new ClassReference("RegisterPack");
         serverSend(registerPackPlayer1, classReference, player1Ip);
         serverSend(registerPackPlayer2, classReference, player2Ip);
@@ -112,7 +110,7 @@ public class ServerController implements Runnable{
             String sendObject2 = JSONUtil.convertJavaToJson(object2);
             
             // Opens a socket
-            Socket serverSocket = new Socket(ipAddress, 1777);
+            Socket serverSocket = new Socket(ipAddress, 9099);
             
             // Creates
             BufferedReader in = new BufferedReader(new InputStreamReader(serverSocket.getInputStream()));
@@ -127,7 +125,7 @@ public class ServerController implements Runnable{
             Logger.getLogger(ServerController.class.getName()).log(Level.SEVERE, null, ex);
         }
     } 
-    
+    @Override
     public void run() {
        try {
             int cTosPortNumber = 9090;
@@ -144,9 +142,6 @@ public class ServerController implements Runnable{
                 String recievedObjectAsString = in.readLine();
                 String recievedClassReferenceAsString = in.readLine();
                 
-                out.close();
-                in.close();
-                fromServerSocket.close();
                 
                 while (recievedObjectAsString != null && recievedClassReferenceAsString != null){
                     ClassReference reference = JSONUtil.convertJsonToJava(recievedClassReferenceAsString, ClassReference.class);
@@ -156,12 +151,17 @@ public class ServerController implements Runnable{
                         break;
                     }
                     if(reference.getReference().equals("RegisterPack")){
-                        System.out.println("aaaa");
+                        System.out.println("Register pack arrived");
                         RegisterPack receivedRegisterPack = JSONUtil.convertJsonToJava(recievedObjectAsString, RegisterPack.class);                        
                         registerNewPlayer(receivedRegisterPack);
                         break;
                     }
                 }
+                
+                out.close();
+                in.close();
+                fromServerSocket.close();
+                
             }
         } catch (Exception ex) {
             //Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);

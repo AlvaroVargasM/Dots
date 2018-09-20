@@ -22,7 +22,7 @@ public class ClientController implements Runnable{
     /**
      * Indicate if the user is player 1 or player 2.
      */
-    private static int playerNumber = 0;
+    private static int playerNumber = 1;
     
     /**
      * Player 1 name.
@@ -73,8 +73,6 @@ public class ClientController implements Runnable{
     
     private static boolean registered = false;
     private static boolean gameActive = false;
-   
-    
     
     public static void main (String[] args) throws Exception{
         
@@ -86,7 +84,7 @@ public class ClientController implements Runnable{
             
             if(!(menu.getNickName().equals(""))){
                 
-                ClassReference reference = new ClassReference("registerPack");
+                ClassReference reference = new ClassReference("RegisterPack");
                 RegisterPack initialPackage = new RegisterPack(InetAddress.getLocalHost().getHostAddress(),menu.getNickName(),0);
                 clientSend(initialPackage,reference);
                 
@@ -164,7 +162,7 @@ public class ClientController implements Runnable{
         try {
             //menu.getServerIp()
             //192.168.0.121
-            Socket clientSocket = new  Socket("192.168.0.121", 9090);
+            Socket clientSocket = new  Socket(InetAddress.getLocalHost(), 9090);
             
             String sendObject = JSONUtil.convertJavaToJson(object);
             String sendClassReference = JSONUtil.convertJavaToJson(classReference);
@@ -194,10 +192,8 @@ public class ClientController implements Runnable{
     @Override
     public void run() {
        try {
-            int cTosPortNumber = 9090;
-            
-            System.out.println("Waiting for a connection on " + cTosPortNumber);
-            
+            int cTosPortNumber = 9099;
+                       
             while (true){
                 ServerSocket clientAsServer = new ServerSocket(cTosPortNumber);
                 Socket fromClientSocket = clientAsServer.accept();
@@ -216,26 +212,29 @@ public class ClientController implements Runnable{
                     ClassReference reference = JSONUtil.convertJsonToJava(recievedClassReferenceAsString, ClassReference.class);
                     
                     if (reference.getReference().equals("RegisterPack")){
-                         RegisterPack register = JSONUtil.convertJsonToJava(recievedObjectAsString, RegisterPack.class);
-                         this.playerNumber = register.getPlayerNumber();
+                        System.out.println("Client recieved a server response");
+                        RegisterPack register = JSONUtil.convertJsonToJava(recievedObjectAsString, RegisterPack.class);
+                        this.playerNumber = register.getPlayerNumber();
                          
-                         if(playerNumber==1){
+                        if(playerNumber==1){
                             p1Name = menu.getNickName();
                             p2Name = register.getOtherPlayerName();
                         }else{
                             p1Name = register.getOtherPlayerName();
                             p2Name = menu.getNickName();
                         }
-                         break;
+                        break;
                     }
                     
                     if (reference.getReference().equals("toFigurePack")){
+                        System.out.println("Client recieved a server response");
                         ToFigurePack figureList = JSONUtil.convertJsonToJava(recievedObjectAsString, ToFigurePack.class);
                         grid.generateFigure(figureList.getList());
                         break;
                     }
                     
                     if (reference.getReference().equals("dataPack")){
+                        System.out.println("Client recieved a server response");
                         DataPack data = JSONUtil.convertJsonToJava(recievedObjectAsString, DataPack.class);
                         
                         if(data.getWinner() == null){
