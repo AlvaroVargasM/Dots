@@ -79,7 +79,7 @@ public class ServerController implements Runnable{
         String playerIp = registerPack.getPlayerIp();
         int playerNumber = registerPack.getPlayerNumber();
         Player player = new Player(playerName, playerIp, playerNumber);
-        //playerQueue.enqueue(player);
+        playerQueue.enqueue(player);
         //if(playerQueue.getSize() == 2 && player1 == null && player2 == null){
         startNewMatch();
         //}
