@@ -76,6 +76,9 @@ public class ClientController implements Runnable{
     
     public static void main (String[] args) throws Exception{
         
+        Thread recievePackages = new Thread(new ClientController());
+        recievePackages.start(); 
+        
         menu = new MenuFrame();
         while(!registered){
             try {Thread.sleep(10);}
@@ -108,8 +111,8 @@ public class ClientController implements Runnable{
         game = new MainFrame(playerNumber);
         grid = game.getGameFrame();
         info = game.getInfoFrame();
-        Thread recievePackages = new Thread(new ClientController());
-        recievePackages.start(); 
+        //Thread recievePackages = new Thread(new ClientController());
+        //recievePackages.start(); 
         
         while(gameActive){
              
@@ -172,6 +175,7 @@ public class ClientController implements Runnable{
             
             out.println(sendObject);
             out.println(sendClassReference);
+            System.out.println("Message was sent from the client");
             
             in.close();
             out.close();
@@ -194,6 +198,7 @@ public class ClientController implements Runnable{
        try {
             int cTosPortNumber = 9099;
             ServerSocket clientAsServer = new ServerSocket(cTosPortNumber);
+            System.out.println("Client waiting for a connection on port: " + cTosPortNumber);
             
             while (true){
                 Socket fromClientSocket = clientAsServer.accept();
