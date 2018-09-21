@@ -26,6 +26,9 @@ public class Client implements Runnable{
         
         Client myClient = new Client();
         myClient.clientSend(myPotatoe, myClassReference);
+        
+        Thread myThread = new Thread( new Client());
+        myThread.run();
     }
     public void clientSend(Object object, Object classReference){
         try {
@@ -55,11 +58,11 @@ public class Client implements Runnable{
     @Override
     public void run() {
        try {
-            int cTosPortNumber = 9090;
+            int cTosPortNumber = 9099;
             
             ServerSocket clientAsServer = new ServerSocket(cTosPortNumber);
             
-            System.out.println("Waiting for a connection on " + cTosPortNumber);
+            System.out.println("Client waiting for a connection on " + cTosPortNumber);
             
             while (true){
                 Socket fromClientSocket = clientAsServer.accept();

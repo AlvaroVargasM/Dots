@@ -15,7 +15,7 @@ import javax.swing.SwingConstants;
 
 /**
  *
- * Display that show the final game session's stats.
+ * Display that show the final game session's statistics.
  */
 public class ResultsFrame extends JFrame{
     
