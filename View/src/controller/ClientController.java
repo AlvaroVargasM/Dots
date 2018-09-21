@@ -139,7 +139,7 @@ public class ClientController implements Runnable{
             Thread.sleep(10);    
             if(grid.getLinked()){
                 ClassReference reference = new ClassReference("DotConnectionPack");
-                DotConnectionPack initialPackage = new DotConnectionPack(grid.getFirstLinkDot(),grid.getFirstLinkDot(),playerNumber);
+                DotConnectionPack initialPackage = new DotConnectionPack(grid.getFirstLinkDot(),grid.getSecondLinkDot(),playerNumber);
                 clientSend(initialPackage,reference);
                 grid.resetLinks();        
             }
