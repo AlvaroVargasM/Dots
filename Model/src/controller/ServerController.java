@@ -60,19 +60,18 @@ public class ServerController implements Runnable{
 
         player.setScore(player.getScore() + score); //Le agrega el score de figura creada
         
-        sendDataPack(null); //Manda DataPack para cambiar de turno en cliente (creo, eso me dijo Mariano)
+        //sendDataPack(null); //Manda DataPack para cambiar de turno en cliente (creo, eso me dijo Mariano)
     }
     
     public void sendToFigurePack(LinkedList figureList, String ip){
         //Esto solo crea un toFigurePack y lo envia
-        ToFigurePack figurePackage = new ToFigurePack(figureList);
+        ToFigurePack figurePack = new ToFigurePack(figureList);
         ClassReference classReference = new ClassReference("ToFigurePack");
-        serverSend(figurePackage, classReference, ip);
+        serverSend(figurePack, classReference, player1.getPlayerIp());
     }
     
     public void sendDataPack(String winner){
         ClassReference classReference = new ClassReference("DataPack"); //crea class reference, manda huevo
-        
         //Obtiene score de ambos jugadores
         int score1 = player1.getScore();
         //int score2 = player2.getScore();
