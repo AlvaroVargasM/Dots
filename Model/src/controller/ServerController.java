@@ -79,28 +79,28 @@ public class ServerController implements Runnable{
         String playerIp = registerPack.getPlayerIp();
         int playerNumber = registerPack.getPlayerNumber();
         Player player = new Player(playerName, playerIp, playerNumber);
-        playerQueue.enqueue(player);
-        if(playerQueue.getSize() == 2 && player1 == null && player2 == null){
-            startNewMatch();
-        }
+        //playerQueue.enqueue(player);
+        //if(playerQueue.getSize() == 2 && player1 == null && player2 == null){
+        startNewMatch();
+        //}
     }
     
     public void startNewMatch(){
         player1 = playerQueue.dequeue().getPlayer();
-        player2 = playerQueue.dequeue().getPlayer();
+        //player2 = playerQueue.dequeue().getPlayer();
         sendRegisterPack();
     }
     
     public void sendRegisterPack(){
         String player1Name = player1.getNickname();
         String player1Ip = player1.getPlayerIp();
-        String player2Name = player2.getNickname();
-        String player2Ip = player2.getPlayerIp();
-        RegisterPack registerPackPlayer1 = new RegisterPack(player1Ip, player1Name, 1, player2Name);
-        RegisterPack registerPackPlayer2 = new RegisterPack(player2Ip, player2Name, 2, player1Name);
+        //String player2Name = player2.getNickname();
+        //String player2Ip = player2.getPlayerIp();
+        RegisterPack registerPackPlayer1 = new RegisterPack(player1Ip, player1Name, 1, "");
+        //RegisterPack registerPackPlayer2 = new RegisterPack(player2Ip, player2Name, 2, player1Name);
         ClassReference classReference = new ClassReference("RegisterPack");
         serverSend(registerPackPlayer1, classReference, player1Ip);
-        serverSend(registerPackPlayer2, classReference, player2Ip);
+        //serverSend(registerPackPlayer2, classReference, player2Ip);
     }
     
     public void serverSend(Object object1, Object object2, String ipAddress){
