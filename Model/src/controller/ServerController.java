@@ -46,6 +46,8 @@ public class ServerController implements Runnable{
         int initalDotPosition = connection.getInitialDot();
         int finalDotPosition = connection.getFinalDot();
         LinkedList figureList = grid.createConnection(initalDotPosition, finalDotPosition);
+        System.out.println("Caca");
+        System.out.println(grid.getFirstRow().getFirstNode().getConnectionsList().toString());
         
         int score = figureList.getSize() * 2;
         String ip;
