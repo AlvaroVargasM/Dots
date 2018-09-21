@@ -30,8 +30,6 @@ public class ServerController implements Runnable{
     private Player player1;
     private Player player2;
     
-
-    
     public static void main (String[] args) throws Exception{
         Thread recievePackages = new Thread(new ServerController());
         recievePackages.start();
@@ -159,6 +157,7 @@ public class ServerController implements Runnable{
             Logger.getLogger(ServerController.class.getName()).log(Level.SEVERE, null, ex);
         }
     } 
+    
     @Override
     public void run() {
         try {
@@ -200,6 +199,5 @@ public class ServerController implements Runnable{
         } catch (Exception ex) {
             Logger.getLogger(ServerController.class.getName()).log(Level.SEVERE, null, ex);
         }
-
     }
 }
