@@ -91,7 +91,7 @@ public class ClientController implements Runnable{
                 RegisterPack initialPackage = new RegisterPack(InetAddress.getLocalHost().getHostAddress(),menu.getNickName(),0);
                 clientSend(initialPackage,reference);
                 
-                
+                Thread.sleep(1000); 
                 /*Sockets recieved simulation
                 playerNumber = 1; 
                 p1Name = menu.getNickName();
