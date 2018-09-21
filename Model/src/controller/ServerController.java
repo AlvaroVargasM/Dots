@@ -184,6 +184,7 @@ public class ServerController implements Runnable{
                 while (recievedObjectAsString != null && recievedClassReferenceAsString != null){
                     ClassReference reference = JSONUtil.convertJsonToJava(recievedClassReferenceAsString, ClassReference.class);
                     if (reference.getReference().equals("DotConnectionPack")){
+                        System.out.println("Dot connection pack pack arrived");
                         DotConnectionPack recievedDotConnection = JSONUtil.convertJsonToJava(recievedObjectAsString, DotConnectionPack.class);                        
                         createConnection(recievedDotConnection);
                         break;
