@@ -22,7 +22,7 @@ public class ClientController implements Runnable{
     /**
      * Indicate if the user is player 1 or player 2.
      */
-    private static int playerNumber = 1;
+    private static int playerNumber = 0;
     
     /**
      * Player 1 name.
@@ -193,9 +193,9 @@ public class ClientController implements Runnable{
     public void run() {
        try {
             int cTosPortNumber = 9099;
-                       
+            ServerSocket clientAsServer = new ServerSocket(cTosPortNumber);
+            
             while (true){
-                ServerSocket clientAsServer = new ServerSocket(cTosPortNumber);
                 Socket fromClientSocket = clientAsServer.accept();
                 
                 PrintWriter out = new PrintWriter(fromClientSocket.getOutputStream(), true);

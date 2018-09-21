@@ -33,10 +33,11 @@ public class ServerController implements Runnable{
 
     
     public static void main (String[] args) throws Exception{
-        grid = Grid.getGrid(5, 5);
-        playerQueue = new Queue();
         Thread recievePackages = new Thread(new ServerController());
         recievePackages.start();
+        grid = Grid.getGrid(5, 5);
+        playerQueue = new Queue();
+        
     }
     
     public void createConnection(DotConnectionPack connection) throws Exception{
@@ -130,10 +131,11 @@ public class ServerController implements Runnable{
        try {
             int cTosPortNumber = 9090;
             
-            System.out.println("Waiting for a connection on " + cTosPortNumber);
+            ServerSocket server = new ServerSocket(cTosPortNumber);
+            
+            System.out.println("Server waiting for a connection on port: " + cTosPortNumber);
             
             while (true){
-                ServerSocket server = new ServerSocket(cTosPortNumber);
                 Socket fromServerSocket = server.accept();
                 
                 PrintWriter out = new PrintWriter(fromServerSocket.getOutputStream(), true);
@@ -141,7 +143,6 @@ public class ServerController implements Runnable{
                 
                 String recievedObjectAsString = in.readLine();
                 String recievedClassReferenceAsString = in.readLine();
-                
                 
                 while (recievedObjectAsString != null && recievedClassReferenceAsString != null){
                     ClassReference reference = JSONUtil.convertJsonToJava(recievedClassReferenceAsString, ClassReference.class);
@@ -161,7 +162,6 @@ public class ServerController implements Runnable{
                 out.close();
                 in.close();
                 fromServerSocket.close();
-                
             }
         } catch (Exception ex) {
             //Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
