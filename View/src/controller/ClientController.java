@@ -231,7 +231,7 @@ public class ClientController implements Runnable{
                         break;
                     }
                     
-                    if (reference.getReference().equals("toFigurePack")){
+                    if (reference.getReference().equals("ToFigurePack")){
                         System.out.println("Client recieved a server response");
                         ToFigurePack figureList = JSONUtil.convertJsonToJava(recievedObjectAsString, ToFigurePack.class);
                         grid.generateFigure(figureList.getList());

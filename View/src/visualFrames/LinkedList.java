@@ -43,7 +43,7 @@ public class LinkedList<GenericType>{
         }size++;
     }
     
-        /**
+     /**
      * Receives the data necessary to create a node and insert it in the list.
      * @param position
      * @param data

@@ -66,7 +66,7 @@ public class ServerController implements Runnable{
     public void sendToFigurePack(LinkedList figureList, String ip){
         //Esto solo crea un toFigurePack y lo envia
         ToFigurePack figurePackage = new ToFigurePack(figureList);
-        ClassReference classReference = new ClassReference("ToFigurePackage");
+        ClassReference classReference = new ClassReference("ToFigurePack");
         serverSend(figurePackage, classReference, ip);
     }
     

@@ -1,6 +1,6 @@
 package dataPackages;
 
-import java.util.LinkedList;
+import visualFrames.LinkedList;
 
 public class ToFigurePack  {
     private LinkedList toFigure;

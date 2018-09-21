@@ -18,7 +18,6 @@ import java.awt.geom.GeneralPath;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.util.HashMap;
-import java.util.LinkedList;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
@@ -180,8 +179,10 @@ public class GameFrame extends JPanel{
      */
     private boolean overlaps(Line2D.Double newline){
         boolean intersect = false;
-        for(Line2D.Double paintedLine: this.lineList){
-            
+        
+        for(LinkedListNode node = lineList.getFirstNode(); node != null;
+            node = node.getNextNode()){
+            Line2D.Double paintedLine = (Line2D.Double) node.getData();
            if(newline.intersectsLine(paintedLine)){
                Point2D start1 = paintedLine.getP1();
                Point2D end1 = paintedLine.getP2(); 
@@ -265,9 +266,15 @@ public class GameFrame extends JPanel{
     public void generateFigure(LinkedList<Integer> list) {
         
         GeneralPath newPath = new GeneralPath();
+        System.out.println(list.toString());
+        System.out.println("AAAAAAAAAAAAAH");
         
         boolean first = true;
-        for(Integer n: list){           
+        //for(Integer n: list){
+        for(LinkedListNode node = list.getFirstNode(); node != null;
+            node = node.getNextNode()){
+            Integer n = (Integer) node.getData();
+            System.out.println(n);
             if(first){
                 newPath.moveTo(dotsLocations.get(n).x,dotsLocations.get(n).y);
                 first = false;
@@ -289,13 +296,19 @@ public class GameFrame extends JPanel{
             super.paintComponent(g);
             Graphics2D g2D = (Graphics2D) g.create();
             
-            for(GeneralPath path: linkedFiguresList){ 
+            //for(GeneralPath path: linkedFiguresList){
+            for(LinkedListNode node = linkedFiguresList.getFirstNode(); node != null;
+            node = node.getNextNode()){
+                GeneralPath path = (GeneralPath) node.getData();
                 g2D.setPaint(playerColor);
                 g2D.fill(path);
                 g2D.draw(path);
             }
             
-            for(Line2D.Double line: lineList){
+            //for(Line2D.Double line: lineList){
+            for(LinkedListNode node = lineList.getFirstNode(); node != null;
+            node = node.getNextNode()){
+                Line2D.Double line = (Line2D.Double) node.getData();
                 g2D.setColor(playerColor);
                 g2D.setStroke(new BasicStroke(6));
                 g2D.draw(line);

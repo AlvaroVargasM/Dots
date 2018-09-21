@@ -36,7 +36,7 @@ public class Grid {
             for (int i = 0; i < singletonGrid.getRowSize(); i++){
                 LinkedList list = new LinkedList();
                 for(int j = 0; j < singletonGrid.getColumnSize(); j++){
-                    list.insertNode(pos++, null);
+                    list.add(pos++, null);
                 }
                 singletonGrid.insertList(list);
             }
@@ -84,10 +84,10 @@ public class Grid {
     public LinkedList createConnection(int initialDotPosition, int finalDotPosition){
         LinkedListNode initialDot = this.getNode(initialDotPosition); //Obtain initialDot in the grid structure.
         LinkedListNode finalDot = this.getNode(finalDotPosition);//Obtain finalDot in the grid structure.
-        LinkedList figure = new LinkedList(); //LinkedList that will have dots that shape figure.
+        LinkedList<Integer> figure = new LinkedList<Integer>(); //LinkedList that will have dots that shape figure.
         figure = searchForFigure(initialDot, finalDot, figure); //Validate if figure is created.
-        initialDot.getConnectionsList().insertNode(finalDotPosition, null);//Connect initialDot with finalDot
-        finalDot.getConnectionsList().insertNode(initialDotPosition, null);//Connect finalDot with initialDot
+        initialDot.getConnectionsList().add(finalDotPosition, null);//Connect initialDot with finalDot
+        finalDot.getConnectionsList().add(initialDotPosition, null);//Connect finalDot with initialDot
         this.resetVisitedBooleans();
         return figure;
     }
@@ -109,13 +109,13 @@ public class Grid {
     public LinkedList searchForFigure(LinkedListNode currentDot, LinkedListNode finalDot, LinkedList figure){
         if(currentDot != null && !currentDot.isVisited()){
             currentDot.setVisited(true);
-            figure.insertNode(currentDot.getPosition(), null); //Insert currentNode to LinkedList figure.
+            figure.add(currentDot.getPosition()); //Insert currentNode to LinkedList figure.
             LinkedList dotConnections = currentDot.getConnectionsList(); //Obtain list of connections
             for(LinkedListNode dot = dotConnections.getFirstNode(); dot != null;
                 dot = dot.getNextNode()){ //For each node.
                 LinkedListNode connection = this.getNode(dot.getPosition());//Obtain connected dot from grid.
                 if(connection == finalDot){
-                    figure.insertNode(connection.getPosition(), connection.getPosition()); //Insert finalDot to figure list
+                    figure.add(connection.getPosition(), connection.getPosition()); //Insert finalDot to figure list
                     return figure;
                 }
                 LinkedList finalFigure = searchForFigure(connection, finalDot, figure);

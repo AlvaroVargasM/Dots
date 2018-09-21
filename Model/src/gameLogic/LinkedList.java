@@ -30,7 +30,7 @@ public class LinkedList<GenericType>{
      * @param position
      * @param data
      */
-    public void insertNode(int position, GenericType data){
+    public void add(int position, GenericType data){
         LinkedListNode newDot = new LinkedListNode(position, data);
         if(isEmpty()) setFirstNode(newDot);
         else{
@@ -40,6 +40,15 @@ public class LinkedList<GenericType>{
             }
             lastDot.setNextNode(newDot);
         }size++;
+    }
+    
+     /**
+     * Receives the data necessary to create a node and insert it in the list.
+     * @param position
+     * @param data
+     */
+    public void add(GenericType data){
+        this.add(0, data);
     }
     
     /**
