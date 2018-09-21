@@ -46,24 +46,19 @@ public class ServerController implements Runnable{
         int initalDotPosition = connection.getInitialDot();
         int finalDotPosition = connection.getFinalDot();
         LinkedList figureList = grid.createConnection(initalDotPosition, finalDotPosition);
-        System.out.println("Caca");
-        System.out.println(grid.getFirstRow().getFirstNode().getConnectionsList().toString());
         
-        int score = figureList.getSize() * 2;
-        String ip;
+        Player player = null;
+        if(connection.getPlayerNumber() == 1) player = player1;
+        else player = player2;
         
-        //Si la conexion la hizo el jugador 1
-        if(connection.getPlayerNumber() == 1){
-            ip = player1.getPlayerIp(); //Obtiene ip del J1
-            player1.setScore(player1.getScore() + score); //Le agrega el score de figura creada
+        int score = 0;
+        String ip = player.getPlayerIp();
+        if(figureList != null){
+            score = figureList.getSize() * 2;
+            sendToFigurePack(figureList, ip); //Manda paquete de figura
         }
-        //Si la hizo el jugador 2
-        else{
-            ip = player2.getPlayerIp();
-            player2.setScore(player2.getScore() + score);
-        }
-        //Si se creo una figura
-        if(figureList != null) sendToFigurePack(figureList, ip); //Manda paquete de figura
+
+        player.setScore(player.getScore() + score); //Le agrega el score de figura creada
         
         sendDataPack(null); //Manda DataPack para cambiar de turno en cliente (creo, eso me dijo Mariano)
     }
@@ -80,15 +75,15 @@ public class ServerController implements Runnable{
         
         //Obtiene score de ambos jugadores
         int score1 = player1.getScore();
-        int score2 = player2.getScore();
+        //int score2 = player2.getScore();
         
         //Crea DataPack para J1 y lo envia
-        DataPack packPlayer1 = new DataPack(winner, score1, score2, 1);
+        DataPack packPlayer1 = new DataPack(winner, score1, 0, 1);
         serverSend(packPlayer1, classReference, player1.getPlayerIp());
         
         //Crea DataPack para J2 y lo envia
-        DataPack packPlayer2 = new DataPack(winner, score1, score2, 2);
-        serverSend(packPlayer2, classReference, player2.getPlayerIp());
+        //DataPack packPlayer2 = new DataPack(winner, score1, score2, 2);
+        //serverSend(packPlayer2, classReference, player2.getPlayerIp());
     }
     
     public void registerNewPlayer(RegisterPack registerPack){
@@ -166,7 +161,7 @@ public class ServerController implements Runnable{
     } 
     @Override
     public void run() {
-       try {
+        try {
             int cTosPortNumber = 9090;
             
             ServerSocket server = new ServerSocket(cTosPortNumber);
@@ -202,7 +197,8 @@ public class ServerController implements Runnable{
                 }  
             }
         } catch (Exception ex) {
-            //Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ServerController.class.getName()).log(Level.SEVERE, null, ex);
         }
+
     }
 }

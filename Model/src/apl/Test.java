@@ -1,9 +1,9 @@
-package apl;
-
-import gameLogic.LinkedList;
-import gameLogic.Grid;
-
-public class Test {
+//package apl;
+//
+//import gameLogic.LinkedList;
+//import gameLogic.Grid;
+//
+//public class Test {
 //    public static void main(String[] args){
 //        
 //        Grid grid = Grid.getGrid(5, 5);
@@ -51,4 +51,4 @@ public class Test {
 ////        if(test16 != null)System.out.println(test16.toString()); 
 //
 //    }
-}
+//}
