@@ -11,6 +11,9 @@ public class DotConnectionPack {
         this.finalDot = finalDot;
         this.playerNumber = playerNumber;
     }
+    
+    public DotConnectionPack(){
+    }
 
     public int getPlayerNumber() {
         return playerNumber;
