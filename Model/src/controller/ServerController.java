@@ -153,6 +153,7 @@ public class ServerController implements Runnable{
             PrintWriter out = new PrintWriter(serverSocket.getOutputStream(), true);
             out.println(sendObject1);
             out.println(sendObject2);
+            System.out.println("Message was sent from the server");
             
             in.close();
             out.close();
@@ -179,6 +180,10 @@ public class ServerController implements Runnable{
                 String recievedObjectAsString = in.readLine();
                 String recievedClassReferenceAsString = in.readLine();
                 
+                out.close();
+                in.close();
+                fromServerSocket.close();
+                
                 while (recievedObjectAsString != null && recievedClassReferenceAsString != null){
                     ClassReference reference = JSONUtil.convertJsonToJava(recievedClassReferenceAsString, ClassReference.class);
                     if (reference.getReference().equals("DotConnectionPack")){
@@ -192,11 +197,7 @@ public class ServerController implements Runnable{
                         registerNewPlayer(receivedRegisterPack);
                         break;
                     }
-                }
-                
-                out.close();
-                in.close();
-                fromServerSocket.close();
+                }  
             }
         } catch (Exception ex) {
             //Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
