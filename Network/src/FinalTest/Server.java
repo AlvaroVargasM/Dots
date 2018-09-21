@@ -19,10 +19,11 @@ public class Server implements Runnable{
     public static void main(String[] args) {
         Thread mihilo = new Thread( new Server());	
         mihilo.start();
+        
     }
     public void serverSend (Object object, Object classReference){
          try {
-            Socket serverAsClientSocket = new  Socket(InetAddress.getLocalHost(), 9090);
+            Socket serverAsClientSocket = new  Socket(InetAddress.getLocalHost(), 9099);
             
             String sendObject = JSONUtil.convertJavaToJson(object);
             String sendClassReference = JSONUtil.convertJavaToJson(classReference);
@@ -52,7 +53,7 @@ public class Server implements Runnable{
             
             ServerSocket servSocket = new ServerSocket(cTosPortNumber);
             
-            System.out.println("Waiting for a connection on " + cTosPortNumber);
+            System.out.println("Server waiting for a connection on " + cTosPortNumber);
             
             while (true){
                 //ServerSocket servSocket = new ServerSocket(cTosPortNumber);
@@ -73,6 +74,15 @@ public class Server implements Runnable{
                     if (reference.getReference().equals("Potatoe")){
                          Potatoe recievedPotatoe = JSONUtil.convertJsonToJava(recievedObjectAsString, Potatoe.class);
                          System.out.println(recievedPotatoe.getPrice());
+                         
+                         Potatoe potatoe4send = new Potatoe();
+                         potatoe4send.setPrice(300);
+                         potatoe4send.setType("yeet");
+                         potatoe4send.setWeight(69);
+                         
+                         ClassReference pReference = new ClassReference();
+                         pReference.setReference("Potatoe");
+                         serverSend(potatoe4send,pReference);
                          break;
                     }
                     if (reference.getReference().equals("Employee")){
