@@ -172,8 +172,6 @@ public class GameFrame extends JPanel{
         }
         repaint();
         this.linked = true;
-        /*firstLinkDot = 0;
-        secondLinkDot = 0;*/
     }
     
     /**
