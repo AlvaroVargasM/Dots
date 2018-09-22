@@ -12,6 +12,7 @@ public class MainFrame extends JFrame{
      * Unique game frame containing the dots grid per player.
      */
     private GameFrame gameframe;
+    
     /**
      * Unique information frame containing the game session's stats. 
      */
@@ -52,6 +53,5 @@ public class MainFrame extends JFrame{
      */ 
     public InfoFrame getInfoFrame() {
         return infoframe;
-    }
-        
+    }   
 }

@@ -196,10 +196,6 @@ public class ClientController implements Runnable{
             Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    /**
-     * Increase the game session's turn number by one.
-     */
 
     @Override
     public void run() {

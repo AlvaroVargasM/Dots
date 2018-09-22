@@ -268,7 +268,7 @@ public class GameFrame extends JPanel{
         GeneralPath newPath = new GeneralPath();
         
         boolean first = true;
-        //for(Integer n: list){
+
         for(LinkedListNode node = list.getFirstNode(); node != null;
             node = node.getNextNode()){
             Integer n = (Integer) node.getData();
@@ -293,7 +293,6 @@ public class GameFrame extends JPanel{
             super.paintComponent(g);
             Graphics2D g2D = (Graphics2D) g.create();
             
-            //for(GeneralPath path: linkedFiguresList){
             for(LinkedListNode node = linkedFiguresList.getFirstNode(); node != null;
             node = node.getNextNode()){
                 GeneralPath path = (GeneralPath) node.getData();
@@ -302,7 +301,6 @@ public class GameFrame extends JPanel{
                 g2D.draw(path);
             }
             
-            //for(Line2D.Double line: lineList){
             for(LinkedListNode node = lineList.getFirstNode(); node != null;
             node = node.getNextNode()){
                 Line2D.Double line = (Line2D.Double) node.getData();
@@ -353,6 +351,9 @@ public class GameFrame extends JPanel{
         return secondLinkDot;
     }
     
+    /**
+     * Returns a linked list with the painted lines.
+     */
     public void resetLinks(){
         this.linked = false;
         this.firstLinkDot = 0;
