@@ -83,41 +83,31 @@ public class ServerController implements Runnable{
         ClassReference classReference = new ClassReference("DataPack"); //crea class reference, manda huevo
         //Obtiene score de ambos jugadores
         int score1 = player1.getScore();
-        //int score2 = player2.getScore();
+        int score2 = player2.getScore();
         
         //Crea DataPack para J1 y lo envia
-        DataPack packPlayer1 = new DataPack(winner, score1, 0, 1);
+        DataPack packPlayer1 = new DataPack(winner, score1, score2, 1);
         serverSend(packPlayer1, classReference, player1.getPlayerIp());
         
         //Crea DataPack para J2 y lo envia
-        //DataPack packPlayer2 = new DataPack(winner, score1, score2, 2);
-        //serverSend(packPlayer2, classReference, player2.getPlayerIp());
+        DataPack packPlayer2 = new DataPack(winner, score1, score2, 2);
+        serverSend(packPlayer2, classReference, player2.getPlayerIp());
     }
     
     public void registerNewPlayer(RegisterPack registerPack){
-        //En esta funcion pasa la magia inicial perro
-       
-        //Se obtiene info del RegisterPack 
         String playerName = registerPack.getPlayerName();
         String playerIp = registerPack.getPlayerIp();
         int playerNumber = registerPack.getPlayerNumber();
         
-        //Crea un nuevo jugador y lo mete en la cola
         Player player = new Player(playerName, playerIp, playerNumber);
         playerQueue.enqueue(player);
         
-        startNewMatch();
-        
-        //Supuestamente deberia de ser asi, esperar a que hayan dos compitas en la
-        //cola para poder empezar, pero por el momento se ignora
         //if(playerQueue.getSize() == 2 && player1 == null && player2 == null){
-            //startNewMatch();
+        startNewMatch();
         //}
     }
     
     public void startNewMatch(){
-        //Se obtienen los dos jugadores (solo uno por el momento) de la cola y 
-        //se envian los RegisterPack
         player1 = playerQueue.dequeue().getPlayer();
         //player2 = playerQueue.dequeue().getPlayer();
         sendRegisterPack();
