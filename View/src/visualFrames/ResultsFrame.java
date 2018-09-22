@@ -14,21 +14,25 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
 /**
- *
  * Display that show the final game session's statistics.
  */
 public class ResultsFrame extends JFrame{
     
     /**
-     *Final variable that holds font type number one.
+     *Final variable that holds customized font type number one.
      */
     private static final Font font1 = new Font("Tahoma", Font.ITALIC, 28);
+    
+    /**
+     *Final variable that holds customized font type number two.
+     */
     private static final Font font2 = new Font("Tahoma", Font.BOLD, 33);
     
     /**
      *Final variable that holds font type number two.
      */
     private static final Color blue = new Color(21, 72, 144);
+    
     /**
      *Final variable that holds a orange color.
      */
@@ -36,7 +40,6 @@ public class ResultsFrame extends JFrame{
     
     
     /**
-     *
      * @param winPlayer Nickname of the game session winner.
      * @param player1 Player one nickname.
      * @param player2 Player two nickname.
@@ -52,7 +55,6 @@ public class ResultsFrame extends JFrame{
         setResizable(false);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
-        
         setLayout(new BorderLayout());
         
         JLabel title = new JLabel("Results",SwingConstants.CENTER);
@@ -72,7 +74,6 @@ public class ResultsFrame extends JFrame{
                 }
             };
         stats.setPreferredSize(new Dimension(1000, 500));
-        
         stats.setLayout(new GridLayout(4,2));
         
         

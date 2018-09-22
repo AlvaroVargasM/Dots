@@ -112,6 +112,4 @@ public class MenuFrame extends JFrame{
     public String getNickName() {
         return nickName;
     }
-    
-    
 }
