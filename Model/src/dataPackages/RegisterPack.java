@@ -1,9 +1,11 @@
 package dataPackages;
 
+import java.io.Serializable;
+
 /**
  * Class used to register a new player.
  */
-public class RegisterPack {
+public class RegisterPack implements Serializable{
     
     private String playerIp;
     

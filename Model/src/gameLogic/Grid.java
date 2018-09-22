@@ -109,7 +109,7 @@ public class Grid {
     public LinkedList searchForFigure(LinkedListNode currentDot, LinkedListNode finalDot, LinkedList figure){
         if(currentDot != null && !currentDot.isVisited()){
             currentDot.setVisited(true);
-            figure.add(currentDot.getPosition()); //Insert currentNode to LinkedList figure.
+            figure.add(currentDot.getPosition(), currentDot.getPosition()); //Insert currentNode to LinkedList figure.
             LinkedList dotConnections = currentDot.getConnectionsList(); //Obtain list of connections
             for(LinkedListNode dot = dotConnections.getFirstNode(); dot != null;
                 dot = dot.getNextNode()){ //For each node.
@@ -124,7 +124,7 @@ public class Grid {
         }
         return null;
     }
-    
+        
     /**
      * Resets all visitedBoleans of each node to false.
      */

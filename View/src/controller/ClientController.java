@@ -155,7 +155,15 @@ public class ClientController implements Runnable{
         results = new ResultsFrame(finalPack.getWinner(), p1Name, p2Name, Integer.toString(finalPack.getScore1()), Integer.toString(finalPack.getScore2()), Integer.toString(turnNumber));
         
     }
-   
+    
+    public static LinkedList<Integer> stringToFigure(String strFigure){
+        LinkedList<Integer> figure = new LinkedList<>();
+        String[] strPositions = strFigure.split("\\.");
+        for(String pos: strPositions)
+            figure.add(Integer.valueOf(pos), Integer.valueOf(pos));
+        return figure;
+    }
+    
     /**
      *
      * @param object
@@ -215,7 +223,7 @@ public class ClientController implements Runnable{
                 
                 while (recievedObjectAsString != null && recievedClassReferenceAsString != null){
                     ClassReference reference = JSONUtil.convertJsonToJava(recievedClassReferenceAsString, ClassReference.class);
-                    System.out.println(reference.getReference());
+
                     if (reference.getReference().equals("RegisterPack")){
                         System.out.println("Client recieved a server response");
                         RegisterPack register = JSONUtil.convertJsonToJava(recievedObjectAsString, RegisterPack.class);
@@ -234,7 +242,8 @@ public class ClientController implements Runnable{
                     if (reference.getReference().equals("ToFigurePack")){
                         System.out.println("Client recieved a server response");
                         ToFigurePack figureList = JSONUtil.convertJsonToJava(recievedObjectAsString, ToFigurePack.class);
-                        grid.generateFigure(figureList.getList());
+                        LinkedList<Integer> figure = stringToFigure(figureList.getFigure());
+                        grid.generateFigure(figure);
                         break;
                     }
                     

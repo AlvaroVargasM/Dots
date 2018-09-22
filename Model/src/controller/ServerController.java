@@ -9,6 +9,7 @@ import dataPackages.RegisterPack;
 import dataPackages.ToFigurePack;
 import gameLogic.LinkedList;
 import gameLogic.Grid;
+import gameLogic.LinkedListNode;
 import gameLogic.Player;
 import gameLogic.Queue;
 import jsonLogic.JSONUtil;
@@ -44,16 +45,16 @@ public class ServerController implements Runnable{
         int initalDotPosition = connection.getInitialDot();
         int finalDotPosition = connection.getFinalDot();
         LinkedList figureList = grid.createConnection(initalDotPosition, finalDotPosition);
-        
+        String strFigure = figureToString(figureList);
         Player player = null;
         if(connection.getPlayerNumber() == 1) player = player1;
         else player = player2;
         
         int score = 0;
         String ip = player.getPlayerIp();
-        if(figureList != null){
+        if(strFigure != ""){
             score = figureList.getSize() * 2;
-            sendToFigurePack(figureList, ip); //Manda paquete de figura
+            sendToFigurePack(strFigure, ip); //Manda paquete de figura
         }
 
         player.setScore(player.getScore() + score); //Le agrega el score de figura creada
@@ -61,9 +62,19 @@ public class ServerController implements Runnable{
         //sendDataPack(null); //Manda DataPack para cambiar de turno en cliente (creo, eso me dijo Mariano)
     }
     
-    public void sendToFigurePack(LinkedList figureList, String ip){
+    public String figureToString(LinkedList figure){
+        String strFigure = "";
+        if(figure != null){
+            for(LinkedListNode node = figure.getFirstNode(); node != null; 
+                node = node.getNextNode()){
+                strFigure += node.getPosition() + ".";
+            }
+        }return strFigure;
+    }
+    
+    public void sendToFigurePack(String strFigure, String ip){
         //Esto solo crea un toFigurePack y lo envia
-        ToFigurePack figurePack = new ToFigurePack(figureList);
+        ToFigurePack figurePack = new ToFigurePack(strFigure);
         ClassReference classReference = new ClassReference("ToFigurePack");
         serverSend(figurePack, classReference, player1.getPlayerIp());
     }

@@ -1,19 +1,18 @@
 package dataPackages;
 
-import gameLogic.LinkedList;
+import java.io.Serializable;
 
-public class ToFigurePack  {
-    private LinkedList toFigure;
-    
-    public ToFigurePack (){
-    }
+public class ToFigurePack implements Serializable{
+    public String figure;
 
-    public ToFigurePack(LinkedList toFigure) {
-        this.toFigure = toFigure;
+    public ToFigurePack(String figure) {
+        this.figure = figure;
     }
     
-    public LinkedList getList() {
-        return toFigure;
-    }
+    public ToFigurePack(){}
 
+    public String getFigure() {
+        return figure;
+    }
+    
 }

@@ -1,17 +1,19 @@
-//package apl;
-//
-//import gameLogic.LinkedList;
-//import gameLogic.Grid;
-//
-//public class Test {
-//    public static void main(String[] args){
-//        
+package apl;
+
+import gameLogic.LinkedList;
+import gameLogic.Grid;
+
+public class Test {
+    public static void main(String[] args){
+        
+        System.out.println(stringToFigure("1.2.7.6.").toString());
+        
 //        Grid grid = Grid.getGrid(5, 5);
 //        int pos = 1;
 //        for (int i = 0; i < grid.getRowSize(); i++){
 //            LinkedList list = new LinkedList();
 //            for(int j = 0; j < grid.getColumnSize(); j++){
-//                list.insertNode(pos++, null);
+//                list.add(pos++, null);
 //            }
 //            grid.insertList(list);
 //        }
@@ -49,6 +51,14 @@
 ////        if(test14 != null)System.out.println(test14.toString()); 
 ////        if(test15 != null)System.out.println(test15.toString()); 
 ////        if(test16 != null)System.out.println(test16.toString()); 
-//
-//    }
-//}
+
+    }
+    
+    public static LinkedList<Integer> stringToFigure(String strFigure){
+        LinkedList<Integer> figure = new LinkedList<>();
+        String[] strPositions = strFigure.split("\\.");
+        for(String pos: strPositions)
+            figure.add(Integer.valueOf(pos), Integer.valueOf(pos));
+        return figure;
+    }
+}

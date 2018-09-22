@@ -5,9 +5,9 @@
  */
 package dataPackages;
 
+import java.io.Serializable;
 
-
-public class DataPack {
+public class DataPack implements Serializable{
     
     private String winner;
     private int score1;

@@ -266,15 +266,12 @@ public class GameFrame extends JPanel{
     public void generateFigure(LinkedList<Integer> list) {
         
         GeneralPath newPath = new GeneralPath();
-        System.out.println(list.toString());
-        System.out.println("AAAAAAAAAAAAAH");
         
         boolean first = true;
         //for(Integer n: list){
         for(LinkedListNode node = list.getFirstNode(); node != null;
             node = node.getNextNode()){
             Integer n = (Integer) node.getData();
-            System.out.println(n);
             if(first){
                 newPath.moveTo(dotsLocations.get(n).x,dotsLocations.get(n).y);
                 first = false;

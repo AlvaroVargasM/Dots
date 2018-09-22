@@ -1,6 +1,8 @@
 package dataPackages;
 
-public class DotConnectionPack {
+import java.io.Serializable;
+
+public class DotConnectionPack implements Serializable{
     
     private int initialDot;
     private int finalDot;
