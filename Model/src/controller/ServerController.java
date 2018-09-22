@@ -136,33 +136,29 @@ public class ServerController implements Runnable{
     public void serverSend(Object object1, Object object2, String ipAddress){
   
         try {
-            // Converts the object into a JSON String
-            String sendObject1 = JSONUtil.convertJavaToJson(object1);
-            String sendObject2 = JSONUtil.convertJavaToJson(object2);
-            
-            // Opens a socket
             Socket serverSocket = new Socket(ipAddress, 9099);
             
-            // Creates
-            BufferedReader in = new BufferedReader(new InputStreamReader(serverSocket.getInputStream()));
+            String sendObject1 = JSONUtil.convertJavaToJson(object1);
+            String sendObject2 = JSONUtil.convertJavaToJson(object2);                       
+            
             PrintWriter out = new PrintWriter(serverSocket.getOutputStream(), true);
+            
             out.println(sendObject1);
             out.println(sendObject2);
-            System.out.println("Message was sent from the server");
             
-            in.close();
+            System.out.println("Message was sent from the server");
+           
             out.close();
             serverSocket.close();
         } catch (IOException ex) {
             Logger.getLogger(ServerController.class.getName()).log(Level.SEVERE, null, ex);
         }
-    } 
+    }
     
     @Override
     public void run() {
         try {
             int cTosPortNumber = 9090;
-            
             ServerSocket server = new ServerSocket(cTosPortNumber);
             
             System.out.println("Server waiting for a connection on port: " + cTosPortNumber);
@@ -170,13 +166,11 @@ public class ServerController implements Runnable{
             while (true){
                 Socket fromServerSocket = server.accept();
                 
-                PrintWriter out = new PrintWriter(fromServerSocket.getOutputStream(), true);
                 BufferedReader in = new BufferedReader(new InputStreamReader(fromServerSocket.getInputStream()));
                 
                 String recievedObjectAsString = in.readLine();
                 String recievedClassReferenceAsString = in.readLine();
                 
-                out.close();
                 in.close();
                 fromServerSocket.close();
                 
