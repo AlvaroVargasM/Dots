@@ -40,6 +40,16 @@ public class InfoFrame extends JPanel{
     private JLabel turnNumber;
     
     /**
+     *Final variable that holds a blue color.
+     */
+    private static final Color dotsBlue = new Color(21, 72, 144);
+    
+    /**
+     *Final variable that holds a orange color.
+     */
+    private static final Color dotsOrange = new Color(255, 102, 0);  
+    
+    /**
      * Constructor of the InfoFrame class, recieves no parameters.
      */
     public InfoFrame(){
@@ -63,11 +73,11 @@ public class InfoFrame extends JPanel{
         
         p1Name = new JLabel("»Player 1:",SwingConstants.CENTER);
         p1Name.setFont(subHeaderFont);
-        p1Name.setForeground(new Color(255, 102, 0));
+        p1Name.setForeground(new Color(21, 72, 144));
 
         p2Name = new JLabel(" Player 2:",SwingConstants.CENTER);
         p2Name.setFont(subHeaderFont);
-        p2Name.setForeground(new Color(51, 119, 255));
+        p2Name.setForeground(new Color(255, 102, 0));
            
         JLabel turnLabel = new JLabel("Turn:",SwingConstants.CENTER);
         turnLabel.setFont(subHeaderFont);

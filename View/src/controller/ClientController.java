@@ -232,14 +232,14 @@ public class ClientController implements Runnable{
                         System.out.println("Client recieved a server response: ToFigurePack");
                         ToFigurePack figureList = JSONUtil.convertJsonToJava(recievedObjectAsString, ToFigurePack.class);
                         LinkedList<Integer> figure = stringToFigure(figureList.getFigure());
-                        grid.generateFigure(figure);
+                        grid.generateFigure(figure,figureList.getNumber());
                         break;
                     }
                     
                     if (reference.getReference().equals("DotConnectionPack")){
                         System.out.println("Client recieved a server response: DotConnectionPack");
                         DotConnectionPack dotLink = JSONUtil.convertJsonToJava(recievedObjectAsString, DotConnectionPack.class);
-                        grid.linkDots(dotLink.getInitialDot(),dotLink.getFinalDot());
+                        grid.linkDots(dotLink.getInitialDot(),dotLink.getFinalDot(),2);
                         break;
                     }
                     

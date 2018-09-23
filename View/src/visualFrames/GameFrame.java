@@ -47,12 +47,14 @@ public class GameFrame extends JPanel{
     /**
      *Contains all the grid's painted lines.
      */
-    private static LinkedList<Line2D.Double> lineList;
+    private static LinkedList<Line2D.Double> lineList1;
+    private static LinkedList<Line2D.Double> lineList2;
     
     /**
      *Contains all the grid's painted linked figures.
      */
-    private static LinkedList<Path2D.Double> linkedFiguresList;
+    private static LinkedList<Path2D.Double> figureList1;
+    private static LinkedList<Path2D.Double> figureList2;
     
     /**
      *Contains all the grid's painted linked figures.
@@ -81,6 +83,8 @@ public class GameFrame extends JPanel{
      */
     private Color playerColor;
     
+    private Color otherPlayerColor;
+    
     /**
      *Final variable that holds a blue color.
      */
@@ -100,9 +104,13 @@ public class GameFrame extends JPanel{
         setLayout(new GridLayout(5,5));
         setVisible(true);
         
-        this.lineList = new LinkedList<Line2D.Double>();
+        this.lineList1 = new LinkedList<Line2D.Double>();
+        this.lineList2 = new LinkedList<Line2D.Double>();
+        this.figureList1 = new LinkedList<Path2D.Double>();
+        this.figureList2 = new LinkedList<Path2D.Double>();
+        
         this.DotsList = new LinkedList<JButton>();
-        this.linkedFiguresList = new LinkedList<Path2D.Double>();
+
         this.figuresArea = new LinkedList<Area>();
         
         dotsLocations = new HashMap<Integer, Point>();
@@ -110,8 +118,11 @@ public class GameFrame extends JPanel{
         
         if(playerNumber == 1){
             this.playerColor = dotsBlue;
+            this.otherPlayerColor = dotsOrange;
+            
         }else{
             this.playerColor = dotsOrange;
+            this.otherPlayerColor = dotsBlue;
         }    
         createGrid();
     }
@@ -168,16 +179,23 @@ public class GameFrame extends JPanel{
      * @param startPoint Dot's starting point.
      * @param endPoint Dot's finishing point.
      */
-    public void linkDots(int startPoint, int endPoint) {
+    public void linkDots(int startPoint, int endPoint, int playerNumber) {
         Line2D.Double newLine = new Line2D.Double(dotsLocations.get(startPoint), dotsLocations.get(endPoint));
         
         if(overlaps(newLine)){
             JOptionPane.showMessageDialog(GameFrame.this, "Invalid, line overlaps other."); 
         }else{
-            lineList.add(newLine);
+            
+            if(playerNumber == 1){
+                lineList1.add(newLine);
+            }else{
+                lineList2.add(newLine);
+            }
+            this.linked = true;
         }
         repaint();
-        this.linked = true;
+        resetLinks();
+        
     }
     
     /**
@@ -187,7 +205,7 @@ public class GameFrame extends JPanel{
     private boolean overlaps(Line2D.Double newline){
         boolean intersect = false;
         
-        for(LinkedListNode node = lineList.getFirstNode(); node != null;
+        for(LinkedListNode node = lineList1.getFirstNode(); node != null;
             node = node.getNextNode()){
             Line2D.Double paintedLine = (Line2D.Double) node.getData();
            if(newline.intersectsLine(paintedLine)){
@@ -254,7 +272,7 @@ public class GameFrame extends JPanel{
                     }else{
                         if(isValid(firstLinkDot,getDotPosition(dot))){
                             secondLinkDot = getDotPosition(dot);
-                            linkDots(firstLinkDot,secondLinkDot);
+                            linkDots(firstLinkDot,secondLinkDot,1);
                         }else{
                          firstLinkDot = 0;
                          JOptionPane.showMessageDialog(GameFrame.this, "Invalid link, out of range.");   
@@ -289,7 +307,7 @@ public class GameFrame extends JPanel{
      * Generate a figure by giving his dot members.
      * @param list A list containing all the dot's locations who will constitute the Figure
      */
-    public void generateFigure(LinkedList<Integer> list) {
+    public void generateFigure(LinkedList<Integer> list, int playerNumber) {
         
         Path2D.Double newPath = new Path2D.Double();
         
@@ -310,7 +328,12 @@ public class GameFrame extends JPanel{
         Area newArea = new Area(newPath);
         figuresArea.add(newArea);
         
-        linkedFiguresList.add(newPath);
+        if(playerNumber == 1){
+            figureList1.add(newPath);
+        }else{
+            figureList2.add(newPath);
+        }
+        
         repaint();
     }
     
@@ -323,7 +346,7 @@ public class GameFrame extends JPanel{
             super.paintComponent(g);
             Graphics2D g2D = (Graphics2D) g.create();
             
-            for(LinkedListNode node = linkedFiguresList.getFirstNode(); node != null;
+            for(LinkedListNode node = figureList1.getFirstNode(); node != null;
             node = node.getNextNode()){
                 Path2D.Double path = (Path2D.Double) node.getData();
                 g2D.setPaint(playerColor);
@@ -331,13 +354,29 @@ public class GameFrame extends JPanel{
                 g2D.draw(path);
             }
             
-            for(LinkedListNode node = lineList.getFirstNode(); node != null;
+            for(LinkedListNode node = figureList2.getFirstNode(); node != null;
+            node = node.getNextNode()){
+                Path2D.Double path = (Path2D.Double) node.getData();
+                g2D.setPaint(otherPlayerColor);
+                g2D.fill(path);
+                g2D.draw(path);
+            }
+            
+            for(LinkedListNode node = lineList1.getFirstNode(); node != null;
             node = node.getNextNode()){
                 Line2D.Double line = (Line2D.Double) node.getData();
                 g2D.setColor(playerColor);
                 g2D.setStroke(new BasicStroke(6));
                 g2D.draw(line);
             } 
+            
+            for(LinkedListNode node = lineList2.getFirstNode(); node != null;
+            node = node.getNextNode()){
+                Line2D.Double line = (Line2D.Double) node.getData();
+                g2D.setColor(otherPlayerColor);
+                g2D.setStroke(new BasicStroke(6));
+                g2D.draw(line);
+            }
         } 
         
     /**
@@ -395,8 +434,9 @@ public class GameFrame extends JPanel{
      * @return {@link GameFrame#lineList}
      */
     public static LinkedList<Line2D.Double> getLineList() {
-        return lineList;
+        return lineList2;
     }
+    
     /**
      * Returns a linked list with the painted lines.
      * @return {@link GameFrame#DotsList}
@@ -408,7 +448,7 @@ public class GameFrame extends JPanel{
      * Returns a linked list with the painted figures.
      * @return {@link GameFrame#linkedFiguresList}
      */
-    public static LinkedList<Path2D.Double> getLinkedFiguresList() {
-        return linkedFiguresList;
+    public static LinkedList<Path2D.Double> getFiguresList() {
+        return figureList2;
     }       
 }
