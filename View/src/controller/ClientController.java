@@ -69,10 +69,24 @@ public class ClientController implements Runnable{
      */
     private static ResultsFrame results;
     
+    /**
+     * Final game session data. 
+     */
     private static DataPack finalPack;
     
+    /**
+     *  Indicates if the register stage is completed.
+     */
     private static boolean registered = false;
+    
+    /**
+     *  Indicates if the game stage is completed.
+     */
     private static boolean gameActive = false;
+    
+    /**
+     *  Indicates if the player's nickname has being sent to the server.
+     */
     private static boolean nicknameSent = true;
     
     public static void main (String[] args) throws Exception{
@@ -153,6 +167,10 @@ public class ClientController implements Runnable{
         
     }
     
+    /**
+     * Converts a concatenated string into a LinkedList of integers.
+     * @param strFigure Recieved strings, contains a serie of integers.
+     */
     public static LinkedList<Integer> stringToFigure(String strFigure){
         LinkedList<Integer> figure = new LinkedList<>();
         String[] strPositions = strFigure.split("\\.");
@@ -162,9 +180,9 @@ public class ClientController implements Runnable{
     }
     
     /**
-     *
-     * @param object
-     * @param classReference
+     * Send data to the game server.
+     * @param object Object that contains the data that should be sent.
+     * @param classReference Identifier of the class sent.
      */
     public static void clientSend(Object object, Object classReference){
         try {

@@ -243,30 +243,20 @@ public class GameFrame extends JPanel{
         dot.setFocusPainted(false);
         
         dot.addMouseListener(new MouseAdapter() {
-            /**
-             * Overrived method of MouseListener, it activates when the mouse enters the dot's area.
-             * @param e Generic mouse event of Mouse Listener.
-             */
+
             @Override
             public void mouseEntered(MouseEvent e) {
                 dot.setIcon(new ImageIcon("dot2.png"));
             }
-            /**
-             * Overrived method of MouseListener, it activates when the mouse exits the dot's area.
-             * @param e Generic mouse event of Mouse Listener.
-             */
+
             @Override
             public void mouseExited(MouseEvent e) {
                 dot.setIcon(new ImageIcon("dot1.png"));
             }
-  
-            /**
-             * Overrived method of MouseListener, it activates when the dot is clicked. 
-             * @param e Generic mouse event of Mouse Listener.
-             */
+
             @Override
             public void mousePressed(MouseEvent e){
-                //System.out.println(e.getY() + "," + e.getX());
+                
                 if(onTurn){
                         if(firstLinkDot == 0){
                         firstLinkDot = getDotPosition(dot);
@@ -281,9 +271,9 @@ public class GameFrame extends JPanel{
                     }   
                 }
                 
-                /*if(overlapsFigure(e.getPoint())){
-                        JOptionPane.showMessageDialog(GameFrame.this, "Picha se mama."); 
-                }*/
+                if(overlapsFigure(dotsLocations.get(getDotPosition(dot)))){
+                        JOptionPane.showMessageDialog(GameFrame.this, "Encerrado el "+position); 
+                }
             }
         });
         this.add(dot);
@@ -292,7 +282,7 @@ public class GameFrame extends JPanel{
         
     }
     
-    public static boolean overlapsFigure(Point2D punto){
+    public static boolean overlapsFigure(Point punto){
         //boolean n = false;
         for(LinkedListNode node = figuresArea.getFirstNode(); node != null;
                 node = node.getNextNode()){
