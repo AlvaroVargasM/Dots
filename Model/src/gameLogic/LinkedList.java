@@ -48,7 +48,7 @@ public class LinkedList<GenericType>{
      * @param data
      */
     public void add(GenericType data){
-        this.add(0, data);
+        this.add(size, data);
     }
     
     /**
