@@ -17,7 +17,7 @@ public class ToFigurePack implements Serializable{
         return figure;
     }
     
-       public int getNumber(){
+       public int getPlayerNumber(){
         return playerNumber;
     }
 }

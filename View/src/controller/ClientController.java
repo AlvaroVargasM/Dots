@@ -232,7 +232,7 @@ public class ClientController implements Runnable{
                         System.out.println("Client recieved a server response: ToFigurePack");
                         ToFigurePack figureList = JSONUtil.convertJsonToJava(recievedObjectAsString, ToFigurePack.class);
                         LinkedList<Integer> figure = stringToFigure(figureList.getFigure());
-                        grid.generateFigure(figure,figureList.getNumber());
+                        grid.generateFigure(figure,figureList.getPlayerNumber());
                         break;
                     }
                     
