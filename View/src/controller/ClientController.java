@@ -171,7 +171,7 @@ public class ClientController implements Runnable{
      */
     public static void clientSend(Object object, Object classReference){
         try {
-            Socket clientSocket = new  Socket(InetAddress.getLocalHost(), 9090);
+            Socket clientSocket = new  Socket("192.168.100.14", 9090);
             
             String sendObject = JSONUtil.convertJavaToJson(object);
             String sendClassReference = JSONUtil.convertJavaToJson(classReference);
@@ -197,10 +197,10 @@ public class ClientController implements Runnable{
     @Override
     public void run() {
        try {
-            int cTosPortNumber = 9099;
-            ServerSocket clientAsServer = new ServerSocket(cTosPortNumber);
+            int portNumber = 9099;
+            ServerSocket clientAsServer = new ServerSocket(portNumber);
             
-            System.out.println("Client waiting for a connection on port: " + cTosPortNumber);
+            System.out.println("Client waiting for a connection on port: " + portNumber);
             
             while (true){
                 Socket fromClientSocket = clientAsServer.accept();

@@ -158,10 +158,10 @@ public class ServerController implements Runnable{
     @Override
     public void run() {
         try {
-            int cTosPortNumber = 9090;
-            ServerSocket server = new ServerSocket(cTosPortNumber);
+            int portNumber = 9090;
+            ServerSocket server = new ServerSocket(portNumber);
             
-            System.out.println("Server waiting for a connection on port: " + cTosPortNumber);
+            System.out.println("Server waiting for a connection on port: " + portNumber);
             
             while (true){
                 Socket fromServerSocket = server.accept();
