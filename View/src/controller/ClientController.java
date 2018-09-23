@@ -91,15 +91,10 @@ public class ClientController implements Runnable{
                 RegisterPack initialPackage = new RegisterPack(InetAddress.getLocalHost().getHostAddress(),menu.getNickName(),0);
                 clientSend(initialPackage,reference);
                 
-                Thread.sleep(1000); 
-                /*Sockets recieved simulation
-                playerNumber = 1; 
-                p1Name = menu.getNickName();
-                p2Name = "Pancho";
-                //*/
+                Thread.sleep(1000);
                 
                 if(playerNumber == 0 ){
-                    menu.standBy();
+                    menu.setText("You are in the server queue, waiting for turn...");
                 }else{
                     gameActive = true;
                     menu.setVisible(false);
