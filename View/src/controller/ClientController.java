@@ -232,7 +232,7 @@ public class ClientController implements Runnable{
                     }
                     
                     if (reference.getReference().equals("ToFigurePack")){
-                        System.out.println("Client recieved a server response");
+                        System.out.println("Client recieved a server response: ToFigurePack");
                         ToFigurePack figureList = JSONUtil.convertJsonToJava(recievedObjectAsString, ToFigurePack.class);
                         LinkedList<Integer> figure = stringToFigure(figureList.getFigure());
                         grid.generateFigure(figure);
@@ -240,7 +240,7 @@ public class ClientController implements Runnable{
                     }
                     
                     if (reference.getReference().equals("DataPack")){
-                        System.out.println("Client recieved a server response");
+                        System.out.println("Client recieved a server response: DataPack");
                         DataPack data = JSONUtil.convertJsonToJava(recievedObjectAsString, DataPack.class);
                         
                         if(data.getWinner() == null){
