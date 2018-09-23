@@ -181,7 +181,7 @@ public class GameFrame extends JPanel{
     }
     
     /**
-     * Detecs if a given line overlaps the existing painted lines.
+     * Detects if a given line overlaps the existing painted lines.
      * @param newline A new line that the player has drawn.
      */
     private boolean overlaps(Line2D.Double newline){

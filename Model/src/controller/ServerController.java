@@ -42,29 +42,31 @@ public class ServerController implements Runnable{
     public void createConnection(DotConnectionPack connection) throws Exception{
         int initalDotPosition = connection.getInitialDot();
         int finalDotPosition = connection.getFinalDot();
-        LinkedList figureList = grid.createConnection(initalDotPosition, finalDotPosition);
-        String strFigure = figureToString(figureList);
-        Player player = null;
-        
-        if(connection.getPlayerNumber() == 1){
-            player = player1;
-            sendDotConnectionPack(connection, player2.getPlayerIp());
-        }
-        else{
-            player = player2;
-            sendDotConnectionPack(connection, player1.getPlayerIp());
-        }
-        
-        int score = 0;
-        String ip = player.getPlayerIp();
-        if(strFigure != ""){
-            score = figureList.getSize() * 2;
-            sendToFigurePack(strFigure, ip);
-        }
+        if(initalDotPosition != 0 && finalDotPosition != 0){
+            LinkedList figureList = grid.createConnection(initalDotPosition, finalDotPosition);
+            String strFigure = figureToString(figureList);
+            Player player = null;
 
-        player.setScore(player.getScore() + score);
-        
-        sendDataPacks(null);
+            if(connection.getPlayerNumber() == 1){
+                player = player1;
+                sendDotConnectionPack(connection, player2.getPlayerIp());
+            }
+            else{
+                player = player2;
+                sendDotConnectionPack(connection, player1.getPlayerIp());
+            }
+
+            int score = 0;
+            String ip = player.getPlayerIp();
+            if(strFigure != ""){
+                score = figureList.getSize() * 2;
+                sendToFigurePack(strFigure, ip);
+            }
+
+            player.setScore(player.getScore() + score);
+
+            sendDataPacks(null);
+        }
     }
     
     public String figureToString(LinkedList figure){
@@ -80,7 +82,8 @@ public class ServerController implements Runnable{
     public void sendToFigurePack(String strFigure, String ip){
         ToFigurePack figurePack = new ToFigurePack(strFigure);
         ClassReference classReference = new ClassReference("ToFigurePack");
-        serverSend(figurePack, classReference, ip);
+        serverSend(figurePack, classReference, player1.getPlayerIp());
+        serverSend(figurePack, classReference, player2.getPlayerIp());
     }
     
     public void sendDotConnectionPack(DotConnectionPack dotConnectionPack, String ip){
