@@ -1,6 +1,5 @@
 package controller;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import dataPackages.ClassReference;
 import dataPackages.DataPack;
@@ -17,7 +16,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.logging.Level;
@@ -35,6 +33,7 @@ public class ServerController implements Runnable{
     private Player player1;
     private Player player2;
     private static int turnNumber;
+    private static int maxTurnNumber;
     
     /**
      *
@@ -47,6 +46,7 @@ public class ServerController implements Runnable{
         grid = new Grid(5, 5);
         playerQueue = new Queue();
         turnNumber = 1;
+        maxTurnNumber = 16;
     }
     
     /**
@@ -185,17 +185,19 @@ public class ServerController implements Runnable{
         String player1Name = player1.getNickname();
         String player2Name = player2.getNickname();
         String player1Ip = player1.getPlayerIp();
-        RegisterPack registerPackPlayer1 = new RegisterPack(player1Ip, player1Name, 1, player2Name);
+        RegisterPack registerPackPlayer1 = new RegisterPack(player1Ip, player1Name, 1);
+        registerPackPlayer1.setOtherPlayerName(player2Name);
         serverSend(registerPackPlayer1, classReference, player1Ip);
         
         String player2Ip = player2.getPlayerIp();
-        RegisterPack registerPackPlayer2 = new RegisterPack(player2Ip, player2Name, 2, player1Name);
+        RegisterPack registerPackPlayer2 = new RegisterPack(player2Ip, player2Name, 2);
+        registerPackPlayer2.setOtherPlayerName(player1Name);
         serverSend(registerPackPlayer2, classReference, player2Ip);
     }
     
     public String getWinner(){
         String winner = null;
-        if(turnNumber == 16){
+        if(turnNumber == maxTurnNumber){
             if(player1.getScore() > player2.getScore()) winner = player1.getNickname();
             else if(player1.getScore() < player2.getScore()) winner = player2.getNickname();
             else winner = "Draw";
@@ -266,6 +268,13 @@ public class ServerController implements Runnable{
                         registerNewPlayer(receivedRegisterPack);
                         break;
                     }
+                    
+//                    if(reference.getReference().equals("DataPack")){
+//                        System.out.println("Data pack arrived");
+//                        DataPack receivedDataPack = JSONUtil.convertJsonToJava(recievedObjectAsString, DataPack.class);                        
+//                        endMatch(receivedDataPack);
+//                        break;
+//                    }
                 }  
             }
         } catch (Exception ex) {

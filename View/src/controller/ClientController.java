@@ -2,7 +2,6 @@ package controller;
 
 import com.sun.security.ntlm.Client;
 import dataPackages.*;
-import jsonLogic.*;
 import visualFrames.*;
 import jsonLogic.JSONUtil;
 import java.io.BufferedReader;
@@ -187,10 +186,6 @@ public class ClientController implements Runnable{
      */
     public static void clientSend(Object object, Object classReference){
         try {
-<<<<<<< HEAD
-=======
-            
->>>>>>> c3feaddced20042edc7b1f6cc034572d02c6bdb3
             Socket clientSocket = new  Socket(menu.getServerIp(), 9090);
             
             String sendObject = JSONUtil.convertJavaToJson(object);
