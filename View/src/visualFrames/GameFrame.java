@@ -168,8 +168,8 @@ public class GameFrame extends JPanel{
      * @param startPoint Dot's starting point.
      * @param endPoint Dot's finishing point.
      */
-    private void linkDots(Point startPoint, Point endPoint) {
-        Line2D.Double newLine = new Line2D.Double(startPoint, endPoint);
+    public void linkDots(int startPoint, int endPoint) {
+        Line2D.Double newLine = new Line2D.Double(dotsLocations.get(startPoint), dotsLocations.get(endPoint));
         
         if(overlaps(newLine)){
             JOptionPane.showMessageDialog(GameFrame.this, "Invalid, line overlaps other."); 
@@ -247,14 +247,14 @@ public class GameFrame extends JPanel{
              */
             @Override
             public void mousePressed(MouseEvent e){
-                System.out.println(e.getPoint());
+                //System.out.println(e.getY() + "," + e.getX());
                 if(onTurn){
                         if(firstLinkDot == 0){
                         firstLinkDot = getDotPosition(dot);
                     }else{
                         if(isValid(firstLinkDot,getDotPosition(dot))){
                             secondLinkDot = getDotPosition(dot);
-                            linkDots(dotsLocations.get(firstLinkDot),dotsLocations.get(secondLinkDot));
+                            linkDots(firstLinkDot,secondLinkDot);
                         }else{
                          firstLinkDot = 0;
                          JOptionPane.showMessageDialog(GameFrame.this, "Invalid link, out of range.");   
