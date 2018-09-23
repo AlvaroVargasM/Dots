@@ -350,7 +350,11 @@ public class GameFrame extends JPanel{
             for(LinkedListNode node = figureList1.getFirstNode(); node != null;
             node = node.getNextNode()){
                 Path2D.Double path = (Path2D.Double) node.getData();
-                g2D.setPaint(otherPlayerColor);
+                if(getPlayerNumber()==1){
+                    g2D.setPaint(dotsBlue);
+                }else{
+                    g2D.setPaint(dotsOrange);
+                }
                 g2D.fill(path);
                 g2D.draw(path);
             }
@@ -358,7 +362,12 @@ public class GameFrame extends JPanel{
             for(LinkedListNode node = figureList2.getFirstNode(); node != null;
             node = node.getNextNode()){
                 Path2D.Double path = (Path2D.Double) node.getData();
-                g2D.setPaint(playerColor);
+                if(getPlayerNumber()==1){
+                    g2D.setPaint(dotsOrange);
+                }else{
+                    g2D.setPaint(dotsBlue);
+                }
+                        
                 g2D.fill(path);
                 g2D.draw(path);
             }
@@ -366,7 +375,11 @@ public class GameFrame extends JPanel{
             for(LinkedListNode node = lineList1.getFirstNode(); node != null;
             node = node.getNextNode()){
                 Line2D.Double line = (Line2D.Double) node.getData();
-                g2D.setColor(playerColor);
+                if(getPlayerNumber()==1){
+                    g2D.setPaint(playerColor);
+                }else{
+                    g2D.setPaint(otherPlayerColor);
+                }
                 g2D.setStroke(new BasicStroke(6));
                 g2D.draw(line);
             } 
