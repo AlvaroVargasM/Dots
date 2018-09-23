@@ -239,6 +239,13 @@ public class ClientController implements Runnable{
                         break;
                     }
                     
+                    if (reference.getReference().equals("DotConnectionPack")){
+                        System.out.println("Client recieved a server response: DotConnectionPack");
+                        DotConnectionPack dotLink = JSONUtil.convertJsonToJava(recievedObjectAsString, DotConnectionPack.class);
+                        grid.linkDots(dotLink.getInitialDot(),dotLink.getFinalDot());
+                        break;
+                    }
+                    
                     if (reference.getReference().equals("DataPack")){
                         System.out.println("Client recieved a server response: DataPack");
                         DataPack data = JSONUtil.convertJsonToJava(recievedObjectAsString, DataPack.class);
