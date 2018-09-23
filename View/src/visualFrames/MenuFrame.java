@@ -65,6 +65,7 @@ public class MenuFrame extends JFrame{
         startButton.setFocusPainted(false);
         this.getContentPane().add(startButton, BorderLayout.CENTER);
         
+        startButton.setFocusable(true);
         startButton.addKeyListener(new KeyAdapter() {
             public void keyPressed(KeyEvent e) {
                 if(e.getKeyCode() == KeyEvent.VK_ENTER) {

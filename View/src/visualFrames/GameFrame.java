@@ -276,22 +276,26 @@ public class GameFrame extends JPanel{
                 Point dotLocation = dotsLocations.get(dotNumber);
                 
                 if(onTurn){
-                    
-                    if(firstLinkDot == 0){
-                        firstLinkDot = dotNumber;
-                    }else{
-                        if(isValid(firstLinkDot,dotNumber)){
-                            secondLinkDot = dotNumber;
-                            linkDots(firstLinkDot,secondLinkDot,1);
-                        }else{
-                         firstLinkDot = 0;
-                         JOptionPane.showMessageDialog(GameFrame.this, "Invalid link, out of range.");   
-                        }
-                    }   
-                }
-                
-                if(insideFigure(dotLocation) &&  !(inBorderFigures(dotLocation))){
+                    if(insideFigure(dotLocation) &&  !(inBorderFigures(dotLocation))){
+                        
                         JOptionPane.showMessageDialog(GameFrame.this, "Invalid, dot locked inside figure."); 
+                        firstLinkDot = 0;
+                        secondLinkDot = 0;
+                        
+                    }else{
+                        
+                        if(firstLinkDot == 0){
+                        firstLinkDot = dotNumber;
+                        }else{
+                            if(isValid(firstLinkDot,dotNumber)){
+                                secondLinkDot = dotNumber;
+                                linkDots(firstLinkDot,secondLinkDot,1);
+                            }else{
+                            firstLinkDot = 0;
+                            JOptionPane.showMessageDialog(GameFrame.this, "Invalid link, out of range.");   
+                            }
+                        }
+                    }     
                 }
             }
         });
@@ -386,10 +390,7 @@ public class GameFrame extends JPanel{
         }
         
         repaint();
-    }
-    
-    
-    
+    }  
     
     /**
      * Overrided method to paintComponents.
