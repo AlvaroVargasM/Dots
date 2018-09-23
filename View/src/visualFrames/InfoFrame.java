@@ -85,12 +85,12 @@ public class InfoFrame extends JPanel{
         
         p1Score = new JLabel("0",SwingConstants.CENTER);
         p1Score.setFont(NumbersFont);
-        p1Score.setForeground(new Color(255, 102, 0));
+        p1Score.setForeground(new Color(21, 72, 144));
         p1Score.setVerticalAlignment(JLabel.TOP);
         
         p2Score = new JLabel("0",SwingConstants.CENTER);
         p2Score.setFont(NumbersFont);
-        p2Score.setForeground(new Color(51, 119, 255));
+        p2Score.setForeground(new Color(255, 102, 0));
         p2Score.setVerticalAlignment(JLabel.TOP);
         
         turnNumber = new JLabel("1",SwingConstants.CENTER);
