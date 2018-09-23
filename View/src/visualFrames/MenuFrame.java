@@ -27,6 +27,8 @@ public class MenuFrame extends JFrame{
      */
     String serverIp;
     
+    JButton startButton;
+    
     /**
      * Constructor of the class MenuFrame, recieves no parameters.
      */
@@ -49,7 +51,7 @@ public class MenuFrame extends JFrame{
         this.getContentPane().add(title, BorderLayout.NORTH);
         add(title, BorderLayout.NORTH);
         
-        JButton startButton = new JButton("Empezar partida");
+        startButton = new JButton("Start game");
         startButton.setPreferredSize(new Dimension(1000, 300));
         startButton.setFont(new Font("Tahoma", Font.BOLD, 35));
         startButton.setOpaque(true);
@@ -72,7 +74,7 @@ public class MenuFrame extends JFrame{
             }
         });
         
-        JButton exitButton = new JButton("Salir");
+        JButton exitButton = new JButton("Exit");
         exitButton.setPreferredSize(new Dimension(1000, 100));
         exitButton.setFont(new Font("Tahoma", Font.BOLD, 25));
         exitButton.setOpaque(true);
@@ -97,6 +99,13 @@ public class MenuFrame extends JFrame{
         JOptionPane.showOptionDialog(null, "The server is currently full. Please close this window to refresh.","Full Server", JOptionPane.DEFAULT_OPTION,JOptionPane.INFORMATION_MESSAGE, null, new Object[]{}, null); 
     }
     
+    /**
+     * Changes startButton's display text.
+     * @param text New startButton's text
+     */
+    public void setText(String text){
+        startButton.setText(text);
+    }
     /**
      * Returns the ip adress entered by the player.
      * @return {@link MenuFrame#serverIp}
