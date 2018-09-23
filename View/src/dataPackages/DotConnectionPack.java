@@ -40,16 +40,16 @@ public class DotConnectionPack implements Serializable{
     }
     
     /**
-     *
-     * @return
+     * Returns the initialDot variable.
+     * @return {@link DotConnectionPack#initialDot}
      */
     public int getInitialDot() {
         return initialDot;
     }
 
     /**
-     *
-     * @return
+     * Returns the finalDot variable.
+     * @return {@link DotConnectionPack#finalDot}
      */
     public int getFinalDot() {
         return finalDot;
