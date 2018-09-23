@@ -64,7 +64,7 @@ public class ServerController implements Runnable{
 
             if(connection.getPlayerNumber() == 1){
                 player = player1;
-                sendDotConnectionPack(connection, player2.getPlayerIp());
+                //sendDotConnectionPack(connection, player2.getPlayerIp());
             }
             else{
                 player = player2;
@@ -72,14 +72,14 @@ public class ServerController implements Runnable{
             }
 
             int score = 0;
-            if(strFigure != ""){
+            if(strFigure.equals("")){
                 score = figureList.getSize() * 2;
                 sendToFigurePack(strFigure, player.getPlayerIp(), player.getPlayerNumber());
             }
 
             player.setScore(player.getScore() + score);
 
-            sendDataPacks();
+            //sendDataPacks();
         }
     }
     
@@ -108,7 +108,7 @@ public class ServerController implements Runnable{
         ToFigurePack figurePack = new ToFigurePack(strFigure, playerNumber);
         ClassReference classReference = new ClassReference("ToFigurePack");
         serverSend(figurePack, classReference, player1.getPlayerIp());
-        serverSend(figurePack, classReference, player2.getPlayerIp());
+        //serverSend(figurePack, classReference, player2.getPlayerIp());
     }
     
     /**
@@ -159,9 +159,9 @@ public class ServerController implements Runnable{
             Player player = new Player(playerName, playerIp, playerNumber);
             playerQueue.enqueue(player);
 
-            if(playerQueue.getSize() == 2 && player1 == null && player2 == null){
+            //if(playerQueue.getSize() == 2 && player1 == null && player2 == null){
                 startNewMatch();
-            }
+            //}
         }
     }
     
@@ -171,8 +171,8 @@ public class ServerController implements Runnable{
     public void startNewMatch(){
         player1 = playerQueue.dequeue().getPlayer();
         player1.setPlayerNumber(1);
-        player2 = playerQueue.dequeue().getPlayer();
-        player2.setPlayerNumber(2);
+        //player2 = playerQueue.dequeue().getPlayer();
+        //player2.setPlayerNumber(2);
         sendRegisterPack();
     }
     
@@ -183,16 +183,16 @@ public class ServerController implements Runnable{
         ClassReference classReference = new ClassReference("RegisterPack");
         
         String player1Name = player1.getNickname();
-        String player2Name = player2.getNickname();
+        //String player2Name = player2.getNickname();
         String player1Ip = player1.getPlayerIp();
         RegisterPack registerPackPlayer1 = new RegisterPack(player1Ip, player1Name, 1);
-        registerPackPlayer1.setOtherPlayerName(player2Name);
+        //registerPackPlayer1.setOtherPlayerName(player2Name);
         serverSend(registerPackPlayer1, classReference, player1Ip);
         
-        String player2Ip = player2.getPlayerIp();
-        RegisterPack registerPackPlayer2 = new RegisterPack(player2Ip, player2Name, 2);
-        registerPackPlayer2.setOtherPlayerName(player1Name);
-        serverSend(registerPackPlayer2, classReference, player2Ip);
+//        String player2Ip = player2.getPlayerIp();
+//        RegisterPack registerPackPlayer2 = new RegisterPack(player2Ip, player2Name, 2);
+//        registerPackPlayer2.setOtherPlayerName(player1Name);
+//        serverSend(registerPackPlayer2, classReference, player2Ip);
     }
     
     public String getWinner(){
