@@ -1,20 +1,15 @@
 package visualFrames;
 
-
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-
 import java.awt.GridLayout;
-
 import java.awt.Point;
-
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Area;
-
 import java.awt.geom.Line2D;
 import java.awt.geom.Path2D;
 import java.awt.geom.Point2D;
@@ -45,21 +40,34 @@ public class GameFrame extends JPanel{
     private static LinkedList<JButton> DotsList;
     
     /**
-     *Contains all the grid's painted lines.
+     *Contains the grid's painted lines for player 1.
      */
     private static LinkedList<Line2D.Double> lineList1;
+    
+    /**
+     *Contains the grid's painted lines for player 2.
+     */
     private static LinkedList<Line2D.Double> lineList2;
     
     /**
-     *Contains all the grid's painted linked figures.
+     *Contains the grid's painted linked figures for player 1.
      */
     private static LinkedList<Path2D.Double> figureList1;
+    
+    /**
+     *Contains the grid's painted linked figures for player 2.
+     */
     private static LinkedList<Path2D.Double> figureList2;
     
     /**
-     *Contains all the grid's painted linked figures.
+     *Contains all the grid's figures areas.
      */
     private static LinkedList<Area> figuresArea;
+    
+    /**
+     *Contains all the figures's dots.
+     */
+    private static LinkedList<Point> figuresDots;
     
     /**
      *Collection that contains a dot number as key and his location as value.
@@ -76,13 +84,19 @@ public class GameFrame extends JPanel{
      */
     private int secondLinkDot;
     
+    /**
+     *Indicates if a new line has been linked.
+     */
     private boolean linked = false;
     
     /**
-     *Color asigned to the player.
+     *Color asigned to the player running this GameFrame.
      */
     private Color playerColor;
     
+    /**
+     *Color asigned to the player running the other GameFrame.
+     */
     private Color otherPlayerColor;
     
     /**
@@ -94,6 +108,7 @@ public class GameFrame extends JPanel{
      *Final variable that holds a orange color.
      */
     private static final Color dotsOrange = new Color(255, 102, 0);   
+    
     
     /**
      *The constructor of the class GameFrame, recieves no parameters.
@@ -112,6 +127,7 @@ public class GameFrame extends JPanel{
         this.DotsList = new LinkedList<JButton>();
 
         this.figuresArea = new LinkedList<Area>();
+        this.figuresDots = new LinkedList<Point>();
         
         dotsLocations = new HashMap<Integer, Point>();
         fillLocationsHashMap();
@@ -256,13 +272,16 @@ public class GameFrame extends JPanel{
 
             @Override
             public void mousePressed(MouseEvent e){
+                int dotNumber = getDotPosition(dot);
+                Point dotLocation = dotsLocations.get(dotNumber);
                 
                 if(onTurn){
-                        if(firstLinkDot == 0){
-                        firstLinkDot = getDotPosition(dot);
+                    
+                    if(firstLinkDot == 0){
+                        firstLinkDot = dotNumber;
                     }else{
-                        if(isValid(firstLinkDot,getDotPosition(dot))){
-                            secondLinkDot = getDotPosition(dot);
+                        if(isValid(firstLinkDot,dotNumber)){
+                            secondLinkDot = dotNumber;
                             linkDots(firstLinkDot,secondLinkDot,1);
                         }else{
                          firstLinkDot = 0;
@@ -271,8 +290,8 @@ public class GameFrame extends JPanel{
                     }   
                 }
                 
-                if(overlapsFigure(dotsLocations.get(getDotPosition(dot)))){
-                        JOptionPane.showMessageDialog(GameFrame.this, "Encerrado el "+position); 
+                if(insideFigure(dotLocation) &&  !(inBorderFigures(dotLocation))){
+                        JOptionPane.showMessageDialog(GameFrame.this, "Invalid, dot locked inside figure."); 
                 }
             }
         });
@@ -282,16 +301,52 @@ public class GameFrame extends JPanel{
         
     }
     
-    public static boolean overlapsFigure(Point punto){
-        //boolean n = false;
+    
+    /**
+     *Checks if a point is inside any of thefigures in the grid.
+     * @param point A class Point variable. 
+     */
+    public static boolean insideFigure(Point point){
+
         for(LinkedListNode node = figuresArea.getFirstNode(); node != null;
                 node = node.getNextNode()){
                     Area area = (Area) node.getData();
-                    if(area.getBounds().contains(punto)){
+                    if(area.contains(point)){
                         return true;
                     } 
                 }
         return false;
+    }
+    
+    /**
+     *Detects if a point is part of the edge the figures in the grid.
+     * @param newPoint A class Point variable.
+     */
+    public static boolean inBorderFigures(Point newPoint){
+        
+        for(LinkedListNode node = figuresDots.getFirstNode(); node != null;
+                node = node.getNextNode()){
+                    Point registeredPoint = (Point) node.getData();
+                    if(newPoint.equals(registeredPoint)){
+                        return true;
+                    } 
+                }
+        return false;
+    }
+    
+    /**
+     * Detects and removes a point in the linked list figureDots if it 
+     * is currently contained in aa figure.
+     */
+    public static void updateBorderFigures(){
+        
+        for(LinkedListNode node = figuresDots.getFirstNode(); node != null;
+                node = node.getNextNode()){
+                    Point point = (Point) node.getData();
+                    if(insideFigure(point)){
+                        node.setData(new Point(0,0));
+                    } 
+        }
     }
     
     /**
@@ -303,10 +358,14 @@ public class GameFrame extends JPanel{
         Path2D.Double newPath = new Path2D.Double();
         
         boolean first = true;
-
         for(LinkedListNode node = list.getFirstNode(); node != null;
+                
             node = node.getNextNode()){
+            
             Integer n = (Integer) node.getData();
+            
+            figuresDots.add(new Point(dotsLocations.get(n).x,dotsLocations.get(n).y));
+            
             if(first){
                 newPath.moveTo(dotsLocations.get(n).x,dotsLocations.get(n).y);
                 first = false;
@@ -318,6 +377,7 @@ public class GameFrame extends JPanel{
         
         Area newArea = new Area(newPath);
         figuresArea.add(newArea);
+        updateBorderFigures();
         
         if(playerNumber == 1){
             figureList1.add(newPath);
@@ -328,9 +388,11 @@ public class GameFrame extends JPanel{
         repaint();
     }
     
+    
+    
+    
     /**
      * Overrided method to paintComponents.
-     * @param g Generic instance of Graphics to paint the components
      */
     @Override
         protected void paintComponent(Graphics g) {
@@ -386,6 +448,7 @@ public class GameFrame extends JPanel{
     public int getPlayerNumber() {
         return playerNumber;
     }
+    
     /**
      * Sets the player's number.
      * @param playerNumber {@link GameFrame#playerNumber}
@@ -393,6 +456,7 @@ public class GameFrame extends JPanel{
     public void setPlayerNumber(int playerNumber) {
         this.playerNumber = playerNumber;
     }
+    
     /**
      * Returns the player turn's boolean state.
      * @return onTurn {@link GameFrame#onTurn}
@@ -400,6 +464,7 @@ public class GameFrame extends JPanel{
     public boolean getOnTurn() {
         return onTurn;
     }
+    
     /**
      * Sets the player turn's boolean state.
      * @param onTurn {@link GameFrame#onTurn}
@@ -408,20 +473,32 @@ public class GameFrame extends JPanel{
         this.onTurn = onTurn;
     }
     
+    /**
+     * Returns the status of the linked variable.
+     * @return linked {@link GameFrame#linked}
+     */
     public boolean getLinked() {
         return linked;
     }
     
+    /**
+     * Returns the variable firstLinkDot.
+     * @return firstLinkDot {@link GameFrame#firstLinkDot}
+     */
     public int getFirstLinkDot() {
         return firstLinkDot;
     }
-
+    
+    /**
+     * Returns the variable secondLinkDot.
+     * @return secondLinkDot {@link GameFrame#secondLinkDot}
+     */
     public int getSecondLinkDot() {
         return secondLinkDot;
     }
     
     /**
-     * Returns a linked list with the painted lines.
+     * Resets all the values needed to paint a new line.
      */
     public void resetLinks(){
         this.linked = false;

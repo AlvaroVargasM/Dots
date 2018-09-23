@@ -16,7 +16,9 @@ import java.net.UnknownHostException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-
+/**
+  * Player's game controller. Interacts with the game server and updates data to the player's display.
+  */
 public class ClientController implements Runnable{
     
     /**
@@ -96,9 +98,8 @@ public class ClientController implements Runnable{
         
         menu = new MenuFrame();
         while(!registered){
-            try {Thread.sleep(10);}
-            catch (Exception e)
-                {e.printStackTrace();}
+            try {Thread.sleep(10);
+            }catch (Exception e){}
             
             if(!(menu.getNickName().equals(""))){
                 
@@ -168,7 +169,7 @@ public class ClientController implements Runnable{
     }
     
     /**
-     * Converts a concatenated string into a LinkedList of integers.
+     * Converts a concatenated string into a linked list of integers.
      * @param strFigure Recieved strings, contains a serie of integers.
      */
     public static LinkedList<Integer> stringToFigure(String strFigure){

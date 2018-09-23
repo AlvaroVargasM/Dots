@@ -6,10 +6,12 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import java.awt.event.KeyEvent;
 import javax.swing.SwingConstants;
 
 /**
@@ -27,6 +29,9 @@ public class MenuFrame extends JFrame{
      */
     String serverIp;
     
+    /**
+     * Menu's start game button.
+     */
     JButton startButton;
     
     /**
@@ -59,17 +64,21 @@ public class MenuFrame extends JFrame{
         startButton.setBackground(Color.WHITE);
         startButton.setFocusPainted(false);
         this.getContentPane().add(startButton, BorderLayout.CENTER);
+        
+        startButton.addKeyListener(new KeyAdapter() {
+            public void keyPressed(KeyEvent e) {
+                if(e.getKeyCode() == KeyEvent.VK_ENTER) {
+                    if(nickName.equals("")){
+                    register();
+                    }
+                }
+            } 
+        });
+        
         startButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e){
-                serverIp = JOptionPane.showInputDialog(MenuFrame.this, "Please enter the server's ip adress to connect:", "Register",3);
-                while(serverIp.equals("")){
-                    serverIp = JOptionPane.showInputDialog(MenuFrame.this, "No ip was entered, try again:", "Registro",3);
-                }
-                
-                nickName = JOptionPane.showInputDialog(MenuFrame.this, "Enter your nick name: ", "Register",3);
-            
-                while(nickName.equals("")){
-                    nickName = JOptionPane.showInputDialog(MenuFrame.this, "Nothing was entered, write your nickname:", "Registro",3);
+                if(nickName.equals("")){
+                    register();
                 }
             }
         });
@@ -97,6 +106,36 @@ public class MenuFrame extends JFrame{
      */
     public void standBy(){
         JOptionPane.showOptionDialog(null, "The server is currently full. Please close this window to refresh.","Full Server", JOptionPane.DEFAULT_OPTION,JOptionPane.INFORMATION_MESSAGE, null, new Object[]{}, null); 
+    }
+    
+    /**
+     * Displays two pop ups to set the server ip adress and the user's nickname.
+     */
+    private void register(){
+        
+        try {
+            serverIp = JOptionPane.showInputDialog(MenuFrame.this, "Please enter the server's ip adress to connect:", "Register",3);
+            
+            if(!(serverIp.equals(JOptionPane.CANCEL_OPTION))){
+                while(serverIp.equals("")){
+                    serverIp = JOptionPane.showInputDialog(MenuFrame.this, "No ip was entered, try again:", "Registro",3);
+                }
+                
+                try{
+                nickName = JOptionPane.showInputDialog(MenuFrame.this, "Enter your nick name: ", "Register",3);
+                
+                if(!(nickName.equals(JOptionPane.CANCEL_OPTION)))   
+            
+                    while(nickName.equals("")){
+                        nickName = JOptionPane.showInputDialog(MenuFrame.this, "Nothing was entered, write your nickname:", "Registro",3);
+                    }
+                }catch(NullPointerException e){
+                    nickName = "";
+                }       
+            }
+        }catch(NullPointerException e){
+            serverIp = "";
+        }    
     }
     
     /**
