@@ -15,7 +15,6 @@ public class Grid {
     private LinkedList firstRow;
     private int rowSize;
     private int columnSize;
-    private static Grid singletonGrid;
 
     /**
      * Grid constructor. Receives the size of the grid or matrix and assigns 
@@ -23,24 +22,18 @@ public class Grid {
      * @param rowSize
      * @param columnSize
      */
-    private Grid(int rowSize, int columnSize){
+    public Grid(int rowSize, int columnSize){
         firstRow = null;
         this.rowSize = rowSize;
         this.columnSize = columnSize;
-    }
-    
-    public static Grid getGrid(int rowSize, int columnSize){
-        if(singletonGrid == null){
-            singletonGrid = new Grid(rowSize, columnSize);
-            int pos = 1;
-            for (int i = 0; i < singletonGrid.getRowSize(); i++){
-                LinkedList list = new LinkedList();
-                for(int j = 0; j < singletonGrid.getColumnSize(); j++){
-                    list.add(pos++, null);
-                }
-                singletonGrid.insertList(list);
+        int pos = 1;
+        for (int i = 0; i < this.getRowSize(); i++){
+            LinkedList list = new LinkedList();
+            for(int j = 0; j < this.getColumnSize(); j++){
+                list.add(pos++, null);
             }
-        }return singletonGrid;
+            this.insertList(list);
+        }
     }
     
     /**

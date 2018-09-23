@@ -23,6 +23,10 @@ import java.net.Socket;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ *
+ * @author Erick Barrantes
+ */
 public class ServerController implements Runnable{
     
     private static Grid grid;
@@ -30,15 +34,26 @@ public class ServerController implements Runnable{
     private static Queue playerQueue;
     private Player player1;
     private Player player2;
+    private static int turnNumber;
     
+    /**
+     *
+     * @param args
+     * @throws Exception
+     */
     public static void main (String[] args) throws Exception{
         Thread recievePackages = new Thread(new ServerController());
         recievePackages.start();
-        grid = Grid.getGrid(5, 5);
+        grid = new Grid(5, 5);
         playerQueue = new Queue();
-        
+        turnNumber = 1;
     }
     
+    /**
+     *
+     * @param connection
+     * @throws Exception
+     */
     public void createConnection(DotConnectionPack connection) throws Exception{
         int initalDotPosition = connection.getInitialDot();
         int finalDotPosition = connection.getFinalDot();
@@ -49,7 +64,7 @@ public class ServerController implements Runnable{
 
             if(connection.getPlayerNumber() == 1){
                 player = player1;
-                //sendDotConnectionPack(connection, player2.getPlayerIp());
+                sendDotConnectionPack(connection, player2.getPlayerIp());
             }
             else{
                 player = player2;
@@ -64,10 +79,16 @@ public class ServerController implements Runnable{
 
             player.setScore(player.getScore() + score);
 
-            //sendDataPacks(null);
+            Player winner = getWinner();
+            sendDataPacks(winner);
         }
     }
     
+    /**
+     *
+     * @param figure
+     * @return
+     */
     public String figureToString(LinkedList figure){
         String strFigure = "";
         if(figure != null){
@@ -78,30 +99,53 @@ public class ServerController implements Runnable{
         }return strFigure;
     }
     
+    /**
+     *
+     * @param strFigure
+     * @param ip
+     * @param playerNumber
+     */
     public void sendToFigurePack(String strFigure, String ip, int playerNumber){
         ToFigurePack figurePack = new ToFigurePack(strFigure, playerNumber);
         ClassReference classReference = new ClassReference("ToFigurePack");
         serverSend(figurePack, classReference, player1.getPlayerIp());
-        //serverSend(figurePack, classReference, player2.getPlayerIp());
+        serverSend(figurePack, classReference, player2.getPlayerIp());
     }
     
+    /**
+     *
+     * @param dotConnectionPack
+     * @param ip
+     */
     public void sendDotConnectionPack(DotConnectionPack dotConnectionPack, String ip){
         ClassReference classReference = new ClassReference("DotConnectionPack");
         serverSend(dotConnectionPack, classReference, ip);
     }
     
-    public void sendDataPacks(String winner){
+    /**
+     *
+     * @param winner
+     */
+    public void sendDataPacks(Player winner){
         ClassReference classReference = new ClassReference("DataPack");
         int score1 = player1.getScore();
-        //int score2 = player2.getScore();
+        int score2 = player2.getScore();
         
-        DataPack packPlayer1 = new DataPack(winner, score1, 0, 1);
+        String winnerName = null;
+        if(winner != null)winner.getNickname();
+        DataPack packPlayer1 = new DataPack(winnerName, score1, score2, 1);
         serverSend(packPlayer1, classReference, player1.getPlayerIp());
         
-//        DataPack packPlayer2 = new DataPack(winner, score1, score2, 2);
-//        serverSend(packPlayer2, classReference, player2.getPlayerIp());
+        DataPack packPlayer2 = new DataPack(winnerName, score1, score2, 2);
+        serverSend(packPlayer2, classReference, player2.getPlayerIp());
+        
+        turnNumber++;
     }
     
+    /**
+     *
+     * @param registerPack
+     */
     public void registerNewPlayer(RegisterPack registerPack){
         String playerName = registerPack.getPlayerName();
         String playerIp = registerPack.getPlayerIp();
@@ -111,34 +155,57 @@ public class ServerController implements Runnable{
             Player player = new Player(playerName, playerIp, playerNumber);
             playerQueue.enqueue(player);
 
-            //if(playerQueue.getSize() == 2 && player1 == null && player2 == null){
+            if(playerQueue.getSize() == 2 && player1 == null && player2 == null){
                 startNewMatch();
-           // }
+            }
         }
     }
     
+    /**
+     *
+     */
     public void startNewMatch(){
         player1 = playerQueue.dequeue().getPlayer();
         player1.setPlayerNumber(1);
-      //  player2 = playerQueue.dequeue().getPlayer();
-       // player2.setPlayerNumber(2);
+        player2 = playerQueue.dequeue().getPlayer();
+        player2.setPlayerNumber(2);
         sendRegisterPack();
     }
     
+    /**
+     *
+     */
     public void sendRegisterPack(){
         ClassReference classReference = new ClassReference("RegisterPack");
         
         String player1Name = player1.getNickname();
-        //String player2Name = player2.getNickname();
+        String player2Name = player2.getNickname();
         String player1Ip = player1.getPlayerIp();
         RegisterPack registerPackPlayer1 = new RegisterPack(player1Ip, player1Name, 1, "");
         serverSend(registerPackPlayer1, classReference, player1Ip);
         
-//        String player2Ip = player2.getPlayerIp();
-//        RegisterPack registerPackPlayer2 = new RegisterPack(player2Ip, player2Name, 2, player1Name);
-//        serverSend(registerPackPlayer2, classReference, player2Ip);
+        String player2Ip = player2.getPlayerIp();
+        RegisterPack registerPackPlayer2 = new RegisterPack(player2Ip, player2Name, 2, player1Name);
+        serverSend(registerPackPlayer2, classReference, player2Ip);
     }
     
+    public Player getWinner(){
+        Player winner = null;
+        if(turnNumber == 17){
+            if(player1.getScore() > player2.getScore()) winner = player1;
+            else winner = player2;
+            turnNumber = 1;
+            grid = new Grid(5, 5);
+            player1 = null;
+            player2 = null;
+        }return winner;
+    }
+    /**
+     *
+     * @param object1
+     * @param object2
+     * @param ipAddress
+     */
     public void serverSend(Object object1, Object object2, String ipAddress){
   
         try {

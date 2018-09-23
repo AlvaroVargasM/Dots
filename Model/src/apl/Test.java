@@ -10,7 +10,8 @@ public class Test {
         
         //System.out.println(stringToFigure("1.2.7.6.").toString());
         
-        Grid grid = Grid.getGrid(5, 5);
+        Grid grid = new Grid(5, 5);
+        System.out.println(grid.toString());
                 
         LinkedList test1 = grid.createConnection(1, 2);
         LinkedList test2 = grid.createConnection(2, 8);
