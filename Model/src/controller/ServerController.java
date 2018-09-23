@@ -49,7 +49,7 @@ public class ServerController implements Runnable{
 
             if(connection.getPlayerNumber() == 1){
                 player = player1;
-                sendDotConnectionPack(connection, player2.getPlayerIp());
+                //sendDotConnectionPack(connection, player2.getPlayerIp());
             }
             else{
                 player = player2;
@@ -64,7 +64,7 @@ public class ServerController implements Runnable{
 
             player.setScore(player.getScore() + score);
 
-            sendDataPacks(null);
+            //sendDataPacks(null);
         }
     }
     
