@@ -170,7 +170,7 @@ public class ClientController implements Runnable{
     
     /**
      * Converts a concatenated string into a linked list of integers.
-     * @param strFigure Recieved strings, contains a serie of integers.
+     * @param strFigure Received strings, contains a series of integers.
      */
     public static LinkedList<Integer> stringToFigure(String strFigure){
         LinkedList<Integer> figure = new LinkedList<>();
@@ -181,14 +181,19 @@ public class ClientController implements Runnable{
     }
     
     /**
-     * Send data to the game server.
-     * @param object Object that contains the data that should be sent.
+     * Sent data to the server through sockets and in a JSON format. 
+     * @param object Object that contains the data that will be sent.
      * @param classReference Identifier of the class sent.
      */
     public static void clientSend(Object object, Object classReference){
         try {
+<<<<<<< HEAD
 
             Socket clientSocket = new  Socket(menu.getServerIp(), 9090);
+=======
+            //"192.168.100.14"
+            Socket clientSocket = new  Socket("192.168.100.14", 9090);
+>>>>>>> 92ef5aadbebbffaf685cb4883fc37d90d1a6986f
             
             String sendObject = JSONUtil.convertJavaToJson(object);
             String sendClassReference = JSONUtil.convertJavaToJson(classReference);
@@ -211,6 +216,9 @@ public class ClientController implements Runnable{
         }
     }
 
+    /**
+     * This method listens to incoming messages from the server
+     */
     @Override
     public void run() {
         try {
