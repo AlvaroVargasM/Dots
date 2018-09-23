@@ -75,6 +75,12 @@ public class LinkedList<GenericType>{
         }
     }
     
+    public void insertInFirst(int position, GenericType data){
+        LinkedListNode temp = firstNode;
+        LinkedListNode node = new LinkedListNode(position, data);
+        firstNode = node;
+        node.setNextNode(temp);
+    }
     /**
      * Getter for FirstNode attribute.
      * @return firstNode: LinkedListNode
