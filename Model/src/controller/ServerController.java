@@ -72,7 +72,7 @@ public class ServerController implements Runnable{
             }
 
             int score = 0;
-            if(strFigure.equals("")){
+            if(!strFigure.equals("")){
                 score = figureList.getSize() * 2;
                 sendToFigurePack(strFigure, player.getPlayerIp(), player.getPlayerNumber());
             }
