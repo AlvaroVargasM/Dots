@@ -4,25 +4,24 @@ package dataPackages;
 import java.io.Serializable;
 
 /**
- *
- * @author luism
+ * Class that holds the data needed to create a new figure.
  */
 public class ToFigurePack implements Serializable{
 
     /**
-     *
+     * A concatenated string that contains a series of dots numbers.
      */
     public String figure;
 
     /**
-     *
+     * Number of the player who connect the figure.
      */
     public int playerNumber;
 
     /**
-     *
-     * @param figure
-     * @param playerNumber
+     * Constructor of the class ToFigurePack.
+     * @param figure {@link ToFigurePack#figure}
+     * @param playerNumber {@link ToFigurePack#playerNumber}
      */
     public ToFigurePack(String figure, int playerNumber) {
         this.figure = figure;
@@ -30,21 +29,21 @@ public class ToFigurePack implements Serializable{
     }
     
     /**
-     *
+     * Default constructor of the class ToFigurePack.
      */
     public ToFigurePack(){}
 
     /**
-     *
-     * @return
+     * Returns the variable figure.
+     * @return {@link ToFigurePack#figure}
      */
     public String getFigure() {
         return figure;
     }
     
     /**
-     *
-     * @return
+     * Returns the variable playerNumber.
+     * @return {@link ToFigurePack#playerNumber}
      */
     public int getPlayerNumber(){
         return playerNumber;

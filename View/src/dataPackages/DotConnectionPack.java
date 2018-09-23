@@ -4,31 +4,30 @@ package dataPackages;
 import java.io.Serializable;
 
 /**
- *
- * @author luism
+ * Holds the data relative to a dot connection in the grid.
  */
 public class DotConnectionPack implements Serializable{
     
     /**
-     * The number of the initial dot in a dot link.
+     * Number of the initial dot in a dot link.
      */
     private int initialDot;
     
     /**
-     * The number of the final dot in a dot link.
+     * Number of the final dot in a dot link.
      */
     private int finalDot;
     
     /**
-     * The number of the player.
+     * Number of the player.
      */
     private int playerNumber;
 
     /**
-     * Main constructor of the 
-     * @param initialDot
-     * @param finalDot
-     * @param playerNumber
+     * Main constructor of the class DotConnectionPack.
+     * @param initialDot {@link DotConnectionPack#initialDot}
+     * @param finalDot {@link DotConnectionPack#finalDot}
+     * @param playerNumber {@link DotConnectionPack#playerNumber}
      */
     public DotConnectionPack(int initialDot, int finalDot, int playerNumber) {
         this.initialDot = initialDot;
