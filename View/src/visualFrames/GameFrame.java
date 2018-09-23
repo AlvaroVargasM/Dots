@@ -375,11 +375,7 @@ public class GameFrame extends JPanel{
             for(LinkedListNode node = lineList1.getFirstNode(); node != null;
             node = node.getNextNode()){
                 Line2D.Double line = (Line2D.Double) node.getData();
-                if(getPlayerNumber()==1){
-                    g2D.setPaint(playerColor);
-                }else{
-                    g2D.setPaint(otherPlayerColor);
-                }
+                g2D.setColor(playerColor);
                 g2D.setStroke(new BasicStroke(6));
                 g2D.draw(line);
             } 
