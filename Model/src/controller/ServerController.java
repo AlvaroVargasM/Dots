@@ -77,7 +77,7 @@ public class ServerController implements Runnable{
     }
     
     public void sendDataPack(String winner){
-        ClassReference classReference = new ClassReference("DataPack"); //crea class reference, manda huevo
+        ClassReference classReference = new ClassReference("DataPack");
         int score1 = player1.getScore();
         int score2 = player2.getScore();
         

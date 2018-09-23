@@ -239,7 +239,7 @@ public class ClientController implements Runnable{
                         break;
                     }
                     
-                    if (reference.getReference().equals("dataPack")){
+                    if (reference.getReference().equals("DataPack")){
                         System.out.println("Client recieved a server response");
                         DataPack data = JSONUtil.convertJsonToJava(recievedObjectAsString, DataPack.class);
                         
