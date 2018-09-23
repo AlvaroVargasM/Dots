@@ -252,8 +252,8 @@ public class ClientController implements Runnable{
                         
                         if(data.getWinner() == null){
                             turnNumber++;
-                            p1Score = data.getScore1();
-                            p2Score = data.getScore2();
+                            info.setP1Score(data.getScore1());
+                            info.setP2Score(data.getScore2());
                         }else{
                             finalPack = data;
                         }
