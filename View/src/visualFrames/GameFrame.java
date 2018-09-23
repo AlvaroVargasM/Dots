@@ -13,9 +13,10 @@ import java.awt.Point;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.geom.GeneralPath;
+import java.awt.geom.Area;
 
 import java.awt.geom.Line2D;
+import java.awt.geom.Path2D;
 import java.awt.geom.Point2D;
 import java.util.HashMap;
 import javax.swing.ImageIcon;
@@ -51,7 +52,12 @@ public class GameFrame extends JPanel{
     /**
      *Contains all the grid's painted linked figures.
      */
-    private static LinkedList<GeneralPath> linkedFiguresList;
+    private static LinkedList<Path2D.Double> linkedFiguresList;
+    
+    /**
+     *Contains all the grid's painted linked figures.
+     */
+    private static LinkedList<Area> figuresArea;
     
     /**
      *Collection that contains a dot number as key and his location as value.
@@ -96,7 +102,8 @@ public class GameFrame extends JPanel{
         
         this.lineList = new LinkedList<Line2D.Double>();
         this.DotsList = new LinkedList<JButton>();
-        this.linkedFiguresList = new LinkedList<GeneralPath>();
+        this.linkedFiguresList = new LinkedList<Path2D.Double>();
+        this.figuresArea = new LinkedList<Area>();
         
         dotsLocations = new HashMap<Integer, Point>();
         fillLocationsHashMap();
@@ -240,8 +247,9 @@ public class GameFrame extends JPanel{
              */
             @Override
             public void mousePressed(MouseEvent e){
-                if(onTurn){    
-                    if(firstLinkDot == 0){
+                System.out.println(e.getPoint());
+                if(onTurn){
+                        if(firstLinkDot == 0){
                         firstLinkDot = getDotPosition(dot);
                     }else{
                         if(isValid(firstLinkDot,getDotPosition(dot))){
@@ -251,12 +259,30 @@ public class GameFrame extends JPanel{
                          firstLinkDot = 0;
                          JOptionPane.showMessageDialog(GameFrame.this, "Invalid link, out of range.");   
                         }
-                    }
+                    }   
                 }
+                
+                /*if(overlapsFigure(e.getPoint())){
+                        JOptionPane.showMessageDialog(GameFrame.this, "Picha se mama."); 
+                }*/
             }
         });
         this.add(dot);
         this.DotsList.add(dot);
+        
+        
+    }
+    
+    public static boolean overlapsFigure(Point2D punto){
+        //boolean n = false;
+        for(LinkedListNode node = figuresArea.getFirstNode(); node != null;
+                node = node.getNextNode()){
+                    Area area = (Area) node.getData();
+                    if(area.getBounds().contains(punto)){
+                        return true;
+                    } 
+                }
+        return false;
     }
     
     /**
@@ -265,7 +291,7 @@ public class GameFrame extends JPanel{
      */
     public void generateFigure(LinkedList<Integer> list) {
         
-        GeneralPath newPath = new GeneralPath();
+        Path2D.Double newPath = new Path2D.Double();
         
         boolean first = true;
 
@@ -280,6 +306,10 @@ public class GameFrame extends JPanel{
             }
         }
         newPath.closePath();
+        
+        Area newArea = new Area(newPath);
+        figuresArea.add(newArea);
+        
         linkedFiguresList.add(newPath);
         repaint();
     }
@@ -295,7 +325,7 @@ public class GameFrame extends JPanel{
             
             for(LinkedListNode node = linkedFiguresList.getFirstNode(); node != null;
             node = node.getNextNode()){
-                GeneralPath path = (GeneralPath) node.getData();
+                Path2D.Double path = (Path2D.Double) node.getData();
                 g2D.setPaint(playerColor);
                 g2D.fill(path);
                 g2D.draw(path);
@@ -378,7 +408,7 @@ public class GameFrame extends JPanel{
      * Returns a linked list with the painted figures.
      * @return {@link GameFrame#linkedFiguresList}
      */
-    public static LinkedList<GeneralPath> getLinkedFiguresList() {
+    public static LinkedList<Path2D.Double> getLinkedFiguresList() {
         return linkedFiguresList;
     }       
 }
