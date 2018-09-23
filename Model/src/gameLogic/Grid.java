@@ -16,6 +16,7 @@ public class Grid {
     private int rowSize;
     private int columnSize;
     private static Grid singletonGrid;
+    private LinkedList<LinkedList> figuresList;
 
     /**
      * Grid constructor. Receives the size of the grid or matrix and assigns 
@@ -27,6 +28,7 @@ public class Grid {
         firstRow = null;
         this.rowSize = rowSize;
         this.columnSize = columnSize;
+        figuresList = new LinkedList<>();
     }
     
     public static Grid getGrid(int rowSize, int columnSize){
@@ -89,6 +91,7 @@ public class Grid {
         initialDot.getConnectionsList().add(finalDotPosition, null);//Connect initialDot with finalDot
         finalDot.getConnectionsList().add(initialDotPosition, null);//Connect finalDot with initialDot
         this.resetVisitedBooleans();
+        if(figure != null)figuresList.add(figure);
         return figure;
     }
     

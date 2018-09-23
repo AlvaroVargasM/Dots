@@ -119,7 +119,9 @@ public class ServerController implements Runnable{
     
     public void startNewMatch(){
         player1 = playerQueue.dequeue().getPlayer();
+        player1.setPlayerNumber(1);
         player2 = playerQueue.dequeue().getPlayer();
+        player2.setPlayerNumber(2);
         sendRegisterPack();
     }
     
