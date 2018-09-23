@@ -110,8 +110,6 @@ public class ClientController implements Runnable{
         game = new MainFrame(playerNumber);
         grid = game.getGameFrame();
         info = game.getInfoFrame();
-        //Thread recievePackages = new Thread(new ClientController());
-        //recievePackages.start(); 
         
         while(gameActive){
              
