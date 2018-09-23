@@ -10,15 +10,9 @@ public class Test {
         
         //System.out.println(stringToFigure("1.2.7.6.").toString());
         
-//        Grid grid = Grid.getGrid(5, 5);
-//        int pos = 1;
-//        for (int i = 0; i < grid.getRowSize(); i++){
-//            LinkedList list = new LinkedList();
-//            for(int j = 0; j < grid.getColumnSize(); j++){
-//                list.add(pos++, null);
-//            }
-//            grid.insertList(list);
-//        }
+        Grid grid = Grid.getGrid(5, 5);
+        
+        System.out.println(grid.toString());
 //        
 //        LinkedList test1 = grid.createConnection(1, 6);
 //        LinkedList test2 = grid.createConnection(6, 12);
@@ -52,19 +46,6 @@ public class Test {
 ////        if(test13 != null)System.out.println(test13.toString()); 
 ////        if(test14 != null)System.out.println(test14.toString()); 
 ////        if(test15 != null)System.out.println(test15.toString()); 
-////        if(test16 != null)System.out.println(test16.toString()); 
-
-        Queue q = new Queue();
-        Player p = new Player("Caca", "AAA", 1);
-        q.enqueue(p);
-        if(q.contains("aaa"))System.out.print(p.getNickname());
-    }
-    
-    public static LinkedList<Integer> stringToFigure(String strFigure){
-        LinkedList<Integer> figure = new LinkedList<>();
-        String[] strPositions = strFigure.split("\\.");
-        for(String pos: strPositions)
-            figure.add(Integer.valueOf(pos), Integer.valueOf(pos));
-        return figure;
+////        if(test16 != null)System.out.println(test16.toString());
     }
 }

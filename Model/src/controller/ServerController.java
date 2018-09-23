@@ -57,10 +57,9 @@ public class ServerController implements Runnable{
             }
 
             int score = 0;
-            String ip = player.getPlayerIp();
             if(strFigure != ""){
                 score = figureList.getSize() * 2;
-                sendToFigurePack(strFigure, ip);
+                sendToFigurePack(strFigure, player.getPlayerIp(), player.getPlayerNumber());
             }
 
             player.setScore(player.getScore() + score);
@@ -79,8 +78,8 @@ public class ServerController implements Runnable{
         }return strFigure;
     }
     
-    public void sendToFigurePack(String strFigure, String ip){
-        ToFigurePack figurePack = new ToFigurePack(strFigure);
+    public void sendToFigurePack(String strFigure, String ip, int playerNumber){
+        ToFigurePack figurePack = new ToFigurePack(strFigure, playerNumber);
         ClassReference classReference = new ClassReference("ToFigurePack");
         serverSend(figurePack, classReference, player1.getPlayerIp());
         serverSend(figurePack, classReference, player2.getPlayerIp());
