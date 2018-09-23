@@ -73,6 +73,7 @@ public class ClientController implements Runnable{
     
     private static boolean registered = false;
     private static boolean gameActive = false;
+    private static boolean nicknameSent = false;
     
     public static void main (String[] args) throws Exception{
         
@@ -87,9 +88,12 @@ public class ClientController implements Runnable{
             
             if(!(menu.getNickName().equals(""))){
                 
-                ClassReference reference = new ClassReference("RegisterPack");
-                RegisterPack initialPackage = new RegisterPack(InetAddress.getLocalHost().getHostAddress(),menu.getNickName(),0);
-                clientSend(initialPackage,reference);
+                if(nicknameSent){
+                    ClassReference reference = new ClassReference("RegisterPack");
+                    RegisterPack initialPackage = new RegisterPack(InetAddress.getLocalHost().getHostAddress(),menu.getNickName(),0);
+                    clientSend(initialPackage,reference);
+                    nicknameSent = false;
+                }
                 
                 Thread.sleep(1000);
                 
