@@ -171,21 +171,18 @@ public class ClientController implements Runnable{
      */
     public static void clientSend(Object object, Object classReference){
         try {
-            //menu.getServerIp()
-            //192.168.0.121
-            Socket clientSocket = new  Socket(InetAddress.getLocalHost(), 9090);
+            Socket clientSocket = new  Socket("192.168.100.14", 9090);
             
             String sendObject = JSONUtil.convertJavaToJson(object);
             String sendClassReference = JSONUtil.convertJavaToJson(classReference);
             
-            BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
             PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
             
             out.println(sendObject);
             out.println(sendClassReference);
+            
             System.out.println("Message was sent from the client");
             
-            in.close();
             out.close();
             clientSocket.close();
         } 
@@ -200,20 +197,19 @@ public class ClientController implements Runnable{
     @Override
     public void run() {
        try {
-            int cTosPortNumber = 9099;
-            ServerSocket clientAsServer = new ServerSocket(cTosPortNumber);
-            System.out.println("Client waiting for a connection on port: " + cTosPortNumber);
+            int portNumber = 9099;
+            ServerSocket clientAsServer = new ServerSocket(portNumber);
+            
+            System.out.println("Client waiting for a connection on port: " + portNumber);
             
             while (true){
                 Socket fromClientSocket = clientAsServer.accept();
-                
-                PrintWriter out = new PrintWriter(fromClientSocket.getOutputStream(), true);
+                              
                 BufferedReader in = new BufferedReader(new InputStreamReader(fromClientSocket.getInputStream()));
                 
                 String recievedObjectAsString = in.readLine();
                 String recievedClassReferenceAsString = in.readLine();
                 
-                out.close();
                 in.close();
                 fromClientSocket.close();
                 
@@ -243,7 +239,7 @@ public class ClientController implements Runnable{
                         break;
                     }
                     
-                    if (reference.getReference().equals("dataPack")){
+                    if (reference.getReference().equals("DataPack")){
                         System.out.println("Client recieved a server response");
                         DataPack data = JSONUtil.convertJsonToJava(recievedObjectAsString, DataPack.class);
                         

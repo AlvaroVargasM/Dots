@@ -40,26 +40,30 @@ public class ServerController implements Runnable{
     }
     
     public void createConnection(DotConnectionPack connection) throws Exception{
-        //Obtiene info de DotConnectionPack recibido, esta funcion aun no importa mucho porque la
-        //esta picha de programa aun no nos sirve
         int initalDotPosition = connection.getInitialDot();
         int finalDotPosition = connection.getFinalDot();
         LinkedList figureList = grid.createConnection(initalDotPosition, finalDotPosition);
         String strFigure = figureToString(figureList);
         Player player = null;
-        if(connection.getPlayerNumber() == 1) player = player1;
-        else player = player2;
+        if(connection.getPlayerNumber() == 1){
+            player = player1;
+            sendDotConnectionPack(connection, player2.getPlayerIp());
+        }
+        else{
+            player = player2;
+            sendDotConnectionPack(connection, player1.getPlayerIp());
+        }
         
         int score = 0;
         String ip = player.getPlayerIp();
         if(strFigure != ""){
             score = figureList.getSize() * 2;
-            sendToFigurePack(strFigure, ip); //Manda paquete de figura
+            sendToFigurePack(strFigure, ip);
         }
 
-        player.setScore(player.getScore() + score); //Le agrega el score de figura creada
+        player.setScore(player.getScore() + score);
         
-        //sendDataPack(null); //Manda DataPack para cambiar de turno en cliente (creo, eso me dijo Mariano)
+        sendDataPack(null);
     }
     
     public String figureToString(LinkedList figure){
@@ -73,23 +77,24 @@ public class ServerController implements Runnable{
     }
     
     public void sendToFigurePack(String strFigure, String ip){
-        //Esto solo crea un toFigurePack y lo envia
         ToFigurePack figurePack = new ToFigurePack(strFigure);
         ClassReference classReference = new ClassReference("ToFigurePack");
-        serverSend(figurePack, classReference, player1.getPlayerIp());
+        serverSend(figurePack, classReference, ip);
+    }
+    
+    public void sendDotConnectionPack(DotConnectionPack dotConnectionPack, String ip){
+        ClassReference classReference = new ClassReference("DotConnectionPack");
+        serverSend(dotConnectionPack, classReference, ip);
     }
     
     public void sendDataPack(String winner){
-        ClassReference classReference = new ClassReference("DataPack"); //crea class reference, manda huevo
-        //Obtiene score de ambos jugadores
+        ClassReference classReference = new ClassReference("DataPack");
         int score1 = player1.getScore();
         int score2 = player2.getScore();
         
-        //Crea DataPack para J1 y lo envia
         DataPack packPlayer1 = new DataPack(winner, score1, score2, 1);
         serverSend(packPlayer1, classReference, player1.getPlayerIp());
         
-        //Crea DataPack para J2 y lo envia
         DataPack packPlayer2 = new DataPack(winner, score1, score2, 2);
         serverSend(packPlayer2, classReference, player2.getPlayerIp());
     }
@@ -102,81 +107,69 @@ public class ServerController implements Runnable{
         Player player = new Player(playerName, playerIp, playerNumber);
         playerQueue.enqueue(player);
         
-        //if(playerQueue.getSize() == 2 && player1 == null && player2 == null){
-        startNewMatch();
-        //}
+        if(playerQueue.getSize() == 2 && player1 == null && player2 == null){
+            startNewMatch();
+        }
     }
     
     public void startNewMatch(){
         player1 = playerQueue.dequeue().getPlayer();
-        //player2 = playerQueue.dequeue().getPlayer();
+        player2 = playerQueue.dequeue().getPlayer();
         sendRegisterPack();
     }
     
     public void sendRegisterPack(){
         ClassReference classReference = new ClassReference("RegisterPack");
         
-        //De los jugadores se obtiene la info que ocupa el RegisterPack y se envian
-        //los RegisterPack de ambos maes. Ahorita solo con uno.
         String player1Name = player1.getNickname();
+        String player2Name = player2.getNickname();
         String player1Ip = player1.getPlayerIp();
-        RegisterPack registerPackPlayer1 = new RegisterPack(player1Ip, player1Name, 1, "");
+        RegisterPack registerPackPlayer1 = new RegisterPack(player1Ip, player1Name, 1, player2Name);
         serverSend(registerPackPlayer1, classReference, player1Ip);
         
-        //ESTO AUN NO PORQUE ESTAMOS MAMANDO PINGA
-        //String player2Name = player2.getNickname();
-        //String player2Ip = player2.getPlayerIp();
-        //RegisterPack registerPackPlayer2 = new RegisterPack(player2Ip, player2Name, 2, player1Name);
-        //serverSend(registerPackPlayer2, classReference, player2Ip);
-        
+        String player2Ip = player2.getPlayerIp();
+        RegisterPack registerPackPlayer2 = new RegisterPack(player2Ip, player2Name, 2, player1Name);
+        serverSend(registerPackPlayer2, classReference, player2Ip);
     }
-    
-    //Comentarios miedo
     
     public void serverSend(Object object1, Object object2, String ipAddress){
   
         try {
-            // Converts the object into a JSON String
-            String sendObject1 = JSONUtil.convertJavaToJson(object1);
-            String sendObject2 = JSONUtil.convertJavaToJson(object2);
-            
-            // Opens a socket
             Socket serverSocket = new Socket(ipAddress, 9099);
             
-            // Creates
-            BufferedReader in = new BufferedReader(new InputStreamReader(serverSocket.getInputStream()));
+            String sendObject1 = JSONUtil.convertJavaToJson(object1);
+            String sendObject2 = JSONUtil.convertJavaToJson(object2);                       
+            
             PrintWriter out = new PrintWriter(serverSocket.getOutputStream(), true);
+            
             out.println(sendObject1);
             out.println(sendObject2);
-            System.out.println("Message was sent from the server");
             
-            in.close();
+            System.out.println("Message was sent from the server");
+           
             out.close();
             serverSocket.close();
         } catch (IOException ex) {
             Logger.getLogger(ServerController.class.getName()).log(Level.SEVERE, null, ex);
         }
-    } 
+    }
     
     @Override
     public void run() {
         try {
-            int cTosPortNumber = 9090;
+            int portNumber = 9090;
+            ServerSocket server = new ServerSocket(portNumber);
             
-            ServerSocket server = new ServerSocket(cTosPortNumber);
-            
-            System.out.println("Server waiting for a connection on port: " + cTosPortNumber);
+            System.out.println("Server waiting for a connection on port: " + portNumber);
             
             while (true){
                 Socket fromServerSocket = server.accept();
                 
-                PrintWriter out = new PrintWriter(fromServerSocket.getOutputStream(), true);
                 BufferedReader in = new BufferedReader(new InputStreamReader(fromServerSocket.getInputStream()));
                 
                 String recievedObjectAsString = in.readLine();
                 String recievedClassReferenceAsString = in.readLine();
                 
-                out.close();
                 in.close();
                 fromServerSocket.close();
                 
