@@ -81,6 +81,12 @@ public class LinkedList<GenericType>{
         firstNode = node;
         node.setNextNode(temp);
     }
+    
+    public boolean contains(int data){
+        for(LinkedListNode node = firstNode; node != null; node = node.getNextNode()){
+            if(node.getPosition() == data) return true;
+        }return false;
+    }
     /**
      * Getter for FirstNode attribute.
      * @return firstNode: LinkedListNode
