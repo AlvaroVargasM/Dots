@@ -9,12 +9,23 @@ import java.io.Serializable;
  */
 public class DotConnectionPack implements Serializable{
     
+    /**
+     * The number of the initial dot in a dot link.
+     */
     private int initialDot;
+    
+    /**
+     * The number of the final dot in a dot link.
+     */
     private int finalDot;
+    
+    /**
+     * The number of the player.
+     */
     private int playerNumber;
 
     /**
-     *
+     * Main constructor of the 
      * @param initialDot
      * @param finalDot
      * @param playerNumber
@@ -26,14 +37,14 @@ public class DotConnectionPack implements Serializable{
     }
     
     /**
-     *
+     * Default consturctor of the class DotConnectionPack. 
      */
     public DotConnectionPack(){
     }
 
     /**
      *
-     * @return
+     * @return {@link DotConnectionPack#initialDot}
      */
     public int getPlayerNumber() {
         return playerNumber;

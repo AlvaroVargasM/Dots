@@ -22,7 +22,7 @@ public class ClassReference implements Serializable{
     }
     
     /**
-     * Consturctor of the class ClassReference. 
+     * Default consturctor of the class ClassReference. 
      */
     public ClassReference() {
     }
