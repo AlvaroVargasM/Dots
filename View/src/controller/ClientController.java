@@ -73,7 +73,7 @@ public class ClientController implements Runnable{
     
     private static boolean registered = false;
     private static boolean gameActive = false;
-    private static boolean nicknameSent = false;
+    private static boolean nicknameSent = true;
     
     public static void main (String[] args) throws Exception{
         
