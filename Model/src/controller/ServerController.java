@@ -79,8 +79,7 @@ public class ServerController implements Runnable{
 
             player.setScore(player.getScore() + score);
 
-            Player winner = getWinner();
-            sendDataPacks(winner);
+            sendDataPacks();
         }
     }
     
@@ -126,18 +125,23 @@ public class ServerController implements Runnable{
      *
      * @param winner
      */
-    public void sendDataPacks(Player winner){
+    public void sendDataPacks(){
         ClassReference classReference = new ClassReference("DataPack");
         int score1 = player1.getScore();
         int score2 = player2.getScore();
+        String ip1 = player1.getPlayerIp();
+        String ip2 = player2.getPlayerIp();
         
-        String winnerName = null;
-        if(winner != null)winner.getNickname();
+        String winnerName = getWinner();
+        if(winnerName != null){
+            System.out.println(winnerName);
+        }
+        
         DataPack packPlayer1 = new DataPack(winnerName, score1, score2, 1);
-        serverSend(packPlayer1, classReference, player1.getPlayerIp());
+        serverSend(packPlayer1, classReference, ip1);
         
         DataPack packPlayer2 = new DataPack(winnerName, score1, score2, 2);
-        serverSend(packPlayer2, classReference, player2.getPlayerIp());
+        serverSend(packPlayer2, classReference, ip2);
         
         turnNumber++;
     }
@@ -181,7 +185,7 @@ public class ServerController implements Runnable{
         String player1Name = player1.getNickname();
         String player2Name = player2.getNickname();
         String player1Ip = player1.getPlayerIp();
-        RegisterPack registerPackPlayer1 = new RegisterPack(player1Ip, player1Name, 1, "");
+        RegisterPack registerPackPlayer1 = new RegisterPack(player1Ip, player1Name, 1, player2Name);
         serverSend(registerPackPlayer1, classReference, player1Ip);
         
         String player2Ip = player2.getPlayerIp();
@@ -189,11 +193,12 @@ public class ServerController implements Runnable{
         serverSend(registerPackPlayer2, classReference, player2Ip);
     }
     
-    public Player getWinner(){
-        Player winner = null;
-        if(turnNumber == 17){
-            if(player1.getScore() > player2.getScore()) winner = player1;
-            else winner = player2;
+    public String getWinner(){
+        String winner = null;
+        if(turnNumber == 16){
+            if(player1.getScore() > player2.getScore()) winner = player1.getNickname();
+            else if(player1.getScore() < player2.getScore()) winner = player2.getNickname();
+            else winner = "Draw";
             turnNumber = 1;
             grid = new Grid(5, 5);
             player1 = null;

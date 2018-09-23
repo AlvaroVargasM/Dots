@@ -187,8 +187,13 @@ public class ClientController implements Runnable{
      */
     public static void clientSend(Object object, Object classReference){
         try {
+<<<<<<< HEAD
             //"192.168.100.14"
             Socket clientSocket = new  Socket("192.168.100.14", 9090);
+=======
+
+            Socket clientSocket = new  Socket(menu.getServerIp(), 9090);
+>>>>>>> 60caf374a20a78c6b9a55ead9a1283b015884125
             
             String sendObject = JSONUtil.convertJavaToJson(object);
             String sendClassReference = JSONUtil.convertJavaToJson(classReference);
