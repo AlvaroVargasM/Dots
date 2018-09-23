@@ -45,8 +45,14 @@ public class ServerController implements Runnable{
         LinkedList figureList = grid.createConnection(initalDotPosition, finalDotPosition);
         String strFigure = figureToString(figureList);
         Player player = null;
-        if(connection.getPlayerNumber() == 1) player = player1;
-        else player = player2;
+        if(connection.getPlayerNumber() == 1){
+            player = player1;
+            sendDotConnectionPack(connection, player2.getPlayerIp());
+        }
+        else{
+            player = player2;
+            sendDotConnectionPack(connection, player1.getPlayerIp());
+        }
         
         int score = 0;
         String ip = player.getPlayerIp();
@@ -73,7 +79,12 @@ public class ServerController implements Runnable{
     public void sendToFigurePack(String strFigure, String ip){
         ToFigurePack figurePack = new ToFigurePack(strFigure);
         ClassReference classReference = new ClassReference("ToFigurePack");
-        serverSend(figurePack, classReference, player1.getPlayerIp());
+        serverSend(figurePack, classReference, ip);
+    }
+    
+    public void sendDotConnectionPack(DotConnectionPack dotConnectionPack, String ip){
+        ClassReference classReference = new ClassReference("DotConnectionPack");
+        serverSend(dotConnectionPack, classReference, ip);
     }
     
     public void sendDataPack(String winner){
