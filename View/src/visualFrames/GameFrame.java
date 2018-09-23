@@ -351,9 +351,9 @@ public class GameFrame extends JPanel{
             node = node.getNextNode()){
                 Path2D.Double path = (Path2D.Double) node.getData();
                 if(getPlayerNumber()==1){
-                    g2D.setPaint(dotsBlue);
-                }else{
                     g2D.setPaint(dotsOrange);
+                }else{
+                    g2D.setPaint(dotsBlue);
                 }
                 g2D.fill(path);
                 g2D.draw(path);
@@ -363,9 +363,9 @@ public class GameFrame extends JPanel{
             node = node.getNextNode()){
                 Path2D.Double path = (Path2D.Double) node.getData();
                 if(getPlayerNumber()==1){
-                    g2D.setPaint(dotsOrange);
-                }else{
                     g2D.setPaint(dotsBlue);
+                }else{
+                    g2D.setPaint(dotsOrange);
                 }
                         
                 g2D.fill(path);
