@@ -53,6 +53,12 @@ public class Queue{
         return firstNode;
     }
     
+    public boolean contains(String playerIp){
+        for(QueueNode node = firstNode; node != null; node = node.getNextNode()){
+            if(node.getPlayer().getPlayerIp() == playerIp) return true;
+        }return false;
+    }
+   
     /**
      * Indicates if the queue its empty (true) or not (false).
      * @return boolean

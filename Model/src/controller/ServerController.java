@@ -45,6 +45,7 @@ public class ServerController implements Runnable{
         LinkedList figureList = grid.createConnection(initalDotPosition, finalDotPosition);
         String strFigure = figureToString(figureList);
         Player player = null;
+        
         if(connection.getPlayerNumber() == 1){
             player = player1;
             sendDotConnectionPack(connection, player2.getPlayerIp());
@@ -102,13 +103,15 @@ public class ServerController implements Runnable{
     public void registerNewPlayer(RegisterPack registerPack){
         String playerName = registerPack.getPlayerName();
         String playerIp = registerPack.getPlayerIp();
-        int playerNumber = registerPack.getPlayerNumber();
-        
-        Player player = new Player(playerName, playerIp, playerNumber);
-        playerQueue.enqueue(player);
-        
-        if(playerQueue.getSize() == 2 && player1 == null && player2 == null){
-            startNewMatch();
+        if(!playerQueue.contains(playerIp)){
+            int playerNumber = registerPack.getPlayerNumber();
+
+            Player player = new Player(playerName, playerIp, playerNumber);
+            playerQueue.enqueue(player);
+
+            if(playerQueue.getSize() == 2 && player1 == null && player2 == null){
+                startNewMatch();
+            }
         }
     }
     

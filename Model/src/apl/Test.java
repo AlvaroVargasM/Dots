@@ -2,11 +2,13 @@ package apl;
 
 import gameLogic.LinkedList;
 import gameLogic.Grid;
+import gameLogic.Player;
+import gameLogic.Queue;
 
 public class Test {
     public static void main(String[] args){
         
-        System.out.println(stringToFigure("1.2.7.6.").toString());
+        //System.out.println(stringToFigure("1.2.7.6.").toString());
         
 //        Grid grid = Grid.getGrid(5, 5);
 //        int pos = 1;
@@ -52,6 +54,10 @@ public class Test {
 ////        if(test15 != null)System.out.println(test15.toString()); 
 ////        if(test16 != null)System.out.println(test16.toString()); 
 
+        Queue q = new Queue();
+        Player p = new Player("Caca", "AAA", 1);
+        q.enqueue(p);
+        if(q.contains("aaa"))System.out.print(p.getNickname());
     }
     
     public static LinkedList<Integer> stringToFigure(String strFigure){
