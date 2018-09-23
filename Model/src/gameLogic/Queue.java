@@ -55,7 +55,7 @@ public class Queue{
     
     public boolean contains(String playerIp){
         for(QueueNode node = firstNode; node != null; node = node.getNextNode()){
-            if(node.getPlayer().getPlayerIp() == playerIp) return true;
+            if(node.getPlayer().getPlayerIp().equals(playerIp)) return true;
         }return false;
     }
    

@@ -217,7 +217,7 @@ public class ClientController implements Runnable{
                     ClassReference reference = JSONUtil.convertJsonToJava(recievedClassReferenceAsString, ClassReference.class);
 
                     if (reference.getReference().equals("RegisterPack")){
-                        System.out.println("Client recieved a server response");
+                        System.out.println("Client recieved a server response: RegisterPack");
                         RegisterPack register = JSONUtil.convertJsonToJava(recievedObjectAsString, RegisterPack.class);
                         this.playerNumber = register.getPlayerNumber();
                          
