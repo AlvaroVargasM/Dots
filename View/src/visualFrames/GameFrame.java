@@ -184,8 +184,9 @@ public class GameFrame extends JPanel{
         
         if(overlaps(newLine)){
             JOptionPane.showMessageDialog(GameFrame.this, "Invalid, line overlaps other."); 
+            this.firstLinkDot = 0;
+            this.secondLinkDot = 0;
         }else{
-            
             if(playerNumber == 1){
                 lineList1.add(newLine);
             }else{
@@ -194,7 +195,7 @@ public class GameFrame extends JPanel{
             this.linked = true;
         }
         repaint();
-        resetLinks();
+        
         
     }
     
