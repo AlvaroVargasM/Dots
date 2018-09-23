@@ -28,3 +28,4 @@ View/src/dataPackages/DotConnectionPackage.java
 View/src/dataPackages/ToFigurePackage.java
 View/src/controller/ClientController.java
 Model/src/controller/ServerControler.java
+/View/dist/
