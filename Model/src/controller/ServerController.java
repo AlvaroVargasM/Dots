@@ -196,8 +196,9 @@ public class ServerController implements Runnable{
     public String getWinner(){
         String winner = null;
         if(turnNumber == 16){
-            if(player1.getScore() >= player2.getScore()) winner = player1.getNickname();
-            else winner = player2.getNickname();
+            if(player1.getScore() > player2.getScore()) winner = player1.getNickname();
+            else if(player1.getScore() < player2.getScore()) winner = player2.getNickname();
+            else winner = "Draw";
             turnNumber = 1;
             grid = new Grid(5, 5);
             player1 = null;
