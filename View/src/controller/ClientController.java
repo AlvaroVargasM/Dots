@@ -196,7 +196,7 @@ public class ClientController implements Runnable{
 
     @Override
     public void run() {
-       try {
+        try {
             int portNumber = 9099;
             ServerSocket clientAsServer = new ServerSocket(portNumber);
             
@@ -262,7 +262,7 @@ public class ClientController implements Runnable{
                 }
             }
         } catch (IOException ex) {
-            //Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ClientController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 }

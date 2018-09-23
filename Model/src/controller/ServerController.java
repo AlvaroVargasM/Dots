@@ -64,7 +64,7 @@ public class ServerController implements Runnable{
 
         player.setScore(player.getScore() + score);
         
-        sendDataPack(null);
+        sendDataPacks(null);
     }
     
     public String figureToString(LinkedList figure){
@@ -88,7 +88,7 @@ public class ServerController implements Runnable{
         serverSend(dotConnectionPack, classReference, ip);
     }
     
-    public void sendDataPack(String winner){
+    public void sendDataPacks(String winner){
         ClassReference classReference = new ClassReference("DataPack");
         int score1 = player1.getScore();
         int score2 = player2.getScore();
