@@ -1,5 +1,6 @@
 package visualFrames;
 
+import java.awt.Point;
 import visualFrames.LinkedList;
 
 /**
@@ -113,7 +114,9 @@ public class LinkedListNode<GenericType> {
     }
    
     public String toString(){
-        String str = Integer.toString(position);
+        String str;
+        Point data = (Point) this.data;
+        str = data.toString();
         return str;
     }
 }

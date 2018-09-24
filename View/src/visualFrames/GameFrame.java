@@ -112,6 +112,7 @@ public class GameFrame extends JPanel{
     
     /**
      *The constructor of the class GameFrame, recieves no parameters.
+     * @param playerNumber Number of the player.
      */
     public GameFrame(int playerNumber){
         setPreferredSize(new Dimension(800, 600));  
@@ -207,6 +208,7 @@ public class GameFrame extends JPanel{
                 lineList1.add(newLine);
             }else{
                 lineList2.add(newLine);
+                
             }
             this.linked = true;
         }
@@ -272,11 +274,20 @@ public class GameFrame extends JPanel{
 
             @Override
             public void mousePressed(MouseEvent e){
+          
+                
                 int dotNumber = getDotPosition(dot);
+                
                 Point dotLocation = dotsLocations.get(dotNumber);
                 
+                Point dotPlus1 = dotsLocations.get(dotNumber+1);
+                Point dotMinus1 = dotsLocations.get(dotNumber-1);
+                Point dotPlus5 = dotsLocations.get(dotNumber+5);
+                Point dotMinus5 = dotsLocations.get(dotNumber-5);
+                
                 if(onTurn){
-                    if(insideFigure(dotLocation) &&  !(inBorderFigures(dotLocation))){
+                    
+                    if(insideFigure(dotLocation) &&  (!(inBorderFigures(dotLocation)))  || inFiguresDots(dotLocation) > 2){
                         
                         JOptionPane.showMessageDialog(GameFrame.this, "Invalid, dot locked inside figure."); 
                         firstLinkDot = 0;
@@ -301,8 +312,6 @@ public class GameFrame extends JPanel{
         });
         this.add(dot);
         this.DotsList.add(dot);
-        
-        
     }
     
     
@@ -315,7 +324,7 @@ public class GameFrame extends JPanel{
         for(LinkedListNode node = figuresArea.getFirstNode(); node != null;
                 node = node.getNextNode()){
                     Area area = (Area) node.getData();
-                    if(area.contains(point)){
+                    if(area.contains(point) && !(inBorderFigures(point))){
                         return true;
                     } 
                 }
@@ -337,6 +346,23 @@ public class GameFrame extends JPanel{
                 }
         return false;
     }
+    /**
+     * Counts the times a point is repeated in figuresDots list.
+     * @param point A class Point variable.
+     */
+    public static int inFiguresDots(Point point){
+        int n = 0;
+        for(LinkedListNode node = figuresDots.getFirstNode(); node != null;
+                node = node.getNextNode()){
+                    Point listPoint = (Point) node.getData();
+                    if(point.equals(listPoint)){
+                        n++;
+                    } 
+                }
+        return n;
+    }
+    
+    
     
     /**
      * Detects and removes a point in the linked list figureDots if it 
@@ -368,7 +394,7 @@ public class GameFrame extends JPanel{
             
             Integer n = (Integer) node.getData();
             
-            figuresDots.add(new Point(dotsLocations.get(n).x,dotsLocations.get(n).y));
+            figuresDots.add(dotsLocations.get(n));
             
             if(first){
                 newPath.moveTo(dotsLocations.get(n).x,dotsLocations.get(n).y);
@@ -381,6 +407,7 @@ public class GameFrame extends JPanel{
         
         Area newArea = new Area(newPath);
         figuresArea.add(newArea);
+        
         updateBorderFigures();
         
         if(playerNumber == 1){
