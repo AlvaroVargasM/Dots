@@ -14,6 +14,8 @@ public class Player {
      * Player Constructor. Receives a string to assign it to the nickname attribute
      * and gives the initial value of 0 to the score.
      * @param nickname
+     * @param playerIp
+     * @param playerNumber
      */
     public Player(String nickname, String playerIp, int playerNumber) {
         this.nickname = nickname;
@@ -54,18 +56,34 @@ public class Player {
         this.score = score;
     }
 
+    /**
+     * Getter for playerIp attribute.
+     * @return playerIp attribute.
+     */
     public String getPlayerIp() {
         return playerIp;
     }
 
+    /**
+     * Setter for playerIp attribute
+     * @param playerIp
+     */
     public void setPlayerIp(String playerIp) {
         this.playerIp = playerIp;
     }
 
+    /**
+     * Getter for playerNumber attribute.
+     * @return
+     */
     public int getPlayerNumber() {
         return playerNumber;
     }
 
+    /**
+     *Setter for playerNumber attribute.
+     * @param playerNumber
+     */
     public void setPlayerNumber(int playerNumber) {
         this.playerNumber = playerNumber;
     }

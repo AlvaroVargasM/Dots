@@ -44,7 +44,6 @@ public class LinkedList<GenericType>{
     
      /**
      * Receives the data necessary to create a node and insert it in the list.
-     * @param position
      * @param data
      */
     public void add(GenericType data){
@@ -54,6 +53,7 @@ public class LinkedList<GenericType>{
     /**
      * Searches and returns the node in the specified position.
      * @param position
+     * @return 
      * @return: node in position: LinkedListNode
      */
     public LinkedListNode getNode(int position){
@@ -75,18 +75,6 @@ public class LinkedList<GenericType>{
         }
     }
     
-    public void insertInFirst(int position, GenericType data){
-        LinkedListNode temp = firstNode;
-        LinkedListNode node = new LinkedListNode(position, data);
-        firstNode = node;
-        node.setNextNode(temp);
-    }
-    
-    public boolean contains(int data){
-        for(LinkedListNode node = firstNode; node != null; node = node.getNextNode()){
-            if(node.getPosition() == data) return true;
-        }return false;
-    }
     /**
      * Getter for FirstNode attribute.
      * @return firstNode: LinkedListNode
