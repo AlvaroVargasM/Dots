@@ -53,6 +53,12 @@ public class Queue{
         return firstNode;
     }
     
+    /**
+     * Receives a player IP and returns true if this IP already exists in the queue.
+     * @param playerIp
+     * @return boolean indicating if the playerIp received as parameter is contained
+     * in the Queue
+     */
     public boolean contains(String playerIp){
         for(QueueNode node = firstNode; node != null; node = node.getNextNode()){
             if(node.getPlayer().getPlayerIp().equals(playerIp)) return true;

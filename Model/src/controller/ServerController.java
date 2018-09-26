@@ -36,7 +36,8 @@ public class ServerController implements Runnable{
     private static int maxTurnNumber;
     
     /**
-     *
+     * Main method for serverController. Initializes all attributes and starts thread 
+     * to listen for connections.
      * @param args
      * @throws Exception
      */
@@ -50,7 +51,11 @@ public class ServerController implements Runnable{
     }
     
     /**
-     *
+     * After receiving a DotConnectionPack from a client, this method creates the
+     * received connection in the grid, creates a string figure and send a 
+     * ToFigurePack if a figure was created in the grid, sends the DotConnectionPack 
+     * to the other player and finally, sends the DataPack with all the data updated.
+     * 
      * @param connection
      * @throws Exception
      */
@@ -74,7 +79,7 @@ public class ServerController implements Runnable{
             int score = 0;
             if(!strFigure.equals("")){
                 score = figureList.getSize() * 2;
-                sendToFigurePack(strFigure, player.getPlayerIp(), player.getPlayerNumber());
+                sendToFigurePack(strFigure, player.getPlayerNumber());
             }
 
             player.setScore(player.getScore() + score);
@@ -84,7 +89,7 @@ public class ServerController implements Runnable{
     }
     
     /**
-     *
+     * Receives a LinkedList representing a figure and it converts it to a String
      * @param figure
      * @return
      */
@@ -99,12 +104,12 @@ public class ServerController implements Runnable{
     }
     
     /**
-     *
+     * If a new figure was created, send a ToFigurePack to both players.
      * @param strFigure
      * @param ip
      * @param playerNumber
      */
-    public void sendToFigurePack(String strFigure, String ip, int playerNumber){
+    public void sendToFigurePack(String strFigure, int playerNumber){
         ToFigurePack figurePack = new ToFigurePack(strFigure, playerNumber);
         ClassReference classReference = new ClassReference("ToFigurePack");
         serverSend(figurePack, classReference, player1.getPlayerIp());
@@ -112,7 +117,7 @@ public class ServerController implements Runnable{
     }
     
     /**
-     *
+     * Sends a DotConnectionPack to the IP received as a parameter.
      * @param dotConnectionPack
      * @param ip
      */
@@ -122,8 +127,8 @@ public class ServerController implements Runnable{
     }
     
     /**
-     *
-     * @param winner
+     * Updates all the data needed for the clients and sends DataPacks to both players.
+     * Sends the name of the winner if the maxTurnNumber is reached.
      */
     public void sendDataPacks(){
         ClassReference classReference = new ClassReference("DataPack");
@@ -147,7 +152,9 @@ public class ServerController implements Runnable{
     }
     
     /**
-     *
+     * When a RegisterPack arrives, a new player is added to the player Queue with
+     * the information received and also checks if there are two players available 
+     * to start a new match.
      * @param registerPack
      */
     public void registerNewPlayer(RegisterPack registerPack){
@@ -166,7 +173,8 @@ public class ServerController implements Runnable{
     }
     
     /**
-     *
+     * Dequeues the first two players in the Queue, sends registerPacks to both of them
+     * and this starts a new match.
      */
     public void startNewMatch(){
         player1 = playerQueue.dequeue().getPlayer();
@@ -177,7 +185,7 @@ public class ServerController implements Runnable{
     }
     
     /**
-     *
+     * Gets the data needed to send RegisterPacks to both players.
      */
     public void sendRegisterPack(){
         ClassReference classReference = new ClassReference("RegisterPack");
@@ -195,6 +203,10 @@ public class ServerController implements Runnable{
 //        serverSend(registerPackPlayer2, classReference, player2Ip);
     }
     
+    /**
+     * 
+     * @return
+     */
     public String getWinner(){
         String winner = null;
         if(turnNumber == maxTurnNumber){
@@ -208,10 +220,10 @@ public class ServerController implements Runnable{
         }return winner;
     }
     /**
-     *
-     * @param object1
-     * @param object2
-     * @param ipAddress
+     * Sent data to the clients through sockets and in a JSON format. 
+     * @param object Object that contains the data that will be sent.
+     * @param classReference Identifier of the class sent.
+     * @param ipAddress IP address of the client.
      */
     public void serverSend(Object object1, Object object2, String ipAddress){
   
@@ -235,6 +247,9 @@ public class ServerController implements Runnable{
         }
     }
     
+    /**
+     * This method listens to incoming messages from the clients.
+     */
     @Override
     public void run() {
         try {

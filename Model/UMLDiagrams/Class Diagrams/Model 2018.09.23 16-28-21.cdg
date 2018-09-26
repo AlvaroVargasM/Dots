@@ -1,0 +1,400 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<ClassDiagram name="Model">
+  <ClassDiagramComponents>
+    <Class name="ServerController" package="controller" visibility="public" xPosition="395.0" yPosition="430.0">
+      <Fields>
+        <Field name="grid" type="Grid" visibility="private" isStatic="true"/>
+        <Field name="objectMapper" type="ObjectMapper" visibility="package" isFinal="true"/>
+        <Field name="playerQueue" type="Queue" visibility="private" isStatic="true"/>
+        <Field name="player1" type="Player" visibility="private"/>
+        <Field name="player2" type="Player" visibility="private"/>
+        <Field name="turnNumber" type="int" visibility="private" isStatic="true"/>
+        <Field name="maxTurnNumber" type="int" visibility="private" isStatic="true"/>
+      </Fields>
+      <Constructors/>
+      <Methods>
+        <Method name="main" returnType="void" visibility="public" isStatic="true">
+          <Argument type="String[]" name="args"/>
+        </Method>
+        <Method name="createConnection" returnType="void" visibility="public">
+          <Argument type="DotConnectionPack" name="connection"/>
+        </Method>
+        <Method name="figureToString" returnType="String" visibility="public">
+          <Argument type="LinkedList" name="figure"/>
+        </Method>
+        <Method name="sendToFigurePack" returnType="void" visibility="public">
+          <Argument type="String" name="strFigure"/>
+          <Argument type="String" name="ip"/>
+          <Argument type="int" name="playerNumber"/>
+        </Method>
+        <Method name="sendDotConnectionPack" returnType="void" visibility="public">
+          <Argument type="DotConnectionPack" name="dotConnectionPack"/>
+          <Argument type="String" name="ip"/>
+        </Method>
+        <Method name="sendDataPacks" returnType="void" visibility="public"/>
+        <Method name="registerNewPlayer" returnType="void" visibility="public">
+          <Argument type="RegisterPack" name="registerPack"/>
+        </Method>
+        <Method name="startNewMatch" returnType="void" visibility="public"/>
+        <Method name="sendRegisterPack" returnType="void" visibility="public"/>
+        <Method name="getWinner" returnType="String" visibility="public"/>
+        <Method name="serverSend" returnType="void" visibility="public">
+          <Argument type="Object" name="object1"/>
+          <Argument type="Object" name="object2"/>
+          <Argument type="String" name="ipAddress"/>
+        </Method>
+        <Method name="run" returnType="void" visibility="public"/>
+      </Methods>
+    </Class>
+    <Class name="ClassReference" package="dataPackages" visibility="public" xPosition="74.0" yPosition="334.0">
+      <Fields>
+        <Field name="reference" type="String" visibility="private"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public"/>
+        <Constructor visibility="public">
+          <Argument type="String" name="reference"/>
+        </Constructor>
+      </Constructors>
+      <Methods>
+        <Method name="getReference" returnType="String" visibility="public"/>
+      </Methods>
+    </Class>
+    <Class name="DataPack" package="dataPackages" visibility="public" xPosition="41.0" yPosition="20.0">
+      <Fields>
+        <Field name="winner" type="String" visibility="private"/>
+        <Field name="score1" type="int" visibility="private"/>
+        <Field name="score2" type="int" visibility="private"/>
+        <Field name="playerNumber" type="int" visibility="private"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public"/>
+        <Constructor visibility="public">
+          <Argument type="String" name="winner"/>
+          <Argument type="int" name="score1"/>
+          <Argument type="int" name="score2"/>
+          <Argument type="int" name="playerNumber"/>
+        </Constructor>
+      </Constructors>
+      <Methods>
+        <Method name="getWinner" returnType="String" visibility="public"/>
+        <Method name="getScore1" returnType="int" visibility="public"/>
+        <Method name="getScore2" returnType="int" visibility="public"/>
+        <Method name="getPlayerNumber" returnType="int" visibility="public"/>
+      </Methods>
+    </Class>
+    <Class name="DotConnectionPack" package="dataPackages" visibility="public" xPosition="490.0" yPosition="39.0">
+      <Fields>
+        <Field name="initialDot" type="int" visibility="private"/>
+        <Field name="finalDot" type="int" visibility="private"/>
+        <Field name="playerNumber" type="int" visibility="private"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public">
+          <Argument type="int" name="initialDot"/>
+          <Argument type="int" name="finalDot"/>
+          <Argument type="int" name="playerNumber"/>
+        </Constructor>
+        <Constructor visibility="public"/>
+      </Constructors>
+      <Methods>
+        <Method name="getPlayerNumber" returnType="int" visibility="public"/>
+        <Method name="getInitialDot" returnType="int" visibility="public"/>
+        <Method name="getFinalDot" returnType="int" visibility="public"/>
+      </Methods>
+    </Class>
+    <Class name="RegisterPack" package="dataPackages" visibility="public" xPosition="967.0" yPosition="39.0">
+      <Fields>
+        <Field name="playerIp" type="String" visibility="private"/>
+        <Field name="playerName" type="String" visibility="private"/>
+        <Field name="playerNumber" type="int" visibility="private"/>
+        <Field name="otherPlayerName" type="String" visibility="private"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public"/>
+        <Constructor visibility="public">
+          <Argument type="String" name="playerIp"/>
+          <Argument type="String" name="playerName"/>
+          <Argument type="int" name="playerNumber"/>
+        </Constructor>
+      </Constructors>
+      <Methods>
+        <Method name="getPlayerIp" returnType="String" visibility="public"/>
+        <Method name="setPlayerIp" returnType="void" visibility="public">
+          <Argument type="String" name="playerIp"/>
+        </Method>
+        <Method name="getPlayerName" returnType="String" visibility="public"/>
+        <Method name="setPlayerName" returnType="void" visibility="public">
+          <Argument type="String" name="playerName"/>
+        </Method>
+        <Method name="getPlayerNumber" returnType="int" visibility="public"/>
+        <Method name="setPlayerNumber" returnType="void" visibility="public">
+          <Argument type="int" name="playerNumber"/>
+        </Method>
+        <Method name="getOtherPlayerName" returnType="String" visibility="public"/>
+        <Method name="setOtherPlayerName" returnType="void" visibility="public">
+          <Argument type="String" name="otherPlayerName"/>
+        </Method>
+      </Methods>
+    </Class>
+    <Class name="ToFigurePack" package="dataPackages" visibility="public" xPosition="1426.0" yPosition="77.0">
+      <Fields>
+        <Field name="figure" type="String" visibility="public"/>
+        <Field name="playerNumber" type="int" visibility="public"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public">
+          <Argument type="String" name="figure"/>
+          <Argument type="int" name="playerNumber"/>
+        </Constructor>
+        <Constructor visibility="public"/>
+      </Constructors>
+      <Methods>
+        <Method name="getFigure" returnType="String" visibility="public"/>
+        <Method name="getPlayerNumber" returnType="int" visibility="public"/>
+      </Methods>
+    </Class>
+    <Class name="Grid" package="gameLogic" visibility="public" xPosition="1024.0" yPosition="468.0">
+      <Fields>
+        <Field name="firstRow" type="LinkedList" visibility="private"/>
+        <Field name="rowSize" type="int" visibility="private"/>
+        <Field name="columnSize" type="int" visibility="private"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public">
+          <Argument type="int" name="rowSize"/>
+          <Argument type="int" name="columnSize"/>
+        </Constructor>
+      </Constructors>
+      <Methods>
+        <Method name="insertList" returnType="void" visibility="public">
+          <Argument type="LinkedList" name="newRow"/>
+        </Method>
+        <Method name="getNode" returnType="LinkedListNode" visibility="public">
+          <Argument type="int" name="position"/>
+        </Method>
+        <Method name="createConnection" returnType="LinkedList" visibility="public">
+          <Argument type="int" name="initialDotPosition"/>
+          <Argument type="int" name="finalDotPosition"/>
+        </Method>
+        <Method name="searchForFigure" returnType="LinkedList" visibility="public">
+          <Argument type="LinkedListNode" name="currentDot"/>
+          <Argument type="LinkedListNode" name="finalDot"/>
+          <Argument type="LinkedList" name="figure"/>
+        </Method>
+        <Method name="resetVisitedBooleans" returnType="void" visibility="public"/>
+        <Method name="getFirstRow" returnType="LinkedList" visibility="public"/>
+        <Method name="setFirstRow" returnType="void" visibility="public">
+          <Argument type="LinkedList" name="firstRow"/>
+        </Method>
+        <Method name="getRowSize" returnType="int" visibility="public"/>
+        <Method name="setRowSize" returnType="void" visibility="public">
+          <Argument type="int" name="rowSize"/>
+        </Method>
+        <Method name="getColumnSize" returnType="int" visibility="public"/>
+        <Method name="setColumnSize" returnType="void" visibility="public">
+          <Argument type="int" name="columnSize"/>
+        </Method>
+        <Method name="isEmpty" returnType="boolean" visibility="public"/>
+        <Method name="toString" returnType="String" visibility="public"/>
+      </Methods>
+    </Class>
+    <Class name="LinkedList" package="gameLogic" visibility="public" xPosition="1690.0" yPosition="550.0">
+      <Fields>
+        <Field name="firstNode" type="LinkedListNode" visibility="private"/>
+        <Field name="nextRow" type="LinkedList" visibility="private"/>
+        <Field name="size" type="int" visibility="private"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public"/>
+      </Constructors>
+      <Methods>
+        <Method name="add" returnType="void" visibility="public">
+          <Argument type="int" name="position"/>
+          <Argument type="GenericType" name="data"/>
+        </Method>
+        <Method name="add" returnType="void" visibility="public">
+          <Argument type="GenericType" name="data"/>
+        </Method>
+        <Method name="getNode" returnType="LinkedListNode" visibility="public">
+          <Argument type="int" name="position"/>
+        </Method>
+        <Method name="deleteLastNode" returnType="void" visibility="public"/>
+        <Method name="insertInFirst" returnType="void" visibility="public">
+          <Argument type="int" name="position"/>
+          <Argument type="GenericType" name="data"/>
+        </Method>
+        <Method name="contains" returnType="boolean" visibility="public">
+          <Argument type="int" name="data"/>
+        </Method>
+        <Method name="getFirstNode" returnType="LinkedListNode" visibility="public"/>
+        <Method name="setFirstNode" returnType="void" visibility="public">
+          <Argument type="LinkedListNode" name="firstNode"/>
+        </Method>
+        <Method name="isEmpty" returnType="boolean" visibility="public"/>
+        <Method name="getNextRow" returnType="LinkedList" visibility="public"/>
+        <Method name="setNextRow" returnType="void" visibility="public">
+          <Argument type="LinkedList" name="nextRow"/>
+        </Method>
+        <Method name="getSize" returnType="int" visibility="public"/>
+        <Method name="setSize" returnType="void" visibility="public">
+          <Argument type="int" name="size"/>
+        </Method>
+        <Method name="toString" returnType="String" visibility="public"/>
+      </Methods>
+    </Class>
+    <Class name="LinkedListNode" package="gameLogic" visibility="public" xPosition="1689.0" yPosition="1096.0">
+      <Fields>
+        <Field name="position" type="int" visibility="private"/>
+        <Field name="data" type="GenericType" visibility="private"/>
+        <Field name="nextNode" type="LinkedListNode" visibility="private"/>
+        <Field name="connectionsList" type="LinkedList" visibility="private"/>
+        <Field name="visited" type="boolean" visibility="private"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public">
+          <Argument type="int" name="position"/>
+          <Argument type="GenericType" name="data"/>
+        </Constructor>
+      </Constructors>
+      <Methods>
+        <Method name="getPosition" returnType="int" visibility="public"/>
+        <Method name="setPosition" returnType="void" visibility="public">
+          <Argument type="int" name="position"/>
+        </Method>
+        <Method name="getNextNode" returnType="LinkedListNode" visibility="public"/>
+        <Method name="setNextNode" returnType="void" visibility="public">
+          <Argument type="LinkedListNode" name="nextNode"/>
+        </Method>
+        <Method name="getConnectionsList" returnType="LinkedList" visibility="public"/>
+        <Method name="setConnectionsList" returnType="void" visibility="public">
+          <Argument type="LinkedList" name="connectionsList"/>
+        </Method>
+        <Method name="getData" returnType="GenericType" visibility="public"/>
+        <Method name="setData" returnType="void" visibility="public">
+          <Argument type="GenericType" name="data"/>
+        </Method>
+        <Method name="isVisited" returnType="boolean" visibility="public"/>
+        <Method name="setVisited" returnType="void" visibility="public">
+          <Argument type="boolean" name="visited"/>
+        </Method>
+        <Method name="toString" returnType="String" visibility="public"/>
+      </Methods>
+    </Class>
+    <Class name="Player" package="gameLogic" visibility="public" xPosition="911.0" yPosition="1060.0">
+      <Fields>
+        <Field name="nickname" type="String" visibility="private"/>
+        <Field name="playerIp" type="String" visibility="private"/>
+        <Field name="playerNumber" type="int" visibility="private"/>
+        <Field name="score" type="int" visibility="private"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public">
+          <Argument type="String" name="nickname"/>
+          <Argument type="String" name="playerIp"/>
+          <Argument type="int" name="playerNumber"/>
+        </Constructor>
+      </Constructors>
+      <Methods>
+        <Method name="getNickname" returnType="String" visibility="public"/>
+        <Method name="setNickname" returnType="void" visibility="public">
+          <Argument type="String" name="nickname"/>
+        </Method>
+        <Method name="getScore" returnType="int" visibility="public"/>
+        <Method name="setScore" returnType="void" visibility="public">
+          <Argument type="int" name="score"/>
+        </Method>
+        <Method name="getPlayerIp" returnType="String" visibility="public"/>
+        <Method name="setPlayerIp" returnType="void" visibility="public">
+          <Argument type="String" name="playerIp"/>
+        </Method>
+        <Method name="getPlayerNumber" returnType="int" visibility="public"/>
+        <Method name="setPlayerNumber" returnType="void" visibility="public">
+          <Argument type="int" name="playerNumber"/>
+        </Method>
+      </Methods>
+    </Class>
+    <Class name="Queue" package="gameLogic" visibility="public" xPosition="384.0" yPosition="999.0">
+      <Fields>
+        <Field name="firstNode" type="QueueNode" visibility="private"/>
+        <Field name="size" type="int" visibility="private"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public"/>
+      </Constructors>
+      <Methods>
+        <Method name="enqueue" returnType="void" visibility="public">
+          <Argument type="Player" name="player"/>
+        </Method>
+        <Method name="dequeue" returnType="QueueNode" visibility="public"/>
+        <Method name="peek" returnType="QueueNode" visibility="public"/>
+        <Method name="contains" returnType="boolean" visibility="public">
+          <Argument type="String" name="playerIp"/>
+        </Method>
+        <Method name="isEmpty" returnType="boolean" visibility="public"/>
+        <Method name="getFirstNode" returnType="QueueNode" visibility="public"/>
+        <Method name="setFirstNode" returnType="void" visibility="public">
+          <Argument type="QueueNode" name="firstNode"/>
+        </Method>
+        <Method name="getSize" returnType="int" visibility="public"/>
+        <Method name="setSize" returnType="void" visibility="public">
+          <Argument type="int" name="size"/>
+        </Method>
+      </Methods>
+    </Class>
+    <Class name="QueueNode" package="gameLogic" visibility="public" xPosition="395.0" yPosition="1476.0">
+      <Fields>
+        <Field name="nextNode" type="QueueNode" visibility="private"/>
+        <Field name="player" type="Player" visibility="private"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public">
+          <Argument type="Player" name="player"/>
+        </Constructor>
+      </Constructors>
+      <Methods>
+        <Method name="getNextNode" returnType="QueueNode" visibility="public"/>
+        <Method name="setNextNode" returnType="void" visibility="public">
+          <Argument type="QueueNode" name="nextNode"/>
+        </Method>
+        <Method name="getPlayer" returnType="Player" visibility="public"/>
+        <Method name="setPlayer" returnType="void" visibility="public">
+          <Argument type="Player" name="player"/>
+        </Method>
+      </Methods>
+    </Class>
+    <Class name="JSONUtil" package="jsonLogic" visibility="public" xPosition="4.0" yPosition="582.0">
+      <Fields>
+        <Field name="mapper" type="ObjectMapper" visibility="private" isStatic="true"/>
+      </Fields>
+      <Constructors/>
+      <Methods>
+        <Method name="convertJavaToJson" returnType="String" visibility="public" isStatic="true">
+          <Argument type="Object" name="object"/>
+        </Method>
+        <Method name="convertJsonToJava" returnType="T" visibility="public" isStatic="true">
+          <Argument type="String" name="jsonString"/>
+          <Argument type="Class&lt;T&gt;" name="cls"/>
+        </Method>
+      </Methods>
+    </Class>
+  </ClassDiagramComponents>
+  <ClassDiagramRelations>
+    <HasRelation name="firstRow" source="gameLogic.Grid" target="gameLogic.LinkedList" type="Aggregation" sourceCardinality="1..1" targetCardinality="0..*" collectionType="LinkedList"/>
+    <HasRelation name="firstNode" source="gameLogic.LinkedList" target="gameLogic.LinkedListNode" type="Aggregation" sourceCardinality="1..1" targetCardinality="0..*" collectionType="LinkedListNode"/>
+    <UseRelation name="" source="controller.ServerController" target="dataPackages.DotConnectionPack" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation name="" source="controller.ServerController" target="dataPackages.DataPack" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="player2" source="controller.ServerController" target="gameLogic.Player" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="player1" source="controller.ServerController" target="gameLogic.Player" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation name="" source="controller.ServerController" target="dataPackages.RegisterPack" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation name="" source="controller.ServerController" target="jsonLogic.JSONUtil" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation name="" source="controller.ServerController" target="dataPackages.ClassReference" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="connectionsList" source="gameLogic.LinkedListNode" target="gameLogic.LinkedList" type="Aggregation" sourceCardinality="1..1" targetCardinality="0..*" collectionType="LinkedList"/>
+    <HasRelation name="firstNode" source="gameLogic.Queue" target="gameLogic.QueueNode" type="Aggregation" sourceCardinality="1..1" targetCardinality="0..*" collectionType="QueueNode"/>
+    <IsRelation name="grid" source="controller.ServerController" target="gameLogic.Grid"/>
+    <HasRelation name="player" source="gameLogic.QueueNode" target="gameLogic.Player" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation name="" source="controller.ServerController" target="dataPackages.ToFigurePack" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="playerQueue" source="controller.ServerController" target="gameLogic.Queue" type="Aggregation" sourceCardinality="1..1" targetCardinality="0..*" collectionType="Queue"/>
+  </ClassDiagramRelations>
+</ClassDiagram>
