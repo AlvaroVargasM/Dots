@@ -2,6 +2,9 @@ package controller;
 
 import com.sun.security.ntlm.Client;
 import dataPackages.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import visualFrames.*;
 import jsonLogic.JSONUtil;
 import java.io.BufferedReader;
@@ -104,7 +107,7 @@ public class ClientController implements Runnable{
                 
                 if(nicknameSent){
                     ClassReference reference = new ClassReference("RegisterPack");
-                    RegisterPack initialPackage = new RegisterPack(InetAddress.getLocalHost().getHostAddress(),menu.getNickName(),0);
+                    RegisterPack initialPackage = new RegisterPack(menu.getServerIp(),menu.getNickName(),0);
                     clientSend(initialPackage,reference);
                     nicknameSent = false;
                 }
@@ -124,6 +127,14 @@ public class ClientController implements Runnable{
         game = new MainFrame(playerNumber);
         grid = game.getGameFrame();
         info = game.getInfoFrame();
+        game.addWindowListener(new WindowAdapter (){
+            public void windowClosing(WindowEvent e){
+                ClassReference reference = new ClassReference("DataPack");
+                    DataPack exitPack = new DataPack(menu.getNickName(),0,0,playerNumber);
+                    clientSend(exitPack,reference);
+            }
+        });
+        
         
         while(gameActive){
              
