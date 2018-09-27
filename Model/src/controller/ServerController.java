@@ -223,7 +223,6 @@ public class ServerController implements Runnable{
     public void playerDisconnected(DataPack receivedDataPack){
         String winner = receivedDataPack.getWinner();
         sendDataPacks(winner);
-        resetData();
     }
     /**
      * Sent data to the clients through sockets and in a JSON format. 
