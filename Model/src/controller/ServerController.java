@@ -69,7 +69,7 @@ public class ServerController implements Runnable{
 
             if(connection.getPlayerNumber() == 1){
                 player = player1;
-                //sendDotConnectionPack(connection, player2.getPlayerIp());
+                sendDotConnectionPack(connection, player2.getPlayerIp());
             }
             else{
                 player = player2;
@@ -84,7 +84,7 @@ public class ServerController implements Runnable{
 
             player.setScore(player.getScore() + score);
 
-            //sendDataPacks();
+            sendDataPacks(getWinnerName());
         }
     }
     
@@ -113,7 +113,7 @@ public class ServerController implements Runnable{
         ToFigurePack figurePack = new ToFigurePack(strFigure, playerNumber);
         ClassReference classReference = new ClassReference("ToFigurePack");
         serverSend(figurePack, classReference, player1.getPlayerIp());
-        //serverSend(figurePack, classReference, player2.getPlayerIp());
+        serverSend(figurePack, classReference, player2.getPlayerIp());
     }
     
     /**
@@ -129,18 +129,14 @@ public class ServerController implements Runnable{
     /**
      * Updates all the data needed for the clients and sends DataPacks to both players.
      * Sends the name of the winner if the maxTurnNumber is reached.
+     * @param winnerName
      */
-    public void sendDataPacks(){
+    public void sendDataPacks(String winnerName){
         ClassReference classReference = new ClassReference("DataPack");
         int score1 = player1.getScore();
         int score2 = player2.getScore();
         String ip1 = player1.getPlayerIp();
         String ip2 = player2.getPlayerIp();
-        
-        String winnerName = getWinner();
-        if(winnerName != null){
-            System.out.println(winnerName);
-        }
         
         DataPack packPlayer1 = new DataPack(winnerName, score1, score2, 1);
         serverSend(packPlayer1, classReference, ip1);
@@ -149,6 +145,7 @@ public class ServerController implements Runnable{
         serverSend(packPlayer2, classReference, ip2);
         
         turnNumber++;
+        if (winnerName != null) resetData();
     }
     
     /**
@@ -166,9 +163,9 @@ public class ServerController implements Runnable{
             Player player = new Player(playerName, playerIp, playerNumber);
             playerQueue.enqueue(player);
 
-            //if(playerQueue.getSize() == 2 && player1 == null && player2 == null){
+            if(playerQueue.getSize() == 2 && player1 == null && player2 == null){
                 startNewMatch();
-            //}
+            }
         }
     }
     
@@ -179,8 +176,8 @@ public class ServerController implements Runnable{
     public void startNewMatch(){
         player1 = playerQueue.dequeue().getPlayer();
         player1.setPlayerNumber(1);
-        //player2 = playerQueue.dequeue().getPlayer();
-        //player2.setPlayerNumber(2);
+        player2 = playerQueue.dequeue().getPlayer();
+        player2.setPlayerNumber(2);
         sendRegisterPack();
     }
     
@@ -191,33 +188,42 @@ public class ServerController implements Runnable{
         ClassReference classReference = new ClassReference("RegisterPack");
         
         String player1Name = player1.getNickname();
-        //String player2Name = player2.getNickname();
+        String player2Name = player2.getNickname();
         String player1Ip = player1.getPlayerIp();
         RegisterPack registerPackPlayer1 = new RegisterPack(player1Ip, player1Name, 1);
-        //registerPackPlayer1.setOtherPlayerName(player2Name);
+        registerPackPlayer1.setOtherPlayerName(player2Name);
         serverSend(registerPackPlayer1, classReference, player1Ip);
         
-//        String player2Ip = player2.getPlayerIp();
-//        RegisterPack registerPackPlayer2 = new RegisterPack(player2Ip, player2Name, 2);
-//        registerPackPlayer2.setOtherPlayerName(player1Name);
-//        serverSend(registerPackPlayer2, classReference, player2Ip);
+        String player2Ip = player2.getPlayerIp();
+        RegisterPack registerPackPlayer2 = new RegisterPack(player2Ip, player2Name, 2);
+        registerPackPlayer2.setOtherPlayerName(player1Name);
+        serverSend(registerPackPlayer2, classReference, player2Ip);
     }
     
     /**
      * 
      * @return
      */
-    public String getWinner(){
+    public String getWinnerName(){
         String winner = null;
         if(turnNumber == maxTurnNumber){
             if(player1.getScore() > player2.getScore()) winner = player1.getNickname();
             else if(player1.getScore() < player2.getScore()) winner = player2.getNickname();
             else winner = "Draw";
-            turnNumber = 1;
-            grid = new Grid(5, 5);
-            player1 = null;
-            player2 = null;
         }return winner;
+    }
+    
+    public void resetData(){
+        turnNumber = 1;
+        grid = new Grid(5, 5);
+        player1 = null;
+        player2 = null;
+    }
+    
+    public void playerDisconnected(DataPack receivedDataPack){
+        String winner = receivedDataPack.getWinner();
+        sendDataPacks(winner);
+        resetData();
     }
     /**
      * Sent data to the clients through sockets and in a JSON format. 
@@ -284,12 +290,12 @@ public class ServerController implements Runnable{
                         break;
                     }
                     
-//                    if(reference.getReference().equals("DataPack")){
-//                        System.out.println("Data pack arrived");
-//                        DataPack receivedDataPack = JSONUtil.convertJsonToJava(recievedObjectAsString, DataPack.class);                        
-//                        endMatch(receivedDataPack);
-//                        break;
-//                    }
+                    if(reference.getReference().equals("DataPack")){
+                        System.out.println("Data pack arrived");
+                        DataPack receivedDataPack = JSONUtil.convertJsonToJava(recievedObjectAsString, DataPack.class);                        
+                        playerDisconnected(receivedDataPack);
+                        break;
+                    }
                 }  
             }
         } catch (Exception ex) {
