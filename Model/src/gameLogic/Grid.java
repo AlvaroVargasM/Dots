@@ -184,13 +184,4 @@ public class Grid {
     public boolean isEmpty() {
         return firstRow == null;
     }
-    
-    public String toString(){
-        String str = "Matrix:\n";
-        int i = 0;
-        for(LinkedList list = firstRow; list != null; list = list.getNextRow()){
-            str += i + ": " + list.toString() + "\n";
-            i++;
-        } return str;
-    } 
 }

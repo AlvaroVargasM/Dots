@@ -130,13 +130,4 @@ public class LinkedList<GenericType>{
     public void setSize(int size) {
         this.size = size;
     }
-    
-    public String toString(){
-        String str = "[ ";
-        for(LinkedListNode node = firstNode; node != null; node = node.getNextNode()){
-            str += node.toString() + " -> ";
-        }
-        str += "null ]";
-        return str;
-    }
 }
