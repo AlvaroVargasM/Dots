@@ -109,9 +109,4 @@ public class LinkedListNode<GenericType> {
     public void setVisited(boolean visited) {
         this.visited = visited;
     }
-   
-    public String toString(){
-        String str = Integer.toString(position);
-        return str;
-    }
 }
