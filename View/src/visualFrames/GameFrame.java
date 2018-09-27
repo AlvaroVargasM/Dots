@@ -299,7 +299,7 @@ public class GameFrame extends JPanel{
                     }else{
                         
                         if(firstLinkDot == 0){
-                        firstLinkDot = dotNumber;
+                            firstLinkDot = dotNumber;
                         }else{
                             if(isValid(firstLinkDot,dotNumber)){
                                 secondLinkDot = dotNumber;
