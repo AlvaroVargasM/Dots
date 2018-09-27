@@ -106,7 +106,6 @@ public class ServerController implements Runnable{
     /**
      * If a new figure was created, send a ToFigurePack to both players.
      * @param strFigure
-     * @param ip
      * @param playerNumber
      */
     public void sendToFigurePack(String strFigure, int playerNumber){
@@ -226,8 +225,8 @@ public class ServerController implements Runnable{
     }
     /**
      * Sent data to the clients through sockets and in a JSON format. 
-     * @param object Object that contains the data that will be sent.
-     * @param classReference Identifier of the class sent.
+     * @param object1 Object that contains the data that will be sent.
+     * @param object2 Identifier of the class sent.
      * @param ipAddress IP address of the client.
      */
     public void serverSend(Object object1, Object object2, String ipAddress){

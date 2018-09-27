@@ -15,21 +15,21 @@ public class ClassReference implements Serializable{
 
     /**
      * Returns the reference variable.
-     * @return {@link ClassReference#refence}
+     * @return {@link ClassReference#reference}
      */
     public String getReference() {
         return reference;
     }
     
     /**
-     * Default consturctor of the class ClassReference. 
+     * Default constructor of the class ClassReference. 
      */
     public ClassReference() {
     }
     
     /**
      * Sets the value of the variable reference.
-     * @param reference {@link ClassReference#}
+     * @param reference {@link ClassReference#reference}
      */
     public ClassReference(String reference) {
         this.reference = reference;
