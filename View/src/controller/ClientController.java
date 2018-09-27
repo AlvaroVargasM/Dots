@@ -107,7 +107,7 @@ public class ClientController implements Runnable{
                 
                 if(nicknameSent){
                     ClassReference reference = new ClassReference("RegisterPack");
-                    RegisterPack initialPackage = new RegisterPack(menu.getServerIp(),menu.getNickName(),0);
+                    RegisterPack initialPackage = new RegisterPack(InetAddress.getLocalHost().getHostAddress(),menu.getNickName(),0);
                     clientSend(initialPackage,reference);
                     nicknameSent = false;
                 }
