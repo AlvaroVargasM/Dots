@@ -203,7 +203,7 @@ public class GameFrame extends JPanel{
         Line2D.Double newLine = new Line2D.Double(dotsLocations.get(startPoint), dotsLocations.get(endPoint));
         
         if(overlaps(newLine)){
-            JOptionPane.showMessageDialog(GameFrame.this, "Invalid, line overlaps other."); 
+            JOptionPane.showMessageDialog(GameFrame.this, "Invalid, line overlaps another."); 
             this.firstLinkDot = 0;
             this.secondLinkDot = 0;
         }else{
@@ -244,6 +244,25 @@ public class GameFrame extends JPanel{
                }
            }
         }
+        
+        for(LinkedListNode node = lineList2.getFirstNode(); node != null;
+            node = node.getNextNode()){
+            Line2D.Double paintedLine = (Line2D.Double) node.getData();
+           if(newline.intersectsLine(paintedLine)){
+               Point2D start1 = paintedLine.getP1();
+               Point2D end1 = paintedLine.getP2(); 
+               Point2D start2 = newline.getP1();
+               Point2D end2 = newline.getP2(); 
+               
+               if(start1.equals(start2) || start1.equals(end2) || end1.equals(start2) || end1.equals(end2)){
+                  intersect = false; 
+               }else{
+                   intersect = true;
+                   break;
+               }
+           }
+        }
+        
         if(intersect){
             return true;
         }else{
