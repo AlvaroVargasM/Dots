@@ -240,7 +240,7 @@ public class GameFrame extends JPanel{
                   intersect = false; 
                }else{
                    intersect = true;
-                   break;
+                   
                }
            }
         }
