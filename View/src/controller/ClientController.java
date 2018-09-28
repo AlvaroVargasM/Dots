@@ -1,10 +1,8 @@
 package controller;
 
-import com.sun.security.ntlm.Client;
 import dataPackages.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
 import visualFrames.*;
 import jsonLogic.JSONUtil;
 import java.io.BufferedReader;
@@ -214,10 +212,10 @@ public class ClientController implements Runnable{
             clientSocket.close();
         } 
         catch (UnknownHostException ex) {
-            Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
+         
         } 
         catch (IOException ex) {
-            Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
+        
         }
     }
 
