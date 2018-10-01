@@ -9,13 +9,11 @@ import java.awt.GridLayout;
 import java.awt.Point;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
 import java.awt.geom.Area;
 import java.awt.geom.Line2D;
 import java.awt.geom.Path2D;
 import java.awt.geom.Point2D;
+import java.net.URL;
 import java.util.HashMap;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -276,7 +274,11 @@ public class GameFrame extends JPanel{
      */
     private void addDot(int position){
         JButton dot = new JButton(new ImageIcon("dot1.png"));
-
+        
+        URL ruta_boton1 = GameFrame.class.getResource("dot1.png");
+        URL ruta_boton2 = GameFrame.class.getResource("dot2.png");
+        
+        
         dot.setName(String.valueOf(position));
         dot.setBorderPainted(false);
         dot.setContentAreaFilled(false);
@@ -286,12 +288,12 @@ public class GameFrame extends JPanel{
 
             @Override
             public void mouseEntered(MouseEvent e) {
-                dot.setIcon(new ImageIcon("dot2.png"));
+                dot.setIcon(new ImageIcon(ruta_boton2));
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
-                dot.setIcon(new ImageIcon("dot1.png"));
+                dot.setIcon(new ImageIcon(ruta_boton1));
             }
 
             @Override

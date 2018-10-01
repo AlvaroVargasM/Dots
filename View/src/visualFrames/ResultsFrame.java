@@ -8,6 +8,7 @@ import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.net.URL;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -69,7 +70,8 @@ public class ResultsFrame extends JFrame{
             @Override
                 public void paintComponent(Graphics g){
                 super.paintComponent(g);
-                Image background = Toolkit.getDefaultToolkit().getImage("dotsBackground.jpg");
+                URL ruta_fondo = ResultsFrame.class.getResource("dotsBackground.jpg");
+                Image background = Toolkit.getDefaultToolkit().getImage(ruta_fondo);
                 g.drawImage(background, 0, 0, 1000, 600, this);
                 }
             };
